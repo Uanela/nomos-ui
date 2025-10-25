@@ -1,18 +1,14 @@
 {
   "name": "@nomos-ui/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React components library that integrate seamlessly Shadcn and React Hook Form",
   "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/exports/index.js",
+  "types": "dist/exports/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./components": {
-      "types": "./dist/components/index.d.ts",
-      "import": "./dist/components/index.js"
+      "types": "./dist/exports/index.d.ts",
+      "import": "./dist/exports/index.js"
     },
     "./hooks": {
       "types": "./dist/hooks/index.d.ts",
@@ -36,7 +32,7 @@
     }
   },
   "scripts": {
-    "build": "tsc && tsx scripts/post-build.ts",
+    "build": "tsc",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "lint": "eslint src --ext .ts,.tsx",
