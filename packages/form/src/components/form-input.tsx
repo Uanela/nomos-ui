@@ -5,7 +5,7 @@ import {
   Path,
   PathValue,
 } from "react-hook-form";
-import Input from "../input";
+import Input from "./form/input";
 import React from "react";
 
 /**

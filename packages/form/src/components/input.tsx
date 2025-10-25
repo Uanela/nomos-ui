@@ -129,10 +129,7 @@ export default function Input({
         <div className="flex flex-row items-center gap-1">
           <label
             htmlFor={props.id}
-            className={cn(
-              "text-sm font-semibold text-foreground",
-              labelClassName
-            )}
+            className={cn("text-sm font-bold text-foreground", labelClassName)}
           >
             {label}
           </label>

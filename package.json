@@ -1,6 +1,6 @@
 {
   "name": "nomos-ui",
-  "version": "1.0.0",
+  "version": "0.0.1-alpha",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "packageManager": "pnpm@10.13.1"
 }

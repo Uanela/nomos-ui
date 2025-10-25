@@ -1,7 +1,7 @@
 {
-  "name": "@nomos-ui/react",
-  "version": "0.2.1",
-  "description": "React components library that integrate seamlessly Shadcn and React Hook Form",
+  "name": "@nomos-ui/form",
+  "version": "0.0.1",
+  "description": "The Shadcn library for building robust React forms ",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
   "types": "dist/exports/index.d.ts",
@@ -32,7 +32,7 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "trash dist && tsc",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "lint": "eslint src --ext .ts,.tsx",
@@ -76,6 +76,8 @@
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
+    "@tailwindcss/postcss": "^4.1.16",
+    "@tailwindcss/vite": "^4.1.16",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.548.0",
@@ -91,6 +93,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "tailwindcss": "^4.1.16",
+    "trash-cli": "^7.0.0",
     "tsx": "^4.20.3",
     "typescript": "^5.9.3",
     "vitest": "^4.0.3"
