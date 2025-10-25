@@ -130,7 +130,7 @@ export default function Input({
           <label
             htmlFor={props.id}
             className={cn(
-              "text-sm font-medium text-foreground",
+              "text-sm font-semibold text-foreground",
               labelClassName
             )}
           >

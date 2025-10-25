@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/react",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React components library that integrate seamlessly Shadcn and React Hook Form",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
