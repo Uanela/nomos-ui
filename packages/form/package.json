@@ -1,7 +1,7 @@
 {
   "name": "@nomos-ui/form",
-  "version": "0.0.1",
-  "description": "The Shadcn library for building robust React forms ",
+  "version": "0.0.2",
+  "description": "The Shadcn library for building robust React forms",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
   "types": "dist/exports/index.d.ts",

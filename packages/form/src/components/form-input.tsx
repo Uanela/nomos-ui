@@ -5,8 +5,9 @@ import {
   Path,
   PathValue,
 } from "react-hook-form";
-import Input from "./form/input";
+import Input from "./input";
 import React from "react";
+import { getNestedErrorMessage } from "../utils/helpers/form.helpers";
 
 /**
  * Props for the `FormInput` component with type-safe form integration
@@ -67,7 +68,7 @@ export default function FormInput<TFieldValues extends FieldValues>({
           value={value ?? ""}
           onChange={onChange}
           required={required}
-          error={error?.message}
+          error={getNestedErrorMessage(error || {}, name)}
           {...props}
         />
       )}
