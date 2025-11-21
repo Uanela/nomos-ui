@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@nomos-ui/form':
+        specifier: ^0.0.1
+        version: 0.0.1(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react-hook-form@7.65.0(react@19.2.0))(react@19.2.0)(vite@7.1.12(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6))
       '@radix-ui/react-dialog':
         specifier: ^1.1.15
         version: 1.1.15(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -302,6 +305,14 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@nomos-ui/form@0.0.1':
+    resolution: {integrity: sha512-y/SC495aFXuT5VZroIY0jPwrvVRXwLOrJ3UbEoPxApQCAbojDDSYUOLOR794rJZOjizyNIFxcxDC5OT9L7jHvQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+      react-hook-form: ^7.0.0
 
   '@radix-ui/primitive@1.1.3':
     resolution: {integrity: sha512-JTF99U/6XIjCBo0wqkU5sK10glYe27MRRsfwoiq5zzOEZLHU3A3KCMa5X/azekYRCJ0HlwI0crAXS/5dEHTzDg==}
@@ -2336,6 +2347,22 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
+
+  '@nomos-ui/form@0.0.1(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react-hook-form@7.65.0(react@19.2.0))(react@19.2.0)(vite@7.1.12(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6))':
+    dependencies:
+      '@radix-ui/react-slot': 1.2.3(@types/react@19.2.2)(react@19.2.0)
+      '@tailwindcss/postcss': 4.1.16
+      '@tailwindcss/vite': 4.1.16(vite@7.1.12(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.20.6))
+      class-variance-authority: 0.7.1
+      clsx: 2.1.1
+      lucide-react: 0.548.0(react@19.2.0)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+      react-hook-form: 7.65.0(react@19.2.0)
+      tailwind-merge: 3.3.1
+    transitivePeerDependencies:
+      - '@types/react'
+      - vite
 
   '@radix-ui/primitive@1.1.3': {}
 

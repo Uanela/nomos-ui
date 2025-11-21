@@ -143,7 +143,6 @@ export default function Input({
       <div
         data-focus={isFocused}
         className={cn(
-          // Base styles with semantic colors
           "flex w-full min-w-0 rounded-md border bg-transparent shadow-xs transition-[color,box-shadow,border-color]",
           "border-input file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
           "placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground",
@@ -212,7 +211,6 @@ export default function Input({
           {...props}
         />
 
-        {/* Password Toggle */}
         {isPassword && (
           <button
             type="button"

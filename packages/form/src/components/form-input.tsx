@@ -62,13 +62,13 @@ export default function FormInput<TFieldValues extends FieldValues>({
       name={name}
       defaultValue={defaultValue}
       rules={{ required: required ? "Required" : false }}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      render={({ field: { onChange, value }, formState: { errors } }) => (
         <Input
           id={`form-input-${name}`}
           value={value ?? ""}
           onChange={onChange}
           required={required}
-          error={getNestedErrorMessage(error || {}, name)}
+          error={getNestedErrorMessage(errors || {}, name)}
           {...props}
         />
       )}
