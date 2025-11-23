@@ -12,7 +12,7 @@ import { twMerge } from "tailwind-merge";
 
 export type HoverCardProps = {
   children: React.ReactNode;
-  contentContainerProps?: HoverCardContentProps;
+  contentProps?: HoverCardContentProps;
   trigger?: React.ReactNode;
   showArrow?: boolean;
   arrowClassName?: string;
@@ -22,8 +22,8 @@ export type HoverCardProps = {
 export default function HoverCard({
   children,
   triggerProps,
-  contentContainerProps: {
-    className: contentContainerClassName,
+  contentProps: {
+    className: contentClassName,
     align = "center",
     ...remainingContentContainerProps
   } = { className: "" },
@@ -52,8 +52,8 @@ export default function HoverCard({
         {...remainingContentContainerProps}
         align={align}
         className={twMerge(
-          "bg-white h-fit mt-0 w-[350px] text-zinc-800 p-4 rounded-md shadow-lg shadow-zinc-900/30 border",
-          contentContainerClassName
+          "bg-white h-fit mt-0 w-[350px] text-zinc-800 p-2 rounded-lg shadow-md shadow-zinc-900/30 border",
+          contentClassName
         )}
       >
         {showArrow && (

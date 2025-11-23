@@ -1,4 +1,6 @@
-import Modal from "../components/modal";
-import HoverCard from "../components/hover-card";
+import Modal, { ModalProps } from "../components/modal";
+import HoverCard, { HoverCardProps } from "../components/hover-card";
+import Button from "../components/button";
 
-export { Modal, HoverCard };
+export { Modal, HoverCard, Button };
+export type { HoverCardProps, ModalProps };

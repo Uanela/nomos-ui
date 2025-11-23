@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/common",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The Shadcn library for building robust React applications",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
@@ -74,18 +74,7 @@
   "files": ["dist", "README.md", "LICENSE"],
   "sideEffects": false,
   "packageManager": "pnpm@10.13.1",
-  "dependencies": {
-    "@nomos-ui/form": "^0.0.1",
-    "@radix-ui/react-dialog": "^1.1.15",
-    "@radix-ui/react-hover-card": "^1.1.15",
-    "@radix-ui/react-slot": "^1.2.3",
-    "@tailwindcss/postcss": "^4.1.16",
-    "@tailwindcss/vite": "^4.1.16",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "lucide-react": "^0.548.0",
-    "tailwind-merge": "^3.3.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^24.9.1",
     "@types/react": "^19.2.2",
@@ -103,8 +92,18 @@
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
+    "@nomos-ui/form": "^0.0.1",
     "react-dom": "^18.0.0 || ^19.0.0",
-    "react-hook-form": "^7.0.0"
+    "react-hook-form": "^7.0.0",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-hover-card": "^1.1.15",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tailwindcss/postcss": "^4.1.16",
+    "@tailwindcss/vite": "^4.1.16",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.548.0",
+    "tailwind-merge": "^3.3.1"
   },
   "peerDependenciesMeta": {
     "react": {

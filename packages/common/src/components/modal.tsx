@@ -1,4 +1,4 @@
-import { Button } from "@nomos-ui/form";
+import Button from "./button";
 import {
   Dialog,
   DialogContent,
@@ -10,6 +10,11 @@ import {
 } from "./shadcn-ui/dialog";
 import { twMerge } from "tailwind-merge";
 import React from "react";
+import {
+  DialogContentProps,
+  DialogProps,
+  DialogTriggerProps,
+} from "@radix-ui/react-dialog";
 
 export type ModalProps = {
   trigger?: React.ReactElement;
@@ -18,10 +23,10 @@ export type ModalProps = {
   title?: string;
   description?: string;
   children: React.ReactNode;
-  dialogContentClassName?: string;
-  dialogTriggerClassName?: string;
+  contentProps?: DialogContentProps;
+  triggerProps?: DialogTriggerProps;
   showConfirmButton?: boolean;
-};
+} & DialogProps;
 
 export default function Modal({
   trigger,
@@ -30,21 +35,25 @@ export default function Modal({
   title = "",
   description = "",
   children,
-  dialogContentClassName,
-  dialogTriggerClassName,
+  contentProps,
+  triggerProps,
   showConfirmButton,
 }: ModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       {trigger && (
-        <DialogTrigger asChild className={twMerge("", dialogTriggerClassName)}>
+        <DialogTrigger
+          {...triggerProps}
+          className={twMerge("", triggerProps?.className)}
+        >
           {trigger}
         </DialogTrigger>
       )}
       <DialogContent
+        {...contentProps}
         className={twMerge(
-          "sm:max-w-[425px] p-2 sm:p-4 md:p-6 pt-6 max-w-[95%] rounded-md md:max-h-[90vh] max-h-[95vh] overflow-auto",
-          dialogContentClassName
+          "sm:max-w-[425px] p-2 sm:p-4 md:p-6 pt-6 max-w-[95%] rounded-lg md:max-h-[90vh] max-h-[95vh] overflow-auto",
+          contentProps?.className
         )}
       >
         <DialogHeader>
