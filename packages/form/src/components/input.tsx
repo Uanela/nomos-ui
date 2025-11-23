@@ -8,7 +8,7 @@ import { cn } from "../utils/shadcn-ui/utils";
 /**
  * Props for the enhanced Input component
  */
-export type InputProps = {
+export type InputProps<TValue> = {
   /** Additional class name for the input element */
   inputClassName?: string;
   /** Additional class name for the container */
@@ -28,12 +28,9 @@ export type InputProps = {
   /** Whether to trim input value before calling onChange */
   trim?: boolean;
   /** Current value of the input */
-  value?: string | number;
+  value?: TValue;
   /** Callback fired when input value changes */
-  onChange?: (
-    value: string | number | null,
-    e?: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  onChange?: (value: TValue, e?: React.ChangeEvent<HTMLInputElement>) => void;
   /** Whether the field is required */
   required?: boolean;
   /** Whether to show an asterisk for required fields */
@@ -75,7 +72,9 @@ export type InputProps = {
  * />
  * ```
  */
-export default function Input({
+export default function Input<
+  TValue extends string | number | null | undefined,
+>({
   inputClassName,
   className,
   placeholder,
@@ -84,7 +83,7 @@ export default function Input({
   type = "text",
   disabled = false,
   trim = false,
-  value = "",
+  value,
   onChange,
   required = false,
   showRequiredSign = false,
@@ -95,29 +94,24 @@ export default function Input({
   inputRef,
   showSearchIcon,
   ...props
-}: InputProps &
-  Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof InputProps>) {
+}: InputProps<TValue> &
+  Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof InputProps<TValue>>) {
   const isPassword = type.includes("password");
   const [showPassword, setShowPassword] = useState<boolean>(!isPassword);
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
-  function handleOnChange(text: string) {
+  function handleOnChange(val: any, e: any) {
     if (disabled || !onChange) return;
-    const processedValue = trim ? text.trim() : text;
-    onChange(
-      type === "number" && processedValue
-        ? Number(processedValue)
-        : processedValue
-    );
+    onChange(type === "number" && val ? Number(val) : val, e);
   }
 
   const currentValue = useMemo(() => {
     if (type === "datetime-local") {
-      let newValue = value.toString().split(".");
-      if (newValue.length === 2) return newValue[0]?.slice?.(0, -3);
+      let newValue = value?.toString().split(".");
+      if (newValue?.length === 2) return newValue[0]?.slice?.(0, -3);
       else return value;
     }
-    if (type === "date") return value.toString().split("T")[0];
+    if (type === "date") return value?.toString().split("T")[0];
 
     return value;
   }, [value, type]);
@@ -193,11 +187,10 @@ export default function Input({
           onChange={(e) => {
             const value = e.currentTarget.value;
             if (onChange) {
-              handleOnChange(value);
-              onChange(value, e);
+              handleOnChange(value, e);
             }
           }}
-          value={currentValue}
+          value={currentValue || ""}
           placeholder={placeholder}
           className={cn(
             "h-9 w-full flex-1 bg-transparent px-3 py-1 text-base outline-none",

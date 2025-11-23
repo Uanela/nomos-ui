@@ -1,4 +1,4 @@
-# Nomos UI Forms
+# Nomos UI Layout
 
 > **νόμος** (nomos) - Greek: law, order, principle
 
@@ -7,11 +7,11 @@ Beautiful, validated form components that integrate seamlessly with React Hook F
 ## Installation
 
 ```bash
-npm install @nomos-ui/react react-hook-form
+npm install @nomos-ui/layout react-hook-form
 # or
-yarn add @nomos-ui/react react-hook-form
+yarn add @nomos-ui/layout react-hook-form
 # or
-pnpm add @nomos-ui/react react-hook-form
+pnpm add @nomos-ui/layout react-hook-form
 ```
 
 ## Quick Start
