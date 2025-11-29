@@ -52,7 +52,7 @@ export default function Modal({
       <DialogContent
         {...contentProps}
         className={twMerge(
-          "sm:max-w-[425px] p-2 sm:p-4 md:p-6 pt-6 max-w-[95%] rounded-lg md:max-h-[90vh] max-h-[95vh] overflow-auto",
+          "sm:max-w-[425px] p-2 sm:p-3 md:p-4 pt-3 max-w-[95%] rounded-lg md:max-h-[90vh] max-h-[95vh] overflow-auto",
           contentProps?.className
         )}
       >
@@ -60,7 +60,7 @@ export default function Modal({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">{children}</div>
+        <div>{children}</div>
         {showConfirmButton && (
           <DialogFooter>
             <Button type="submit">Save changes</Button>
