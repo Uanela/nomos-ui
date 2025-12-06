@@ -43,6 +43,8 @@ export type SelectProps<T = string> = {
   itemProps?: {
     className?: string;
   };
+  error?: string;
+  tip?: string;
 };
 
 /**
@@ -65,6 +67,8 @@ export default function Select<T extends string = string>({
   valueProps,
   groupProps,
   itemProps,
+  error,
+  tip,
 }: SelectProps<T>) {
   const handleValueChange = (newValue: T) => {
     if (!multiple) {
@@ -173,6 +177,13 @@ export default function Select<T extends string = string>({
             </SelectGroup>
           </SelectContent>
         </ShadcnSelect>
+        {tip && !error && (
+          <p className="text-xs text-muted-foreground tip-message">{tip}</p>
+        )}
+
+        {error && (
+          <p className="text-xs text-destructive error-message">*{error}</p>
+        )}
       </div>
     );
   }
@@ -213,6 +224,13 @@ export default function Select<T extends string = string>({
           </SelectGroup>
         </SelectContent>
       </ShadcnSelect>
+      {tip && !error && (
+        <p className="text-xs text-muted-foreground tip-message">{tip}</p>
+      )}
+
+      {error && (
+        <p className="text-xs text-destructive error-message">*{error}</p>
+      )}
     </div>
   );
 }
