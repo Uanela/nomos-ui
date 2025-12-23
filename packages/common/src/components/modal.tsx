@@ -52,7 +52,7 @@ export default function Modal({
       <DialogContent
         {...contentProps}
         className={twMerge(
-          "sm:max-w-[425px] p-2 sm:p-3 md:p-4 pt-3 max-w-[95%] rounded-lg md:max-h-[90vh] max-h-[95vh] overflow-auto",
+          "p-2 sm:p-3 md:p-4 pt-3 rounded-lg md:max-h-[90vh] max-h-[95vh] overflow-auto",
           contentProps?.className
         )}
       >

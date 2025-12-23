@@ -16,5 +16,13 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "exclude": ["src/app"]
+  "exclude": [
+    "src/app",
+    "test",
+    "**/*.test.ts",
+    "dist",
+    "src/**/__tests__/**",
+    "src/**/*.test.ts",
+    "src/**/*.test.js"
+  ]
 }

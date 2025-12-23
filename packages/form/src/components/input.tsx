@@ -157,7 +157,7 @@ export default function Input<
           // Layout
           "flex-row items-center",
 
-          inputContainerClassName,
+          inputContainerClassName
         )}
       >
         {/* Search Icon */}
@@ -195,7 +195,7 @@ export default function Input<
             "file:inline-flex file:h-7",
             "disabled:cursor-not-allowed disabled:bg-transparent",
             "md:text-sm",
-            inputClassName,
+            inputClassName
           )}
           step="any"
           ref={inputRef}

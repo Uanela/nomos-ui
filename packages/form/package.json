@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/form",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "description": "The Shadcn library for building robust React forms",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
@@ -25,18 +25,10 @@
   },
   "typesVersions": {
     "*": {
-      "components": [
-        "./dist/components/index.d.ts"
-      ],
-      "hooks": [
-        "./dist/hooks/index.d.ts"
-      ],
-      "utils": [
-        "./dist/exports/utils/index.d.ts"
-      ],
-      "types": [
-        "./dist/types/index.d.ts"
-      ]
+      "components": ["./dist/components/index.d.ts"],
+      "hooks": ["./dist/hooks/index.d.ts"],
+      "utils": ["./dist/exports/utils/index.d.ts"],
+      "types": ["./dist/types/index.d.ts"]
     }
   },
   "scripts": {
@@ -79,11 +71,7 @@
     "url": "https://github.com/uanela/nomos-ui/issues"
   },
   "homepage": "https://github.com/uanela/nomos-ui/tree/main/packages/react#readme",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist", "README.md", "LICENSE"],
   "sideEffects": false,
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
