@@ -22,7 +22,7 @@ export type AccordionProps = {
     trigger: React.ReactNode;
     triggerProps?: AccordionItemTriggerProps;
     content: React.ReactNode;
-    contentProps: AccordionItemContentProps;
+    contentProps?: AccordionItemContentProps;
     value?: string;
     props?: AccordionItemProps;
   }[];
@@ -94,7 +94,10 @@ export default function Accordion({ items, ...props }: AccordionProps) {
       {...(props as any)}
     >
       {items.map((item, i) => (
-        <AccordionItem value={item.value || `item-${i + 1}`}>
+        <AccordionItem
+          key={item.value || `item-${i + 1}`}
+          value={item.value || `item-${i + 1}`}
+        >
           <AccordionTrigger {...item.triggerProps}>
             {item.trigger}
           </AccordionTrigger>
