@@ -1,0 +1,362 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import { camelCase } from "change-case-all";
+import {
+  TypedMutationTrigger,
+  TypedUseMutationResult,
+} from "@reduxjs/toolkit/query/react";
+import { useSearchParams } from "next/navigation";
+import { ListPageProps } from "./list-page";
+import { singular } from "pluralize";
+import { TableField } from "./table/types";
+import QueryBoundary from "../../query-boundary";
+import Table, { BaseData, TableProps } from "./table/table";
+import { Input, Select } from "@nomos-ui/form";
+import { Button } from "@nomos-ui/common";
+import { useApi } from "../../api-provider";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import HeaderActionButtons from "./header-action-buttons";
+import useUpdateSearchParams from "../../../hooks/use-update-search-params";
+
+export type ListPageTemplateProps<T> = {
+  title?: string;
+  name: string;
+  description?: string;
+  getQuery?: "useGetOne" | "useGetMany";
+  params?: Record<string, any>;
+  LoadingComponent?: React.ComponentType;
+  ListRenderItem?: React.ComponentType;
+  ListRenderItemContent?: React.ComponentType;
+  ListComponent?: React.ComponentType<any>;
+  listComponentProps?: Record<string, any>;
+  queryComponentProps?: Record<string, any>;
+  flatListClassName?: string;
+  className?: string;
+  itemIcon?: React.ReactNode;
+  createScreen?: string;
+  hideItem?: boolean;
+  onClickUpdate?: (
+    e:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.MouseEvent<HTMLAnchorElement>,
+    item: T
+  ) => void;
+  onClickCreate?: (
+    e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLAnchorElement>
+  ) => void;
+  itemOptionsConfig?: Record<string, any>;
+  topButtons?: React.ReactNode[];
+  fields?: TableField<T>[];
+  onDeleteSuccess?: (deleteItem: T, res?: any) => void;
+  cleanDataForTemplate?: (data: T) => Promise<Partial<T>>;
+};
+
+export default function ListPageTemplate<T>({
+  name,
+  LoadingComponent,
+  params = {},
+  getQuery,
+  onClickUpdate,
+  ListComponent,
+  listComponentProps = {},
+  queryComponentProps = {},
+  topButtons,
+  onClickCreate,
+  fields = [],
+  onDeleteSuccess = (item) => {},
+  cleanDataForTemplate = async (data) => data,
+}: ListPageTemplateProps<T> & Partial<ListPageProps<T>>) {
+  const isFirstRender = useRef(false);
+
+  useEffect(() => {
+    isFirstRender.current = true;
+  });
+
+  const [queryParams, setQueryParams] = useState<
+    Record<string, any> | undefined
+  >({});
+
+  const [selectedItem, setSelectedItem] = useState<BaseData | null>({});
+  const api = useApi();
+
+  const [deleteData, deleteMutationResult]: [
+    TypedMutationTrigger<{ id: string }, any, any>,
+    TypedUseMutationResult<any, any, any>,
+  ] = api[singular(name)].useDeleteOne();
+
+  const [selectedOptions, setSelectedOptions] = useState<any[]>(
+    fields.map((field) => field.label)
+  );
+
+  const searchParams = useSearchParams();
+  const [responseData, setResponseData] = useState<{
+    total: number;
+    data: Record<string, any>[];
+    results: number;
+  }>();
+  let total = 1;
+  if (responseData) ({ total } = responseData);
+
+  const updateSearchParams = useUpdateSearchParams();
+
+  const [page, setPage] = useState(Number(searchParams.get("page") || 1));
+  const [filterName, setFilterName] = useState(
+    String(searchParams.get("filterName") || fields?.[0]?.label)
+  );
+  const [limit, setLimit] = useState(Number(searchParams.get("limit") || 18));
+  const [searchTerm, setSearchTerm] = useState<string | number>(
+    searchParams.get("search") || ""
+  );
+  const [searchQuery, setSearchQuery] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    updateSearchParams([{ name: "page", value: String(page) }]);
+  }, [page]);
+
+  useEffect(() => {
+    updateSearchParams([{ name: "limit", value: String(limit) }]);
+  }, [limit]);
+
+  useEffect(() => {
+    if (isFirstRender.current === false) setPage(1);
+  }, [queryParams]);
+
+  const filterField = useMemo(() => {
+    const field = fields.find((field) => field.label === filterName)!;
+    const { type, inputType } = field;
+    let input;
+    let getSearchValue = (value: string | number) =>
+      String(value).split(" ").join(" | ");
+
+    let formatSearchQuery = (value: string | number) => {
+      setSearchQuery({
+        [field.name]: {
+          contains: String(value).split(" ").join(" | "),
+          mode: "insensitive",
+        },
+      });
+    };
+
+    switch (type) {
+      case "TEXT":
+      case "NUMBER":
+        if (type === "NUMBER")
+          formatSearchQuery = (value: string | number) => {
+            setSearchQuery({
+              [field.name]: Number(value),
+            });
+          };
+      case "DATE":
+        if (type === "DATE")
+          formatSearchQuery = (value: string | number) => {
+            const startDate = new Date(value);
+            startDate.setDate(startDate.getDate() - 1);
+
+            const endDate = new Date(value);
+            endDate.setDate(endDate.getDate() + 1);
+
+            setSearchQuery({
+              [field.name]: {
+                lte: endDate.toISOString(),
+                gte: startDate.toISOString(),
+              },
+            });
+          };
+        input = (
+          <Input
+            className="block w-full flex-1 max-w-80"
+            inputClassName="h-8 w-full w-96"
+            type={inputType}
+            value={searchTerm}
+            onChange={(value) => {
+              setSearchTerm(value!);
+              if (!value) {
+                updateSearchParams([{ name: "search", value: "" }]);
+                setPage(1);
+              }
+            }}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === "Enter") {
+                updateSearchParams([
+                  {
+                    name: "search",
+                    value: getSearchValue(e.currentTarget.value),
+                  },
+                ]);
+                formatSearchQuery(e.currentTarget.value);
+                setPage(1);
+              }
+            }}
+            placeholder={`Pesquisar por ${filterName}`}
+          />
+        );
+        break;
+    }
+
+    return { input, field };
+  }, [filterName, searchTerm]);
+
+  return (
+    <>
+      <div className="h-[calc(100%-68px)] bg-background border border-input p-2 sm:p-4 rounded-lg">
+        <div className="flex small-sm:items-center items-end justify-between gap-2 small-sm:gap-4 small-sm:mb-0 mb-2">
+          <div className="flex gap-2 items-center small-sm:mb-2">
+            <Select
+              placeholder="Filtrar Por"
+              triggerProps={{
+                className: "w-[150px]",
+              }}
+              className="p-2 h-8 gap-2"
+              value={filterName || ""}
+              onChange={(value) => setFilterName(value as string)}
+              options={fields.map(({ label }) => ({
+                value: label?.toString() || "",
+                label: label?.toString() || "",
+              }))}
+            />
+            {/* <FilterIcon className="text-zinc-400" size={18} /> */}
+            {filterField.input}
+          </div>
+
+          <div className="flex items-start gap-2 justify-center ">
+            <HeaderActionButtons
+              topButtons={topButtons}
+              onClickCreate={onClickCreate}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col overflow-y-auto rounded-md md:h-[calc(100%-82px)] h-full overflow-auto md:overflow-x-auto">
+          <QueryBoundary<T[], TableProps<T> & Partial<ListPageTemplateProps<T>>>
+            name={camelCase(name)}
+            {...queryComponentProps}
+            successComponentProps={{
+              ...listComponentProps,
+              name,
+              onClickUpdate,
+              selectedItem,
+              setSelectedItem,
+              fields,
+              deleteMutationResult,
+              selectedOptions,
+              setResponseData,
+              onClickCreate,
+              onDeleteSuccess,
+              cleanDataForTemplate,
+              deleteData,
+            }}
+            SuccessComponent={ListComponent || Table<T & BaseData>}
+            notFoundMessage={`Não foi encontrando nenhuma lista!`}
+            noResourcesMessage={`Não foi encontrando nenhum dado`}
+            errorMessage="Ocorreu um erro carregando a lista!"
+            showReloadAgainButton={false}
+            // LoadingComponent={
+            //   LoadingComponent || TableShimmer || PageLoadingSpinner
+            // }
+            query={getQuery || "useGetMany"}
+            params={{
+              limit,
+              page,
+              ...(searchParams.get("search") && searchQuery),
+              ...params,
+              ...(Object.keys(queryParams || {}).length > 0 && {
+                ...queryParams,
+                filterMode: "AND",
+              }),
+            }}
+          />
+        </div>
+        <div className="pt-1 flex w-full justify-end mb-1 mt-auto">
+          {responseData && (
+            <div className="flex items-center small:justify-end justify-between gap-2 mr-4">
+              <p className="small-sm:block hidden">Linhas por página</p>{" "}
+              <Select
+                value={String(limit)}
+                onChange={setLimit as any}
+                options={[
+                  { label: "18", value: "18" },
+                  ...((total >= 36 && [{ label: "36", value: "36" }]) || []),
+                  ...((total >= 72 && [{ label: "72", value: "72" }]) || []),
+                  ...((total >= 144 && [{ label: "144", value: "144" }]) || []),
+                  { label: "Todos", value: String(Math.max(total, 1000)) },
+                ]}
+                className="mr-4"
+              />
+              <div>
+                {limit * page - limit + 1} -{" "}
+                {limit * page >= total ? total : limit * page} de {total}
+              </div>
+              <div className="flex gap-1 items-center">
+                <Button
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                  className="px-0 aspect-square"
+                  size="sm"
+                >
+                  <ChevronLeftIcon />
+                </Button>
+                <div className="aspect-square w-4 flex items-center justify-center">
+                  {page}
+                </div>
+                <Button
+                  size="sm"
+                  disabled={limit * page >= total}
+                  onClick={() => setPage(page + 1)}
+                  className="px-0 aspect-square"
+                >
+                  <ChevronRightIcon />
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+const TableShimmer = () => {
+  return (
+    <div className="w-full animate-pulse mt-2 border rounded-md overflow-hidden">
+      {/* Header with proper column widths */}
+      <div className="flex items-center border-b border-gray-200 py-3 border-t px-3">
+        <div className="w-10 h-5 flex-shrink-0 ">
+          <div className="w-4 h-4 bg-gray-200 rounded"></div>
+        </div>
+        <div className=" h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+        <div className="h-5 bg-gray-200 rounded flex-shrink-0 mr-4 w-[440px]"></div>
+        <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+        <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+        <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+        <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+        <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+        <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+        <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+        <div className="w-32 h-5 bg-gray-200 rounded flex-shrink-0"></div>
+      </div>
+
+      {/* Rows */}
+      {[...Array(10)].map((_, rowIndex) => (
+        <div
+          key={`row-${rowIndex}`}
+          className="flex items-center py-3 border-b border-gray-200 px-3"
+        >
+          <div className="w-10 h-5 flex-shrink-0 mr-4">
+            <div className="w-4 h-4 bg-gray-200 rounded"></div>
+          </div>
+          <div className="h-5 bg-gray-200 rounded flex-shrink-0 mr-4 w-[440px]"></div>
+          <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+          <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+          <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+          <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+          <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+          <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+          <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+          <div className="w-32 h-5 bg-gray-200 rounded flex-shrink-0"></div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// export default TableShimmer

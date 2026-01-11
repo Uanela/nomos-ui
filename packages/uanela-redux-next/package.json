@@ -1,0 +1,90 @@
+{
+  "name": "@nomos-ui/uanela-redux-next",
+  "version": "0.0.1",
+  "description": "Uanela Como Redux & Next ToolKit",
+  "module": "dist/exports/index.js",
+  "types": "dist/exports/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/exports/index.d.ts",
+      "import": "./dist/exports/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./utils": {
+      "types": "./dist/exports/utils/index.d.ts",
+      "import": "./dist/exports/utils/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "components": ["./dist/components/index.d.ts"],
+      "hooks": ["./dist/hooks/index.d.ts"],
+      "utils": ["./dist/exports/utils/index.d.ts"],
+      "types": ["./dist/types/index.d.ts"]
+    }
+  },
+  "scripts": {
+    "build": "trash dist && tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "lint": "eslint src --ext .ts,.tsx",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ui": "jest --ui",
+    "test:coverage": "jest --coverage",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [],
+  "author": "Uanela Como",
+  "files": ["dist", "README.md", "LICENSE"],
+  "license": "MIT",
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "@nomos-ui/common": "^0.2.4",
+    "@nomos-ui/form": "^0.0.10",
+    "@reduxjs/toolkit": "^2.11.2",
+    "@types/deep-equal": "^1.0.4",
+    "@types/node": "^25.0.6",
+    "@types/pluralize": "^0.0.33",
+    "@types/react": "^19.2.8",
+    "@types/react-redux": "^7.1.34",
+    "@types/uuid4": "^2.0.3",
+    "change-case-all": "^2.1.0",
+    "deep-equal": "^2.2.3",
+    "lucide-react": "^0.562.0",
+    "next": "15.5.9",
+    "pluralize": "^8.0.0",
+    "react": "^19.2.3",
+    "react-hook-form": "^7.70.0",
+    "react-redux": "^9.2.0",
+    "tailwind-merge": "^3.4.0",
+    "typescript": "^5.9.3",
+    "zod": "^4.3.5"
+  },
+  "peerDependencies": {
+    "@nomos-ui/common": "^0.2.4",
+    "@nomos-ui/form": "^0.0.10",
+    "@reduxjs/toolkit": "^2.11.2",
+    "change-case-all": "^2.1.0",
+    "deep-equal": "^2.2.3",
+    "lucide-react": "^0.562.0",
+    "next": "15.5.9",
+    "pluralize": "^8.0.0",
+    "react": "^19.2.3",
+    "react-hook-form": "^7.70.0",
+    "react-redux": "^9.2.0",
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.3.5"
+  },
+  "dependencies": {
+    "uuid4": "^2.0.3"
+  }
+}
