@@ -18,6 +18,7 @@ import { useApi } from "../../api-provider";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import HeaderActionButtons from "./header-action-buttons";
 import useUpdateSearchParams from "../../../hooks/use-update-search-params";
+import { twMerge } from "tailwind-merge";
 
 export type ListPageTemplateProps<T> = {
   title?: string;
@@ -31,8 +32,6 @@ export type ListPageTemplateProps<T> = {
   ListComponent?: React.ComponentType<any>;
   listComponentProps?: Record<string, any>;
   queryComponentProps?: Record<string, any>;
-  flatListClassName?: string;
-  className?: string;
   itemIcon?: React.ReactNode;
   createScreen?: string;
   hideItem?: boolean;
@@ -50,7 +49,8 @@ export type ListPageTemplateProps<T> = {
   fields?: TableField<T>[];
   onDeleteSuccess?: (deleteItem: T, res?: any) => void;
   cleanDataForTemplate?: (data: T) => Promise<Partial<T>>;
-};
+  tableContainerProps?: React.ComponentProps<"div">;
+} & React.ComponentProps<"div">;
 
 export default function ListPageTemplate<T>({
   name,
@@ -66,6 +66,8 @@ export default function ListPageTemplate<T>({
   fields = [],
   onDeleteSuccess = (item) => {},
   cleanDataForTemplate = async (data) => data,
+  className,
+  tableContainerProps,
 }: ListPageTemplateProps<T> & Partial<ListPageProps<T>>) {
   const isFirstRender = useRef(false);
 
@@ -83,7 +85,7 @@ export default function ListPageTemplate<T>({
   const [deleteData, deleteMutationResult]: [
     TypedMutationTrigger<{ id: string }, any, any>,
     TypedUseMutationResult<any, any, any>,
-  ] = api[singular(name)].useDeleteOne();
+  ] = api[camelCase(singular(name))].useDeleteOne();
 
   const [selectedOptions, setSelectedOptions] = useState<any[]>(
     fields.map((field) => field.label)
@@ -199,7 +201,7 @@ export default function ListPageTemplate<T>({
 
   return (
     <>
-      <div className="h-[calc(100%-68px)] bg-background border border-input p-2 sm:p-4 rounded-lg">
+      <div className={twMerge("", className)}>
         <div className="flex small-sm:items-center items-end justify-between gap-2 small-sm:gap-4 small-sm:mb-0 mb-2">
           <div className="flex gap-2 items-center small-sm:mb-2">
             <Select
@@ -226,7 +228,11 @@ export default function ListPageTemplate<T>({
             />
           </div>
         </div>
-        <div className="flex flex-col overflow-y-auto rounded-md md:h-[calc(100%-82px)] h-full overflow-auto md:overflow-x-auto">
+
+        <div
+          {...tableContainerProps}
+          className={twMerge("", tableContainerProps?.className)}
+        >
           <QueryBoundary<T[], TableProps<T> & Partial<ListPageTemplateProps<T>>>
             name={camelCase(name)}
             {...queryComponentProps}
@@ -266,6 +272,7 @@ export default function ListPageTemplate<T>({
             }}
           />
         </div>
+
         <div className="pt-1 flex w-full justify-end mb-1 mt-auto">
           {responseData && (
             <div className="flex items-center small:justify-end justify-between gap-2 mr-4">

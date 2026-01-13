@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import ListPageTemplate, { ListPageTemplateProps } from "./template";
 import { TableField } from "./table/types";
 import PageTitleAndDescription from "../components/page-title-and-description";
+import { twMerge } from "tailwind-merge";
 
 export type ListPageProps<T> = {
   /** Name of the tag the queried in camelCase and singular. */
@@ -14,7 +15,10 @@ export type ListPageProps<T> = {
   UpdateDataModal?: React.ElementType;
   fields: TableField<T>[];
   params?: Record<string, any>;
-};
+  templateProps?: {
+    tableContainerProps: React.ComponentProps<"div">;
+  } & React.ComponentProps<"div">;
+} & React.ComponentProps<"div">;
 
 export default function ListPage<T extends { id: string }>({
   name,
@@ -23,9 +27,12 @@ export default function ListPage<T extends { id: string }>({
   CreateDataModal,
   UpdateDataModal,
   fields,
-  onDeleteSuccess = (item: any) => {},
+  onDeleteSuccess = () => {},
   cleanDataForTemplate,
   params = {},
+  className,
+  templateProps,
+  ...props
 }: ListPageProps<T> & ListPageTemplateProps<T>) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
@@ -33,15 +40,28 @@ export default function ListPage<T extends { id: string }>({
 
   return (
     <>
-      <div className="flex flex-col gap-4">
-        <PageTitleAndDescription title={title} description={description} />
+      <div className={twMerge("flex flex-col gap-4", className)} {...props}>
+        {(title || description) && (
+          <PageTitleAndDescription title={title} description={description} />
+        )}
         <ListPageTemplate
           name={name}
-          description={description}
           fields={fields}
           onDeleteSuccess={onDeleteSuccess}
           cleanDataForTemplate={cleanDataForTemplate}
           params={params}
+          {...templateProps}
+          className={twMerge(
+            "h-[calc(100%-68px)] bg-background border border-input p-2 sm:p-4 rounded-lg",
+            templateProps?.className
+          )}
+          tableContainerProps={{
+            ...templateProps?.tableContainerProps,
+            className: twMerge(
+              "flex flex-col overflow-y-auto rounded-md md:h-[calc(100%-82px)] h-full overflow-auto md:overflow-x-auto",
+              templateProps?.tableContainerProps?.className
+            ),
+          }}
           {...(UpdateDataModal && {
             onClickUpdate: (
               e:

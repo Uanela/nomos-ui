@@ -8,16 +8,16 @@ importers:
 
   .:
     dependencies:
+      '@nomos-ui/common':
+        specifier: ^0.2.5
+        version: 0.2.5(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@types/react@19.2.8)(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
+      '@nomos-ui/form':
+        specifier: ^0.0.10
+        version: 0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
       uuid4:
         specifier: ^2.0.3
         version: 2.0.3
     devDependencies:
-      '@nomos-ui/common':
-        specifier: ^0.2.4
-        version: 0.2.4(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@types/react@19.2.8)(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
-      '@nomos-ui/form':
-        specifier: ^0.0.10
-        version: 0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
       '@reduxjs/toolkit':
         specifier: ^2.11.2
         version: 2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)
@@ -461,8 +461,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@nomos-ui/common@0.2.4':
-    resolution: {integrity: sha512-3zW9Vro34edH7Uky+ISQE+iuUrHBBZ+0xs0hdob8z2LpMoWZ32Qhv+uHPLwwwstGhrYCqFY2Iw8SxfV/eLX2Jg==}
+  '@nomos-ui/common@0.2.5':
+    resolution: {integrity: sha512-6ZyI1kHTtBIM++LK5/fXED/4i87MIplMiuKkooJVyfJ1do2wLHuTzAdd67+ifymTVRCz6tpgXN20WJYMA33hQg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@nomos-ui/form': ^0.0.1
@@ -1964,7 +1964,7 @@ snapshots:
   '@next/swc-win32-x64-msvc@15.5.7':
     optional: true
 
-  '@nomos-ui/common@0.2.4(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@types/react@19.2.8)(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)':
+  '@nomos-ui/common@0.2.5(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@types/react@19.2.8)(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)':
     dependencies:
       '@nomos-ui/form': 0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
       '@radix-ui/react-accordion': 1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)

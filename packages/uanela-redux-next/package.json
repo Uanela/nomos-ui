@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/uanela-redux-next",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Uanela Como Redux & Next ToolKit",
   "module": "dist/exports/index.js",
   "types": "dist/exports/index.d.ts",
@@ -8,18 +8,6 @@
     ".": {
       "types": "./dist/exports/index.d.ts",
       "import": "./dist/exports/index.js"
-    },
-    "./hooks": {
-      "types": "./dist/hooks/index.d.ts",
-      "import": "./dist/hooks/index.js"
-    },
-    "./utils": {
-      "types": "./dist/exports/utils/index.d.ts",
-      "import": "./dist/exports/utils/index.js"
-    },
-    "./types": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/types/index.js"
     }
   },
   "typesVersions": {
@@ -48,8 +36,6 @@
   "license": "MIT",
   "packageManager": "pnpm@10.13.1",
   "devDependencies": {
-    "@nomos-ui/common": "^0.2.4",
-    "@nomos-ui/form": "^0.0.10",
     "@reduxjs/toolkit": "^2.11.2",
     "@types/deep-equal": "^1.0.4",
     "@types/node": "^25.0.6",
@@ -70,7 +56,7 @@
     "zod": "^4.3.5"
   },
   "peerDependencies": {
-    "@nomos-ui/common": "^0.2.4",
+    "@nomos-ui/common": "^0.2.5",
     "@nomos-ui/form": "^0.0.10",
     "@reduxjs/toolkit": "^2.11.2",
     "change-case-all": "^2.1.0",
