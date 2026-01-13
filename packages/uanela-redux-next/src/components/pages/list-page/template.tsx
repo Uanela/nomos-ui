@@ -50,6 +50,8 @@ export type ListPageTemplateProps<T> = {
   onDeleteSuccess?: (deleteItem: T, res?: any) => void;
   cleanDataForTemplate?: (data: T) => Promise<Partial<T>>;
   tableContainerProps?: React.ComponentProps<"div">;
+  CreateDataModal?: React.ElementType;
+  UpdateDataModal?: React.ElementType;
 } & React.ComponentProps<"div">;
 
 export default function ListPageTemplate<T>({
@@ -68,6 +70,8 @@ export default function ListPageTemplate<T>({
   cleanDataForTemplate = async (data) => data,
   className,
   tableContainerProps,
+  CreateDataModal,
+  UpdateDataModal,
 }: ListPageTemplateProps<T> & Partial<ListPageProps<T>>) {
   const isFirstRender = useRef(false);
 
@@ -199,6 +203,34 @@ export default function ListPageTemplate<T>({
     return { input, field };
   }, [filterName, searchTerm]);
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
+  const [idToUpdate, setIdToUpdate] = useState("");
+
+  function modalOnClickCreate(
+    e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLAnchorElement>
+  ) {
+    if (CreateDataModal) {
+      e.preventDefault();
+      setModalIsOpen(true);
+    }
+    onClickCreate?.(e);
+  }
+
+  function modalOnUpdate(
+    e:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.MouseEvent<HTMLAnchorElement>,
+    data: any
+  ) {
+    if (UpdateDataModal) {
+      e.preventDefault();
+      setUpdateModalIsOpen(true);
+      setIdToUpdate(data.id!);
+    }
+    onClickUpdate?.(e, data);
+  }
+
   return (
     <>
       <div className={twMerge("", className)}>
@@ -224,7 +256,7 @@ export default function ListPageTemplate<T>({
           <div className="flex items-start gap-2 justify-center ">
             <HeaderActionButtons
               topButtons={topButtons}
-              onClickCreate={onClickCreate}
+              onClickCreate={modalOnClickCreate}
             />
           </div>
         </div>
@@ -239,14 +271,14 @@ export default function ListPageTemplate<T>({
             successComponentProps={{
               ...listComponentProps,
               name,
-              onClickUpdate,
+              onClickUpdate: modalOnUpdate,
               selectedItem,
               setSelectedItem,
               fields,
               deleteMutationResult,
               selectedOptions,
               setResponseData,
-              onClickCreate,
+              onClickCreate: modalOnClickCreate,
               onDeleteSuccess,
               cleanDataForTemplate,
               deleteData,
@@ -318,6 +350,17 @@ export default function ListPageTemplate<T>({
           )}
         </div>
       </div>
+
+      {CreateDataModal && (
+        <CreateDataModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />
+      )}
+      {UpdateDataModal && (
+        <UpdateDataModal
+          id={idToUpdate}
+          isOpen={updateModalIsOpen}
+          setIsOpen={setUpdateModalIsOpen}
+        />
+      )}
     </>
   );
 }

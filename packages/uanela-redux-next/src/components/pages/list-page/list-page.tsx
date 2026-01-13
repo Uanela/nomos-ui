@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import ListPageTemplate, { ListPageTemplateProps } from "./template";
 import { TableField } from "./table/types";
 import PageTitleAndDescription from "../components/page-title-and-description";
@@ -11,8 +9,6 @@ export type ListPageProps<T> = {
   name: string;
   title: string;
   description: string;
-  CreateDataModal?: React.ElementType;
-  UpdateDataModal?: React.ElementType;
   fields: TableField<T>[];
   params?: Record<string, any>;
   templateProps?: {
@@ -34,10 +30,6 @@ export default function ListPage<T extends { id: string }>({
   templateProps,
   ...props
 }: ListPageProps<T> & ListPageTemplateProps<T>) {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
-  const [idToUpdate, setIdToUpdate] = useState("");
-
   return (
     <>
       <div className={twMerge("flex flex-col gap-4", className)} {...props}>
@@ -49,6 +41,8 @@ export default function ListPage<T extends { id: string }>({
           fields={fields}
           onDeleteSuccess={onDeleteSuccess}
           cleanDataForTemplate={cleanDataForTemplate}
+          CreateDataModal={CreateDataModal}
+          UpdateDataModal={UpdateDataModal}
           params={params}
           {...templateProps}
           className={twMerge(
@@ -62,39 +56,7 @@ export default function ListPage<T extends { id: string }>({
               templateProps?.tableContainerProps?.className
             ),
           }}
-          {...(UpdateDataModal && {
-            onClickUpdate: (
-              e:
-                | React.MouseEvent<HTMLButtonElement>
-                | React.MouseEvent<HTMLAnchorElement>,
-              data: Partial<T>
-            ) => {
-              e.preventDefault();
-              setUpdateModalIsOpen(true);
-              setIdToUpdate(data.id!);
-            },
-          })}
-          {...(CreateDataModal && {
-            onClickCreate: (
-              e:
-                | React.MouseEvent<HTMLButtonElement>
-                | React.MouseEvent<HTMLAnchorElement>
-            ) => {
-              e.preventDefault();
-              setModalIsOpen(true);
-            },
-          })}
         />
-        {CreateDataModal && (
-          <CreateDataModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />
-        )}
-        {UpdateDataModal && (
-          <UpdateDataModal
-            id={idToUpdate}
-            isOpen={updateModalIsOpen}
-            setIsOpen={setUpdateModalIsOpen}
-          />
-        )}
       </div>
     </>
   );
