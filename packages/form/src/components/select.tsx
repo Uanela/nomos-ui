@@ -122,9 +122,7 @@ export default function Select<T extends string = string>({
           </div>
         )}
         <ShadcnSelect value="" onValueChange={handleValueChange}>
-          <SelectTrigger
-            className={twMerge("min-h-10", triggerProps?.className)}
-          >
+          <SelectTrigger className={twMerge("", triggerProps?.className)}>
             <div className="flex flex-wrap gap-2 flex-1">
               {selectedLabels && selectedLabels.length > 0 ? (
                 selectedLabels.map((item) => (

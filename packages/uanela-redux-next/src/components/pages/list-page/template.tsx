@@ -241,8 +241,7 @@ export default function ListPageTemplate<T>({
               triggerProps={{
                 className: "w-[150px]",
               }}
-              className="p-0 h-8 gap-2"
-              value={filterName || ""}
+              value={filterName || "max-h-8"}
               onChange={(value) => setFilterName(value as string)}
               options={fields.map(({ label }) => ({
                 value: label?.toString() || "",

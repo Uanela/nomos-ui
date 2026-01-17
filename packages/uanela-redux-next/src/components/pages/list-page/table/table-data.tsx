@@ -47,20 +47,17 @@ export default function TableData<T extends BaseData>({
 }
 
 /**
- * Sets a value at a nested path in an object using dot notation
- * @param path - Dot-separated path (e.g., "brand.name")
+ * Sets a value at a nested path in an object using dot or bracket notation
+ * @param path - Path with dots or brackets (e.g., "brand.name" or "brand[name]")
  * @param value - Value to set at the path
  * @returns Object with nested structure
  */
 export function setNestedValue(path: string, value: any): Record<string, any> {
-  const keys = path.split(".");
-
-  if (keys.length === 1) return { [path]: value };
-
+  const keys = parsePath(path);
+  if (keys.length === 1) return { [keys[0] as string]: value };
   return keys.reduceRight(
     (acc, key, index) => {
       if (index === keys.length - 1) return { [key]: value };
-
       return { [key]: acc };
     },
     {} as Record<string, any>
@@ -68,12 +65,27 @@ export function setNestedValue(path: string, value: any): Record<string, any> {
 }
 
 /**
- * Gets a value from a nested path in an object using dot notation
+ * Gets a value from a nested path in an object using dot or bracket notation
  * @param obj - The object to get the value from
- * @param path - Dot-separated path (e.g., "brand.name")
+ * @param path - Path with dots or brackets (e.g., "brand.name" or "brand[name]")
  * @returns The value at the path, or undefined if not found
  */
 export function getNestedValue(obj: Record<string, any>, path: string): any {
-  const keys = path.split(".");
+  const keys = parsePath(path);
   return keys.reduce((acc, key) => acc?.[key], obj);
+}
+
+/**
+ * Parses a path string into an array of keys
+ * Handles both dot notation (brand.name) and bracket notation (brand[name])
+ * @param path - Path string to parse
+ * @returns Array of keys
+ */
+function parsePath(path: string): string[] {
+  // Replace brackets with dots and remove the brackets
+  // e.g., "brand[name]" -> "brand.name", "brand[0]" -> "brand.0"
+  const normalized = path.replace(/\[([^\]]+)\]/g, ".$1");
+
+  // Split by dots and filter out empty strings
+  return normalized.split(".").filter((key) => key.length > 0);
 }
