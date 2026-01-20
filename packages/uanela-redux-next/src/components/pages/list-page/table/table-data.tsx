@@ -31,14 +31,15 @@ export default function TableData<T extends BaseData>({
   )
     return (
       <div
-        data-has-transformer={!!field.configs?.transform}
+        data-has-transformer={!!field.props?.transform}
         className={twMerge(
           "text-left w-40 p-2 data-[has-transformer=true]:py-0 truncate flex-shrink-0",
           className
         )}
+        {...field.props}
       >
-        {field.configs?.transform
-          ? renderItem(field.configs?.transform(item))
+        {field.props?.transform
+          ? renderItem(field?.props?.transform(item))
           : renderItem(
               value !== null && value !== undefined ? String(value) : "-"
             )}

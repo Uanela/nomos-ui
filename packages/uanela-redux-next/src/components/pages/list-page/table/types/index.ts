@@ -31,9 +31,8 @@ export type TableField<T> = {
   label: React.ReactNode;
   type: FilterType;
   inputType: TableFieldInputType;
-  options?: { value: string; label: string }[];
-  configs?: {
-    className?: string;
+  options?: { value: string; label: string }[] | string[];
+  props?: {
     transform?: (data: T) => React.ReactNode;
-  };
+  } & Omit<React.ComponentProps<"div">, "children">;
 };
