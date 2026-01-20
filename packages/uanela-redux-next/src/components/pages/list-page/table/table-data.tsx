@@ -11,6 +11,7 @@ export default function TableData<T extends BaseData>({
   renderItem = (value) => <>{value}</>,
   selectedOptions,
   index,
+  ...props
 }: {
   children?: React.ReactNode;
   availableFields: TableField<T>[];
@@ -32,11 +33,29 @@ export default function TableData<T extends BaseData>({
     return (
       <div
         data-has-transformer={!!field.props?.transform}
+        {...props}
+        {...field.props}
+        onClick={(e) =>
+          (field.dataProps?.onClick || field.props?.onClick)?.(item, field, e)
+        }
+        onMouseEnter={(e) =>
+          (field.dataProps?.onMouseEnter || field.props?.onMouseEnter)?.(
+            item,
+            field,
+            e
+          )
+        }
+        onMouseLeave={(e) =>
+          (field.dataProps?.onMouseLeave || field.props?.onMouseLeave)?.(
+            item,
+            field,
+            e
+          )
+        }
         className={twMerge(
           "text-left w-40 p-2 data-[has-transformer=true]:py-0 truncate flex-shrink-0",
           className
         )}
-        {...field.props}
       >
         {field.props?.transform
           ? renderItem(field?.props?.transform(item))

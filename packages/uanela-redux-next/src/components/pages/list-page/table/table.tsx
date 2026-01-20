@@ -7,7 +7,6 @@ import { HoverCard } from "@nomos-ui/common";
 import {
   EllipsisVerticalIcon,
   LoaderCircleIcon,
-  LoaderIcon,
   PencilIcon,
   SquareMousePointerIcon,
   Trash2Icon,
@@ -21,6 +20,7 @@ import ActionButton from "./action-button";
 import ConfirmDeleteModal from "./confirm-delete.modal";
 import { ListPageTemplateProps } from "../template";
 import { SuccessComponentProps } from "../../../query-boundary";
+import { twMerge } from "tailwind-merge";
 
 export type TableProps<T> = {
   name: string;
@@ -123,10 +123,24 @@ export default function Table<T extends BaseData>({
               if (i === 0)
                 return (
                   <div
-                    key={i}
-                    className="truncate text-left font-semibold flex items-center px-1 gird gap-1"
+                    key={field.name}
+                    {...{ ...field.props, ...field.headProps }}
+                    onClick={(e) => field.headProps?.onClick?.(data, field, e)}
+                    onMouseEnter={(e) =>
+                      field.headProps?.onMouseEnter?.(data, field, e)
+                    }
+                    onMouseLeave={(e) =>
+                      field.headProps?.onMouseLeave?.(data, field, e)
+                    }
+                    className={twMerge(
+                      "truncate text-left font-semibold flex items-center px-1 gird gap-1",
+                      field.props?.className,
+                      field.headProps?.className
+                    )}
                   >
-                    {field.label} <span className="text-sm"> ({total})</span>
+                    {field.headProps?.transform
+                      ? field.headProps?.transform(data, field)
+                      : `${field.label} (${total})`}
                   </div>
                 );
             })}
@@ -187,45 +201,60 @@ export default function Table<T extends BaseData>({
         <div className="overflow-x-auto flex-1 min-w-[600px] mr-[0px]">
           <div className="bg-zinc-50 text-zinc-500 rounded-b-none overflow-hidden flex  min-w-fit ">
             {fields?.map(
-              ({ label }, i) =>
+              (field, i) =>
                 i > 0 &&
-                selectedOptions?.includes(label) && (
+                selectedOptions?.includes(field.name) && (
                   <div
-                    key={`${label}`}
-                    className="truncate text-left font-semibold flex items-center   p-2  w-40 flex-shrink-0"
+                    key={field.name}
+                    {...{ ...field.props, ...field.headProps }}
+                    onClick={(e) => field.headProps?.onClick?.(data, field, e)}
+                    onMouseEnter={(e) =>
+                      field.headProps?.onMouseEnter?.(data, field, e)
+                    }
+                    onMouseLeave={(e) =>
+                      field.headProps?.onMouseLeave?.(data, field, e)
+                    }
+                    className={twMerge(
+                      "truncate text-left font-semibold flex items-center p-2  w-40 flex-shrink-0",
+                      field.props?.className,
+                      field.headProps?.className
+                    )}
                   >
-                    {label}
+                    {field.headProps?.transform
+                      ? field.headProps?.transform(data, field)
+                      : field.label}
                   </div>
                 )
             )}
           </div>
-          {data.map((item, i) => (
-            <div
-              key={i}
-              data-selected={
-                selectedItemToOpen?.id === item.id || hoveredRow?.id === item.id
-              }
-              onMouseEnter={() => setHoveredRow(item)}
-              onMouseLeave={() => setHoveredRow(null)}
-              className={` text-zinc-700  overflow-hidden flex items-center gap- ${
-                selectedOptions?.length > 0 && " border-t"
-              } border-l-0 data-[is-last=true]:rounded-br-md min-w-fit  hover:bg-sky-100  even:bg-white data-[selected=true]:bg-sky-100`}
-            >
-              {fields?.map(
-                (field, i: number) =>
-                  i > 0 && (
-                    <TableData
-                      index={i}
-                      key={i}
-                      field={field}
-                      availableFields={fields}
-                      item={item}
-                      selectedOptions={selectedOptions}
-                    />
-                  )
-              )}
-            </div>
-          ))}
+          {data.map((item, i) =>
+            fields?.map(
+              (field, i: number) =>
+                i > 0 && (
+                  <TableData
+                    index={i}
+                    key={i}
+                    field={field}
+                    availableFields={fields}
+                    item={item}
+                    selectedOptions={selectedOptions}
+                    data-selected={
+                      selectedItemToOpen?.id === item.id ||
+                      hoveredRow?.id === item.id
+                    }
+                    onMouseEnter={() => setHoveredRow(item)}
+                    onMouseLeave={() => setHoveredRow(null)}
+                    className={twMerge(
+                      ` text-zinc-700  overflow-hidden flex items-center gap- ${
+                        selectedOptions?.length > 0 && " border-t"
+                      } border-l-0 data-[is-last=true]:rounded-br-md min-w-fit  hover:bg-sky-100  even:bg-white data-[selected=true]:bg-sky-100`,
+                      field.props?.className,
+                      field?.dataProps?.className
+                    )}
+                  />
+                )
+            )
+          )}
         </div>
 
         <div className="sticky right-[0px] bg-background">
