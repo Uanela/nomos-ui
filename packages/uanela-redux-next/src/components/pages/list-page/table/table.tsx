@@ -191,7 +191,11 @@ export default function Table<T extends BaseData>({
                       selectedOptions={selectedOptions}
                       availableFields={fields}
                       item={item}
-                      className="w-96 p-2"
+                      className={twMerge(
+                        "w-96 p-2",
+                        field.props?.className,
+                        field.dataProps?.className
+                      )}
                     />
                   );
               })}
