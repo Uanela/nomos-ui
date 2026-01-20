@@ -92,7 +92,7 @@ export default function ListPageTemplate<T>({
   ] = api[camelCase(singular(name))].useDeleteOne();
 
   const [selectedOptions, setSelectedOptions] = useState<any[]>(
-    fields.map((field) => field.label)
+    fields.map((field) => field.name)
   );
 
   const searchParams = useSearchParams();

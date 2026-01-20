@@ -26,8 +26,7 @@ export default function TableData<T extends BaseData>({
   if (field.type === "DATE" && value) value = new Date(value).toUTCString();
 
   if (
-    (selectedOptions?.includes(`${field.label}`) &&
-      availableFields?.[0]?.label) ||
+    (selectedOptions?.includes(field.name) && availableFields?.[0]?.label) ||
     index === 0
   )
     return (
