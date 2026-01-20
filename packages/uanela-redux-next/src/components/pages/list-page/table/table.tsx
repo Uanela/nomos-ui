@@ -227,34 +227,37 @@ export default function Table<T extends BaseData>({
                 )
             )}
           </div>
-          {data.map((item, i) =>
-            fields?.map(
-              (field, i: number) =>
-                i > 0 && (
-                  <TableData
-                    index={i}
-                    key={i}
-                    field={field}
-                    availableFields={fields}
-                    item={item}
-                    selectedOptions={selectedOptions}
-                    data-selected={
-                      selectedItemToOpen?.id === item.id ||
-                      hoveredRow?.id === item.id
-                    }
-                    onMouseEnter={() => setHoveredRow(item)}
-                    onMouseLeave={() => setHoveredRow(null)}
-                    className={twMerge(
-                      ` text-zinc-700  overflow-hidden flex items-center gap- ${
-                        selectedOptions?.length > 0 && " border-t"
-                      } border-l-0 data-[is-last=true]:rounded-br-md min-w-fit  hover:bg-sky-100  even:bg-white data-[selected=true]:bg-sky-100`,
-                      field.props?.className,
-                      field?.dataProps?.className
-                    )}
-                  />
-                )
-            )
-          )}
+          {data.map((item, i) => (
+            <div
+              key={i}
+              data-selected={
+                selectedItemToOpen?.id === item.id || hoveredRow?.id === item.id
+              }
+              onMouseEnter={() => setHoveredRow(item)}
+              onMouseLeave={() => setHoveredRow(null)}
+              className={` text-zinc-700  overflow-hidden flex items-center gap- ${
+                selectedOptions?.length > 0 && " border-t"
+              } border-l-0 data-[is-last=true]:rounded-br-md min-w-fit  hover:bg-sky-100  even:bg-white data-[selected=true]:bg-sky-100`}
+            >
+              {fields?.map(
+                (field, i: number) =>
+                  i > 0 && (
+                    <TableData
+                      index={i}
+                      key={field.name}
+                      field={field}
+                      availableFields={fields}
+                      item={item}
+                      selectedOptions={selectedOptions}
+                      className={twMerge(
+                        field.props?.className,
+                        field?.dataProps?.className
+                      )}
+                    />
+                  )
+              )}
+            </div>
+          ))}
         </div>
 
         <div className="sticky right-[0px] bg-background">
