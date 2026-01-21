@@ -16,13 +16,21 @@ import { useEffect, useRef, useState } from "react";
 import uuid4 from "uuid4";
 import { useRouter } from "next/navigation";
 import TableData from "./table-data";
-import ActionButton from "./action-button";
+import ActionButton, { ActionButtonProps } from "./action-button";
 import ConfirmDeleteModal from "./confirm-delete.modal";
 import { ListPageTemplateProps } from "../template";
 import { SuccessComponentProps } from "../../../query-boundary";
 import { twMerge } from "tailwind-merge";
 
-export type TableProps<T> = {
+export type TableActionOption<T extends BaseData> = Omit<
+  ActionButtonProps<T>,
+  "item"
+>;
+
+export type TableDefaultActionOption<T extends BaseData> =
+  TableActionOption<T> & { hidden?: boolean };
+
+export type TableProps<T extends BaseData> = {
   name: string;
   handleDelete: () => void;
   selectedItem: BaseData | null;
@@ -44,6 +52,15 @@ export type TableProps<T> = {
     React.SetStateAction<(() => void) | undefined>
   >;
   deleteData: TypedMutationTrigger<{ id: string }, any, any>;
+  /**
+   * Adds more item actions
+   */
+  actionButtons?: TableActionOption<T>[];
+  defaultActionButtons?: {
+    edit?: TableDefaultActionOption<T>;
+    delete?: TableDefaultActionOption<T>;
+    cancel?: TableDefaultActionOption<T>;
+  };
 } & Partial<ListPageTemplateProps<T>>;
 
 export type BaseData = {
@@ -67,6 +84,8 @@ export default function Table<T extends BaseData>({
   onDeleteSuccess,
   cleanDataForTemplate,
   deleteData,
+  actionButtons,
+  defaultActionButtons,
 }: SuccessComponentProps<T[], TableProps<T>>) {
   const pathname = usePathname();
   const { data, total } = responseData;
@@ -309,44 +328,85 @@ export default function Table<T extends BaseData>({
                           className: "mr-8 -mt-2 px-0 rounded-lg w-fit",
                         }}
                       >
-                        <ActionButton
-                          onClick={(item, e: any) => {
-                            selectedItemToOpen?.id === item?.id ||
-                            hoveredRow?.id === item?.id
-                              ? setSelectedItemToOpen(null)
-                              : setSelectedItemToOpen(item);
+                        {defaultActionButtons?.edit?.hidden !== false && (
+                          <ActionButton
+                            Icon={PencilIcon}
+                            {...defaultActionButtons?.edit}
+                            onClick={(item, e: any) => {
+                              selectedItemToOpen?.id === item?.id ||
+                              hoveredRow?.id === item?.id
+                                ? setSelectedItemToOpen(null)
+                                : setSelectedItemToOpen(item);
 
-                            if (onClickUpdate) onClickUpdate(e, item as T);
-                            else router.push(`${pathname}/${item?.id}/update`);
-                          }}
-                          Icon={PencilIcon}
-                          item={item}
-                        >
-                          Editar
-                        </ActionButton>
-                        <ActionButton
-                          onClick={(item) => {
-                            selectedItemToOpen?.id === item?.id ||
-                            hoveredRow?.id === item?.id
-                              ? setSelectedItemToOpen(item)
-                              : setSelectedItemToOpen(null);
-                            console.log("theitem", item, selectedItemToOpen);
-                            setConfirmDeleteModalOpen(true);
-                          }}
-                          Icon={Trash2Icon}
-                          item={item}
-                        >
-                          Deletar
-                        </ActionButton>
-                        <ActionButton
-                          onClick={() => {
-                            setSelectedItemToOpen(null);
-                          }}
-                          Icon={XIcon}
-                          item={item}
-                        >
-                          Cancelar
-                        </ActionButton>
+                              if (defaultActionButtons?.edit?.onClick) {
+                                defaultActionButtons.edit.onClick(item as T, e);
+                              } else if (onClickUpdate) {
+                                onClickUpdate(e, item as T);
+                              } else {
+                                router.push(`${pathname}/${item?.id}/update`);
+                              }
+                            }}
+                            item={item}
+                          >
+                            {defaultActionButtons?.edit?.children
+                              ? defaultActionButtons?.edit?.children
+                              : "Editar"}
+                          </ActionButton>
+                        )}
+
+                        {defaultActionButtons?.delete?.hidden !== false && (
+                          <ActionButton
+                            Icon={Trash2Icon}
+                            {...defaultActionButtons?.delete}
+                            onClick={(item, e: any) => {
+                              selectedItemToOpen?.id === item?.id ||
+                              hoveredRow?.id === item?.id
+                                ? setSelectedItemToOpen(item)
+                                : setSelectedItemToOpen(null);
+
+                              if (defaultActionButtons?.delete?.onClick) {
+                                defaultActionButtons.delete.onClick(
+                                  item as T,
+                                  e
+                                );
+                              } else {
+                                setConfirmDeleteModalOpen(true);
+                              }
+                            }}
+                            item={item}
+                          >
+                            {defaultActionButtons?.delete?.children
+                              ? defaultActionButtons?.delete?.children
+                              : "Deletar"}
+                          </ActionButton>
+                        )}
+
+                        {defaultActionButtons?.cancel?.hidden !== false && (
+                          <ActionButton
+                            Icon={XIcon}
+                            {...defaultActionButtons?.cancel}
+                            onClick={(item, e: any) => {
+                              setSelectedItemToOpen(null);
+
+                              if (defaultActionButtons?.cancel?.onClick) {
+                                defaultActionButtons.cancel.onClick(
+                                  item as T,
+                                  e
+                                );
+                              }
+                            }}
+                            item={item}
+                          >
+                            {defaultActionButtons?.cancel?.children
+                              ? defaultActionButtons?.cancel?.children
+                              : "Cancelar"}
+                          </ActionButton>
+                        )}
+                        {actionButtons?.map((btn) => (
+                          <ActionButton item={item} {...btn}>
+                            {btn.children}
+                          </ActionButton>
+                        ))}
                       </HoverCard>
                     </div>
                   );
