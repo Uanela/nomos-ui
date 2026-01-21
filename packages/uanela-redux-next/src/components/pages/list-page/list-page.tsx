@@ -3,8 +3,9 @@ import ListPageTemplate, { ListPageTemplateProps } from "./template";
 import { TableField } from "./table/types";
 import PageTitleAndDescription from "../components/page-title-and-description";
 import { twMerge } from "tailwind-merge";
+import { BaseData, TableProps } from "./table/table";
 
-export type ListPageProps<T> = {
+export type ListPageProps<T extends BaseData> = {
   /** Name of the tag the queried in camelCase and singular. */
   name: string;
   title: string;
@@ -14,7 +15,8 @@ export type ListPageProps<T> = {
   templateProps?: {
     tableContainerProps: React.ComponentProps<"div">;
   } & React.ComponentProps<"div">;
-} & React.ComponentProps<"div">;
+} & React.ComponentProps<"div"> &
+  Pick<TableProps<T>, "actionButtons" | "defaultActionButtons">;
 
 export default function ListPage<T extends { id: string }>({
   name,

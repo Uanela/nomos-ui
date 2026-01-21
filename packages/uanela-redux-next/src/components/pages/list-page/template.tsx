@@ -54,7 +54,7 @@ export type ListPageTemplateProps<T> = {
   UpdateDataModal?: React.ElementType;
 } & React.ComponentProps<"div">;
 
-export default function ListPageTemplate<T>({
+export default function ListPageTemplate<T extends BaseData>({
   name,
   LoadingComponent,
   params = {},
@@ -72,6 +72,8 @@ export default function ListPageTemplate<T>({
   tableContainerProps,
   CreateDataModal,
   UpdateDataModal,
+  actionButtons,
+  defaultActionButtons,
 }: ListPageTemplateProps<T> & Partial<ListPageProps<T>>) {
   const isFirstRender = useRef(false);
 
@@ -281,6 +283,8 @@ export default function ListPageTemplate<T>({
               onDeleteSuccess,
               cleanDataForTemplate,
               deleteData,
+              defaultActionButtons,
+              actionButtons,
             }}
             SuccessComponent={ListComponent || Table<T & BaseData>}
             notFoundMessage={`Não foi encontrando nenhuma lista!`}
