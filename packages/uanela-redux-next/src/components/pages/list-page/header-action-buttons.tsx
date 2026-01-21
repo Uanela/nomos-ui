@@ -6,10 +6,11 @@ import React from "react";
 import { Button } from "@nomos-ui/common";
 import { ListPageProps } from "./list-page";
 import { ListPageTemplateProps } from "./template";
+import { BaseData } from "./table/table";
 
 type HeaderActionButtonsProps<T> = Partial<ListPageTemplateProps<T>>;
 
-export default function HeaderActionButtons<T>({
+export default function HeaderActionButtons<T extends BaseData>({
   topButtons,
   onClickCreate,
 }: HeaderActionButtonsProps<T> & Partial<ListPageProps<T>>) {
