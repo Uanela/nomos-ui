@@ -75,18 +75,13 @@ export type BaseData = {
 export default function Table<T extends BaseData>({
   data: responseData,
   onClickUpdate,
-  onClickCreate,
   fields,
   selectedItem,
   setSelectedItem,
   deleteMutationResult,
   selectedOptions,
-  name,
-  setTriggerReloadAgain,
   setResponseData,
-  triggerRefetch,
   onDeleteSuccess,
-  cleanDataForTemplate,
   deleteData,
   actionButtons,
   defaultActionButtons,
@@ -114,6 +109,12 @@ export default function Table<T extends BaseData>({
   const limit = Number(searchParams.get("limit") || 30);
 
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+
+  function closeActionHoverCard(item?: T) {
+    selectedItemToOpen?.id === item?.id || hoveredRow?.id === item?.id
+      ? setSelectedItemToOpen(null)
+      : setSelectedItemToOpen(item);
+  }
 
   return (
     <>
@@ -337,10 +338,7 @@ export default function Table<T extends BaseData>({
                             Icon={PencilIcon}
                             {...defaultActionButtons?.edit}
                             onClick={(item, e: any) => {
-                              selectedItemToOpen?.id === item?.id ||
-                              hoveredRow?.id === item?.id
-                                ? setSelectedItemToOpen(null)
-                                : setSelectedItemToOpen(item);
+                              closeActionHoverCard(item);
 
                               if (defaultActionButtons?.edit?.onClick) {
                                 defaultActionButtons.edit.onClick(item as T, e);
@@ -359,7 +357,14 @@ export default function Table<T extends BaseData>({
                         )}
 
                         {actionButtons?.map((btn) => (
-                          <ActionButton item={item} {...btn}>
+                          <ActionButton
+                            item={item}
+                            {...btn}
+                            onClick={(item, e: any) => {
+                              closeActionHoverCard(item);
+                              btn?.onClick?.(item, e);
+                            }}
+                          >
                             {btn.children}
                           </ActionButton>
                         ))}
@@ -369,10 +374,7 @@ export default function Table<T extends BaseData>({
                             Icon={Trash2Icon}
                             {...defaultActionButtons?.delete}
                             onClick={(item, e: any) => {
-                              selectedItemToOpen?.id === item?.id ||
-                              hoveredRow?.id === item?.id
-                                ? setSelectedItemToOpen(item)
-                                : setSelectedItemToOpen(null);
+                              closeActionHoverCard(item);
 
                               if (defaultActionButtons?.delete?.onClick) {
                                 defaultActionButtons.delete.onClick(
