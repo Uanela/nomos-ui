@@ -380,7 +380,11 @@ export default function Table<T extends BaseData>({
                               : "Deletar"}
                           </ActionButton>
                         )}
-
+                        {actionButtons?.map((btn) => (
+                          <ActionButton item={item} {...btn}>
+                            {btn.children}
+                          </ActionButton>
+                        ))}
                         {defaultActionButtons?.cancel?.hidden !== false && (
                           <ActionButton
                             Icon={XIcon}
@@ -402,11 +406,6 @@ export default function Table<T extends BaseData>({
                               : "Cancelar"}
                           </ActionButton>
                         )}
-                        {actionButtons?.map((btn) => (
-                          <ActionButton item={item} {...btn}>
-                            {btn.children}
-                          </ActionButton>
-                        ))}
                       </HoverCard>
                     </div>
                   );

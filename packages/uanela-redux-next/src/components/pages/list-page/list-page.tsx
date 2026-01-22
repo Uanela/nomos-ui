@@ -15,8 +15,7 @@ export type ListPageProps<T extends BaseData> = {
   templateProps?: {
     tableContainerProps: React.ComponentProps<"div">;
   } & React.ComponentProps<"div">;
-} & React.ComponentProps<"div"> &
-  Pick<TableProps<T>, "actionButtons" | "defaultActionButtons">;
+} & React.ComponentProps<"div">;
 
 export default function ListPage<T extends { id: string }>({
   name,
