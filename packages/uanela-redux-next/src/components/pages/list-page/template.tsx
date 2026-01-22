@@ -11,7 +11,7 @@ import { ListPageProps } from "./list-page";
 import { singular } from "pluralize";
 import { TableField } from "./table/types";
 import QueryBoundary from "../../query-boundary";
-import Table, { BaseData, TableProps } from "./table/table";
+import Table, { BaseData, TableActionTypes, TableProps } from "./table/table";
 import { Input, Select } from "@nomos-ui/form";
 import { Button } from "@nomos-ui/common";
 import { useApi } from "../../api-provider";
@@ -20,7 +20,7 @@ import HeaderActionButtons from "./header-action-buttons";
 import useUpdateSearchParams from "../../../hooks/use-update-search-params";
 import { twMerge } from "tailwind-merge";
 
-export type ListPageTemplateProps<T> = {
+export type ListPageTemplateProps<T extends BaseData> = {
   title?: string;
   name: string;
   description?: string;
@@ -52,7 +52,8 @@ export type ListPageTemplateProps<T> = {
   tableContainerProps?: React.ComponentProps<"div">;
   CreateDataModal?: React.ElementType;
   UpdateDataModal?: React.ElementType;
-} & React.ComponentProps<"div">;
+} & React.ComponentProps<"div"> &
+  TableActionTypes<T>;
 
 export default function ListPageTemplate<T extends BaseData>({
   name,

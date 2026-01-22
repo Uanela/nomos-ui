@@ -8,7 +8,9 @@ import { ListPageProps } from "./list-page";
 import { ListPageTemplateProps } from "./template";
 import { BaseData } from "./table/table";
 
-type HeaderActionButtonsProps<T> = Partial<ListPageTemplateProps<T>>;
+type HeaderActionButtonsProps<T extends BaseData> = Partial<
+  ListPageTemplateProps<T>
+>;
 
 export default function HeaderActionButtons<T extends BaseData>({
   topButtons,

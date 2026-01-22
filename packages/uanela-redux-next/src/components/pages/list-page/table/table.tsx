@@ -30,6 +30,18 @@ export type TableActionOption<T extends BaseData> = Omit<
 export type TableDefaultActionOption<T extends BaseData> =
   TableActionOption<T> & { hidden?: boolean };
 
+export type TableActionTypes<T extends BaseData> = {
+  /**
+   * Adds more item actions
+   */
+  actionButtons?: TableActionOption<T>[];
+  defaultActionButtons?: {
+    edit?: TableDefaultActionOption<T>;
+    delete?: TableDefaultActionOption<T>;
+    cancel?: TableDefaultActionOption<T>;
+  };
+};
+
 export type TableProps<T extends BaseData> = {
   name: string;
   handleDelete: () => void;
@@ -52,16 +64,8 @@ export type TableProps<T extends BaseData> = {
     React.SetStateAction<(() => void) | undefined>
   >;
   deleteData: TypedMutationTrigger<{ id: string }, any, any>;
-  /**
-   * Adds more item actions
-   */
-  actionButtons?: TableActionOption<T>[];
-  defaultActionButtons?: {
-    edit?: TableDefaultActionOption<T>;
-    delete?: TableDefaultActionOption<T>;
-    cancel?: TableDefaultActionOption<T>;
-  };
-} & Partial<ListPageTemplateProps<T>>;
+} & Partial<ListPageTemplateProps<T>> &
+  TableActionTypes<T>;
 
 export type BaseData = {
   id?: string;
@@ -354,6 +358,12 @@ export default function Table<T extends BaseData>({
                           </ActionButton>
                         )}
 
+                        {actionButtons?.map((btn) => (
+                          <ActionButton item={item} {...btn}>
+                            {btn.children}
+                          </ActionButton>
+                        ))}
+
                         {defaultActionButtons?.delete?.hidden !== false && (
                           <ActionButton
                             Icon={Trash2Icon}
@@ -380,11 +390,6 @@ export default function Table<T extends BaseData>({
                               : "Deletar"}
                           </ActionButton>
                         )}
-                        {actionButtons?.map((btn) => (
-                          <ActionButton item={item} {...btn}>
-                            {btn.children}
-                          </ActionButton>
-                        ))}
                         {defaultActionButtons?.cancel?.hidden !== false && (
                           <ActionButton
                             Icon={XIcon}
