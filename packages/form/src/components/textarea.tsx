@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import { useState, useMemo } from "react";
 import { AsteriskIcon } from "lucide-react";
@@ -128,7 +127,7 @@ export default function Textarea<TValue extends string | null | undefined>({
           "relative flex w-full rounded-md border bg-transparent shadow-xs transition-[color,box-shadow]",
           isFocused && !error && "border-ring ring-[3px] ring-ring/50",
           error &&
-            "border-destructive ring-[3px] ring-destructive/20 dark:ring-destructive/40",
+          "border-destructive ring-[3px] ring-destructive/20 dark:ring-destructive/40",
           !isFocused && !error && "border-textarea",
           disabled && "cursor-not-allowed opacity-50",
           textareaContainerClassName,

@@ -115,7 +115,7 @@ export default function Input<
   }, [value, type]);
 
   return (
-    <div ref={ref} className={cn("gap-1 grid", className)}>
+    <div ref={ref} className={cn("gap-1 grid w-full", className)}>
       {/* Label with required indicator */}
       {label && (
         <div className="flex flex-row items-center gap-1">
@@ -145,7 +145,7 @@ export default function Input<
 
           // Error/Invalid styles
           error &&
-            "border-destructive ring-destructive/20 dark:ring-destructive/40",
+          "border-destructive ring-destructive/20 dark:ring-destructive/40",
           "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
 
           // Disabled styles

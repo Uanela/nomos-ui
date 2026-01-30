@@ -67,7 +67,7 @@ export default function ImageInput({
   }
 
   return (
-    <div className={twMerge("space-y-1.5", className)}>
+    <div className={twMerge("space-y-1.5 w-full", className)}>
       {label && (
         <div className="flex items-center gap-1.5">
           <label
@@ -122,8 +122,8 @@ export default function ImageInput({
             disabled && "opacity-50 cursor-not-allowed",
             isDragging && "border-primary bg-primary/5",
             !isDragging &&
-              !previewUrl &&
-              "border-input hover:border-primary/50",
+            !previewUrl &&
+            "border-input hover:border-primary/50",
             dropzoneClassName
           )}
         >

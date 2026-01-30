@@ -110,7 +110,7 @@ export default function Select<T extends string = string>({
     const selectedLabels = getSelectedLabels();
 
     return (
-      <div className={twMerge("gap-1 grid", className)}>
+      <div className={twMerge("gap-1 grid w-full", className)}>
         {label && (
           <div className="flex flex-row items-center gap-1">
             <label className={twMerge("font-bold", labelProps?.className)}>
@@ -122,7 +122,7 @@ export default function Select<T extends string = string>({
           </div>
         )}
         <ShadcnSelect value="" onValueChange={handleValueChange}>
-          <SelectTrigger className={twMerge("", triggerProps?.className)}>
+          <SelectTrigger className={twMerge("w-full", triggerProps?.className)}>
             <div className="flex flex-wrap gap-2 flex-1">
               {selectedLabels && selectedLabels.length > 0 ? (
                 selectedLabels.map((item) => (
