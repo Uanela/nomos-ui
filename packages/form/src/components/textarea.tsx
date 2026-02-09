@@ -28,7 +28,7 @@ export type TextareaProps<TValue extends string | null | undefined> = {
   /** Callback fired when textarea value changes */
   onChange?: (
     value: TValue,
-    e?: React.ChangeEvent<HTMLTextAreaElement>,
+    e?: React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
   /** Whether the field is required */
   required?: boolean;
@@ -100,7 +100,7 @@ export default function Textarea<TValue extends string | null | undefined>({
 
   function handleOnChange(
     val: string,
-    e: React.ChangeEvent<HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLTextAreaElement>
   ) {
     if (disabled || !onChange) return;
     onChange((trim ? val.trim() : val) as TValue, e);
@@ -127,10 +127,10 @@ export default function Textarea<TValue extends string | null | undefined>({
           "relative flex w-full rounded-md border bg-transparent shadow-xs transition-[color,box-shadow]",
           isFocused && !error && "border-ring ring-[3px] ring-ring/50",
           error &&
-          "border-destructive ring-[3px] ring-destructive/20 dark:ring-destructive/40",
+            "border-destructive ring-[3px] ring-destructive/20 dark:ring-destructive/40",
           !isFocused && !error && "border-textarea",
           disabled && "cursor-not-allowed opacity-50",
-          textareaContainerClassName,
+          textareaContainerClassName
         )}
       >
         <textarea
@@ -151,7 +151,7 @@ export default function Textarea<TValue extends string | null | undefined>({
             }
           }}
           value={currentValue}
-          placeholder={placeholder}
+          placeholder={placeholder !== undefined ? placeholder : `${label}...`}
           rows={rows}
           maxLength={maxLength}
           className={cn(
@@ -159,7 +159,7 @@ export default function Textarea<TValue extends string | null | undefined>({
             "disabled:cursor-not-allowed disabled:bg-transparent",
             "md:text-sm",
             "placeholder:text-muted-foreground",
-            textareaClassName,
+            textareaClassName
           )}
           ref={textareaRef}
           {...props}
@@ -180,7 +180,7 @@ export default function Textarea<TValue extends string | null | undefined>({
                 "text-xs tabular-nums",
                 charCount > maxLength
                   ? "text-destructive"
-                  : "text-muted-foreground",
+                  : "text-muted-foreground"
               )}
             >
               {charCount}/{maxLength}

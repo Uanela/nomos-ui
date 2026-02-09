@@ -145,7 +145,7 @@ export default function Input<
 
           // Error/Invalid styles
           error &&
-          "border-destructive ring-destructive/20 dark:ring-destructive/40",
+            "border-destructive ring-destructive/20 dark:ring-destructive/40",
           "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
 
           // Disabled styles
@@ -189,7 +189,7 @@ export default function Input<
             }
           }}
           value={currentValue || ""}
-          placeholder={placeholder}
+          placeholder={placeholder !== undefined ? placeholder : `${label}...`}
           className={cn(
             "h-9 w-full flex-1 bg-transparent px-3 py-1 text-base outline-none",
             "file:inline-flex file:h-7",

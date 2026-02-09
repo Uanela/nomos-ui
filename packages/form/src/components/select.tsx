@@ -149,7 +149,7 @@ export default function Select<T extends string = string>({
                     valueProps?.className
                   )}
                 >
-                  {placeholder}
+                  {placeholder !== undefined ? placeholder : `${label}...`}
                 </span>
               )}
             </div>
@@ -204,7 +204,9 @@ export default function Select<T extends string = string>({
       >
         <SelectTrigger className={twMerge("w-full", triggerProps?.className)}>
           <SelectValue
-            placeholder={placeholder}
+            placeholder={
+              placeholder !== undefined ? placeholder : `${label}...`
+            }
             className={valueProps?.className}
           />
         </SelectTrigger>
