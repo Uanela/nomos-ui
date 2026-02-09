@@ -128,7 +128,7 @@ export default function Select<T extends string = string>({
                 selectedLabels.map((item) => (
                   <div
                     key={String(item.value)}
-                    className="flex items-center gap-1 px-2 py-1 text-sm bg-blue-100 text-blue-800 rounded-md"
+                    className="flex items-center gap-1 px-1 py-1 text-sm bg-blue-100 text-blue-800 rounded-md"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {item.label}
@@ -187,7 +187,7 @@ export default function Select<T extends string = string>({
   }
 
   return (
-    <div className={twMerge("gap-1 grid", className)}>
+    <div className={twMerge("gap-1 grid w-full", className)}>
       {label && (
         <div className="flex flex-row items-center gap-1">
           <label className={twMerge("font-bold", labelProps?.className)}>
@@ -202,7 +202,7 @@ export default function Select<T extends string = string>({
         value={value as T}
         onValueChange={onChange as (value: T) => void}
       >
-        <SelectTrigger className={triggerProps?.className}>
+        <SelectTrigger className={twMerge("w-full", triggerProps?.className)}>
           <SelectValue
             placeholder={placeholder}
             className={valueProps?.className}
