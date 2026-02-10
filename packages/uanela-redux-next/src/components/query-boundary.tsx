@@ -76,7 +76,7 @@ interface QueryBoundaryProps<DataType, PassedSuccessComponentProps> {
   /** Component to render when data is successfully loaded */
   SuccessComponent: ElementType;
   /** Component to render during loading state */
-  LoadingComponent?: React.ReactNode;
+  LoadingComponent?: ElementType;
   /** The query key/name from the RTK Query API */
   query: "useGetOne" | "useGetMany";
   /** Parameters to pass to the query */
@@ -118,7 +118,7 @@ export default function QueryBoundary<DataType, PassedSuccessComponentProps>({
   noResourcesMessage = "Ainda não existe nenhum dado!",
   notFoundMessage = "Não foi encontrado nenhum dado!",
   SuccessComponent,
-  LoadingComponent = (
+  LoadingComponent = () => (
     <div>
       <Loader className="animate-spin" />
     </div>
@@ -199,8 +199,7 @@ export default function QueryBoundary<DataType, PassedSuccessComponentProps>({
   // Handle loading states
   if (isLoading || (isRefetch && isFetching)) {
     return (
-      // <LoadingComponent className={twMerge("", loadingComponentClassName)} />
-      <></>
+      <LoadingComponent className={twMerge("", loadingComponentClassName)} />
     );
   }
 

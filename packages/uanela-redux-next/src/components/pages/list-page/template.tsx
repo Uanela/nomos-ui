@@ -292,9 +292,9 @@ export default function ListPageTemplate<T extends BaseData>({
             noResourcesMessage={`Não foi encontrando nenhum dado`}
             errorMessage="Ocorreu um erro carregando a lista!"
             showReloadAgainButton={false}
-            // LoadingComponent={
-            //   LoadingComponent || TableShimmer || PageLoadingSpinner
-            // }
+            LoadingComponent={
+              LoadingComponent || TableShimmer // || PageLoadingSpinner
+            }
             query={getQuery || "useGetMany"}
             params={{
               limit,
@@ -329,7 +329,7 @@ export default function ListPageTemplate<T extends BaseData>({
                 {limit * page - limit + 1} -{" "}
                 {limit * page >= total ? total : limit * page} de {total}
               </div>
-              <div className="flex gap-1 items-center">
+              <div className="flex gap-1 items-center -z-10">
                 <Button
                   disabled={page === 1}
                   onClick={() => setPage(page - 1)}
