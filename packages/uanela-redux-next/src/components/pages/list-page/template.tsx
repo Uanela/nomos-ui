@@ -323,7 +323,7 @@ export default function ListPageTemplate<T extends BaseData>({
                   ...((total >= 144 && [{ label: "144", value: "144" }]) || []),
                   { label: "Todos", value: String(Math.max(total, 1000)) },
                 ]}
-                className="mr-4"
+                className="mr-4 w-[72px]"
               />
               <div>
                 {limit * page - limit + 1} -{" "}
