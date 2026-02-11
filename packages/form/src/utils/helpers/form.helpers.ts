@@ -76,7 +76,7 @@ export function objectToFormData(
       }
     } else if (typeof value === "object" && value !== null) {
       objectToFormData(value, formData, formKey);
-    } else {
+    } else if (value !== undefined) {
       formData.append(formKey, value);
     }
   }
