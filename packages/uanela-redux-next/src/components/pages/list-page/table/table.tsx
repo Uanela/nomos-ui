@@ -53,10 +53,10 @@ export type TableProps<T extends BaseData> = {
   setResponseData: React.Dispatch<
     React.SetStateAction<
       | {
-          total: number;
-          data: Record<string, any>[];
-          results: number;
-        }
+        total: number;
+        data: Record<string, any>[];
+        results: number;
+      }
       | undefined
     >
   >;
@@ -144,11 +144,13 @@ export default function Table<T extends BaseData>({
               N°
             </div>
             {fields?.map((field, i: number) => {
+              const { transform, ...fieldPropsWithoutTransform } = field?.props || {}
+              const { transform: ts, ...headPropsWithoutTransform } = field?.headProps || {}
               if (i === 0)
                 return (
                   <div
                     key={field.name}
-                    {...{ ...field.props, ...field.headProps }}
+                    {...{ ...fieldPropsWithoutTransform, ...headPropsWithoutTransform }}
                     onClick={(e) => field.headProps?.onClick?.(data, field, e)}
                     onMouseEnter={(e) =>
                       field.headProps?.onMouseEnter?.(data, field, e)
@@ -183,7 +185,7 @@ export default function Table<T extends BaseData>({
               <>
                 <div className="flex items-center justify-center py-2">
                   {deleteMutationResult.isLoading &&
-                  deleteMutationResult.originalArgs === item.id ? (
+                    deleteMutationResult.originalArgs === item.id ? (
                     <div>
                       <LoaderCircleIcon className="animate-spin" />
                     </div>
@@ -229,31 +231,34 @@ export default function Table<T extends BaseData>({
         <div className="overflow-x-auto flex-1 min-w-[600px] mr-[0px]">
           <div className="bg-zinc-50 text-zinc-500 rounded-b-none overflow-hidden flex  min-w-fit ">
             {fields?.map(
-              (field, i) =>
-                i > 0 &&
-                selectedOptions?.includes(field.name) && (
-                  <div
-                    key={field.name}
-                    {...{ ...field.props, ...field.headProps }}
-                    onClick={(e) => field.headProps?.onClick?.(data, field, e)}
-                    onMouseEnter={(e) =>
-                      field.headProps?.onMouseEnter?.(data, field, e)
-                    }
-                    onMouseLeave={(e) =>
-                      field.headProps?.onMouseLeave?.(data, field, e)
-                    }
-                    className={twMerge(
-                      "truncate text-left font-semibold flex items-center p-2  w-40 flex-shrink-0",
-                      field.props?.className,
-                      field.headProps?.className
-                    )}
-                  >
-                    {field.headProps?.transform
-                      ? field.headProps?.transform(data, field)
-                      : field.label}
-                  </div>
-                )
-            )}
+              (field, i) => {
+                const { transform, ...fieldPropsWithoutTransform } = field?.props || {}
+                const { transform: ts, ...headPropsWithoutTransform } = field?.headProps || {}
+
+                if (i > 0 && selectedOptions?.includes(field.name))
+                  return (
+                    <div
+                      key={field.name}
+                      {...{ ...fieldPropsWithoutTransform, ...headPropsWithoutTransform }}
+                      onClick={(e) => field.headProps?.onClick?.(data, field, e)}
+                      onMouseEnter={(e) =>
+                        field.headProps?.onMouseEnter?.(data, field, e)
+                      }
+                      onMouseLeave={(e) =>
+                        field.headProps?.onMouseLeave?.(data, field, e)
+                      }
+                      className={twMerge(
+                        "truncate text-left font-semibold flex items-center p-2  w-40 flex-shrink-0",
+                        field.props?.className,
+                        field.headProps?.className
+                      )}
+                    >
+                      {field.headProps?.transform
+                        ? field.headProps?.transform(data, field)
+                        : field.label}
+                    </div>
+                  )
+              })}
           </div>
           {data.map((item, i) => (
             <div
@@ -263,9 +268,8 @@ export default function Table<T extends BaseData>({
               }
               onMouseEnter={() => setHoveredRow(item)}
               onMouseLeave={() => setHoveredRow(null)}
-              className={` text-zinc-700  overflow-hidden flex items-center gap- ${
-                selectedOptions?.length > 0 && " border-t"
-              } border-l-0 data-[is-last=true]:rounded-br-md min-w-fit  hover:bg-sky-100  even:bg-white data-[selected=true]:bg-sky-100`}
+              className={` text-zinc-700  overflow-hidden flex items-center gap- ${selectedOptions?.length > 0 && " border-t"
+                } border-l-0 data-[is-last=true]:rounded-br-md min-w-fit  hover:bg-sky-100  even:bg-white data-[selected=true]:bg-sky-100`}
             >
               {fields?.map(
                 (field, i: number) =>
