@@ -24,7 +24,7 @@ export default function ListPage<T extends { id: string }>({
   CreateDataModal,
   UpdateDataModal,
   fields,
-  onDeleteSuccess = () => {},
+  onDeleteSuccess = () => { },
   cleanDataForTemplate,
   params = {},
   className,
@@ -47,7 +47,7 @@ export default function ListPage<T extends { id: string }>({
           params={params}
           {...templateProps}
           className={twMerge(
-            "h-[calc(100%-68px)] bg-background border border-input p-2 sm:p-4 rounded-lg",
+            "h-[calc(100%-68px)] bg-background border border-input p-2 sm:p-4 rounded-lg overflow-auto",
             templateProps?.className
           )}
           tableContainerProps={{

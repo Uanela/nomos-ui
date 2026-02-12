@@ -67,7 +67,7 @@ export default function ListPageTemplate<T extends BaseData>({
   topButtons,
   onClickCreate,
   fields = [],
-  onDeleteSuccess = (item) => {},
+  onDeleteSuccess = (item) => { },
   cleanDataForTemplate = async (data) => data,
   className,
   tableContainerProps,
@@ -236,7 +236,7 @@ export default function ListPageTemplate<T extends BaseData>({
 
   return (
     <>
-      <div className={twMerge("", className)}>
+      <div className={twMerge("overflow-auto", className)}>
         <div className="flex small-sm:items-center items-end justify-between gap-2 small-sm:gap-4 small-sm:mb-0 mb-2">
           <div className="flex gap-2 items-center small-sm:mb-2">
             <Select
