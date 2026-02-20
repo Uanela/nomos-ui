@@ -294,7 +294,7 @@ export default function Table<T extends BaseData>({
 
         <div className="sticky right-[0px] bg-background">
           <div className="bg-zinc-50 text-zinc-500    rounded-tr-lg rounded-b-none overflow-hidden flex items-center gap-   ">
-            <div className="truncate text-left font-semibold flex items-center p-2 py-[9px] px-4">
+            <div className="truncate text-left font-semibold flex items-center p-2 py-[9.5px] px-4">
               <SquareMousePointerIcon size={18} />
             </div>
           </div>
@@ -307,7 +307,7 @@ export default function Table<T extends BaseData>({
               onMouseLeave={() => setHoveredRow(null)}
               key={uuid4()}
               data-is-last={i === data.length - 1}
-              className=" text-zinc-700 font-  overflow-hidden flex px-2 items-center gap- border-t data-[is-last=true]:rounded-br-md hover:bg-sky-100 py-0  data-[selected=true]:bg-sky-100"
+              className=" text-zinc-700 font-  overflow-hidden flex px-2 items-center gap- border-t data-[is-last=true]:rounded-br-md hover:bg-sky-100 py-[0.5px]  data-[selected=true]:bg-sky-100"
             >
               {fields?.map((_, j: number) => {
                 if (j === 0)
