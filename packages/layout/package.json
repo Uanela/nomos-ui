@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/layout",
-  "version": "0.0.6",
+  "version": "0.0.1",
   "description": "The Shadcn library for building robust React layouts",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
@@ -8,35 +8,25 @@
   "exports": {
     ".": {
       "types": "./dist/exports/index.d.ts",
-      "import": "./dist/exports/index.js"
+      "import": "./dist/exports/index.js",
+      "require": "./dist/exports/index.js"
     },
-    "./hooks": {
-      "types": "./dist/hooks/index.d.ts",
-      "import": "./dist/hooks/index.js"
-    },
-    "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js"
+    "./dashboard": {
+      "types": "./dist/dashboard/index.d.ts",
+      "import": "./dist/dashboard/index.js",
+      "require": "./dist/dashboard/index.js"
     },
     "./types": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/types/index.js"
+      "import": "./dist/types/index.js",
+      "require": "./dist/types/index.js"
     }
   },
   "typesVersions": {
     "*": {
-      "components": [
-        "./dist/components/index.d.ts"
-      ],
-      "hooks": [
-        "./dist/hooks/index.d.ts"
-      ],
-      "utils": [
-        "./dist/utils/index.d.ts"
-      ],
-      "types": [
-        "./dist/types/index.d.ts"
-      ]
+      "components": ["./dist/components/index.d.ts"],
+      "dashboard": ["./dist/dashboard/index.d.ts"],
+      "types": ["./dist/types/index.d.ts"]
     }
   },
   "scripts": {
@@ -79,14 +69,11 @@
     "url": "https://github.com/uanela/nomos-ui/issues"
   },
   "homepage": "https://github.com/uanela/nomos-ui/tree/main/packages/react#readme",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist", "README.md", "LICENSE"],
   "sideEffects": false,
   "packageManager": "pnpm@10.13.1",
-  "dependencies": {
+  "dependencies": {},
+  "peerDependencies": {
     "@nomos-ui/form": "^0.0.17",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/postcss": "^4.1.16",
