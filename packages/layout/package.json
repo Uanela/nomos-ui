@@ -73,16 +73,6 @@
   "sideEffects": false,
   "packageManager": "pnpm@10.13.1",
   "dependencies": {},
-  "peerDependencies": {
-    "@nomos-ui/form": "^0.0.17",
-    "@radix-ui/react-slot": "^1.2.3",
-    "@tailwindcss/postcss": "^4.1.16",
-    "@tailwindcss/vite": "^4.1.16",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "lucide-react": "^0.548.0",
-    "tailwind-merge": "^3.5.0"
-  },
   "devDependencies": {
     "@types/node": "^24.9.1",
     "@types/react": "^19.2.2",
@@ -101,7 +91,15 @@
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0",
-    "react-hook-form": "^7.0.0"
+    "react-hook-form": "^7.0.0",
+    "@nomos-ui/form": "^0.0.17",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tailwindcss/postcss": "^4.1.16",
+    "@tailwindcss/vite": "^4.1.16",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.548.0",
+    "tailwind-merge": "^3.5.0"
   },
   "peerDependenciesMeta": {
     "react": {
