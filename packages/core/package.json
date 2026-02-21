@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The Shadcn library for building robust React layouts",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
