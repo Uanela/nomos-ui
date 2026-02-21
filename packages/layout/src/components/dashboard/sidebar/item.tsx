@@ -1,6 +1,5 @@
-import React from "react";
 import { LucideProps } from "lucide-react";
-import Link from "next/link";
+import { useProvider } from "@nomos-ui/core";
 import {
   ForwardRefExoticComponent,
   HTMLAttributes,
@@ -26,6 +25,9 @@ export default function SidebarItem({
   active,
   ...props
 }: SidebarItemProps & HTMLAttributes<HTMLLIElement>) {
+  const { components } = useProvider();
+  const Link = components?.Link?.component || components?.Link || "a";
+
   return (
     <li
       data-selected={active}
@@ -37,7 +39,7 @@ export default function SidebarItem({
     >
       <div className="h-full absolute w-[3px] bg-primary-300 rounded-l-md hidden group-data-[selected=true]:block"></div>
       <Link
-        href={href}
+        {...{ [components?.Link?.hrefKey || "href"]: href }}
         aria-label={text}
         className="flex items-center py-[4px] px-3 text-primary-500 rounded-md hover:bg-primary-50 group transition-all w-full group-data-[selected=true]:bg-primary-50  group-data-[selected=true]:text-primary-500 mb-1"
       >
