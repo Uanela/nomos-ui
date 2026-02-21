@@ -176,13 +176,15 @@ export default function DashboardSidebar({
                     )}
                   </div>
                 );
-              else return;
-            <SidebarItem
-              onClick={() => setIsOpen(false)}
-              key={item.href}
-              active={activeItemText === item.text}
-              {...item}
-            />;
+              else
+                return (
+                  <SidebarItem
+                    onClick={() => setIsOpen(false)}
+                    key={item.href}
+                    active={activeItemText === item.text}
+                    {...item}
+                  />
+                );
           })}
           {itemsSearchTerm &&
             !JSON.stringify(items)
