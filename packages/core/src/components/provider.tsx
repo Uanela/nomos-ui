@@ -19,14 +19,14 @@ import { createContext, ReactNode } from "react";
  * - hrefKey: "href"
  */
 export type LinkConfig = {
-  component: React.JSX.Element;
+  component: React.ElementType;
   hrefKey?: string;
 };
 
 export type ProviderContext = {
   children: React.ReactNode;
   components?: {
-    Link?: React.JSX.Element | LinkConfig;
+    Link?: React.ElementType | LinkConfig;
   };
 };
 

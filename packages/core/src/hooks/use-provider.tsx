@@ -26,12 +26,15 @@ export function useProvider() {
       Link: (context?.components?.Link as LinkConfig)?.component
         ? {
             component:
-              (context?.components?.Link as LinkConfig)?.component || "a",
+              (context?.components?.Link as LinkConfig)?.component ||
+              ("a" as React.ElementType),
             hrefKey:
               (context?.components?.Link as LinkConfig)?.hrefKey || "href",
           }
         : {
-            component: context?.components?.Link || "a",
+            component:
+              (context?.components?.Link as React.ElementType) ||
+              ("a" as React.ElementType),
             hrefKey: "href",
           },
     },
