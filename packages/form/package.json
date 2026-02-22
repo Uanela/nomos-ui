@@ -11,33 +11,15 @@
       "import": "./dist/exports/index.js",
       "require": "./dist/exports/index.js"
     },
-    "./hooks": {
-      "types": "./dist/hooks/index.d.ts",
-      "import": "./dist/hooks/index.js",
-      "require": "./dist/hooks/index.js"
-    },
-    "./modals": {
-      "types": "./dist/exports/modals.d.ts",
-      "import": "./dist/exports/modals.js",
-      "require": "./dist/exports/modals.js"
-    },
     "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js",
-      "require": "./dist/utils/index.js"
-    },
-    "./types": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/types/index.js",
-      "require": "./dist/types/index.js"
+      "types": "./dist/exports/utils/index.d.ts",
+      "import": "./dist/exports/utils/index.js",
+      "require": "./dist/exports/utils/index.js"
     }
   },
   "typesVersions": {
     "*": {
-      "components": ["./dist/components/index.d.ts"],
-      "hooks": ["./dist/hooks/index.d.ts"],
-      "utils": ["./dist/exports/utils/index.d.ts"],
-      "types": ["./dist/types/index.d.ts"]
+      "utils": ["./dist/exports/utils/index.d.ts"]
     }
   },
   "scripts": {
@@ -79,7 +61,7 @@
   "bugs": {
     "url": "https://github.com/uanela/nomos-ui/issues"
   },
-  "homepage": "https://github.com/uanela/nomos-ui/tree/main/packages/react#readme",
+  "homepage": "https://github.com/uanela/nomos-ui",
   "files": ["dist", "README.md", "LICENSE"],
   "sideEffects": false,
   "packageManager": "pnpm@10.13.1",
