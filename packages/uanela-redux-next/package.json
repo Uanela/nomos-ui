@@ -7,15 +7,13 @@
   "exports": {
     ".": {
       "types": "./dist/exports/index.d.ts",
-      "import": "./dist/exports/index.js"
+      "import": "./dist/exports/index.js",
+      "require": "./dist/exports/index.js"
     }
   },
   "typesVersions": {
     "*": {
-      "components": ["./dist/components/index.d.ts"],
-      "hooks": ["./dist/hooks/index.d.ts"],
-      "utils": ["./dist/exports/utils/index.d.ts"],
-      "types": ["./dist/types/index.d.ts"]
+      "types": ["./dist/exports/index.d.ts"]
     }
   },
   "scripts": {
