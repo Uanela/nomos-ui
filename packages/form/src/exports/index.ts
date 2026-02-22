@@ -7,6 +7,13 @@ import Textarea from "../components/textarea";
 import FormTextarea from "../components/form-textarea";
 import FormImageInput from "../components/form-image-input";
 import ImageInput from "../components/image-input";
+import FileInput, {
+  FileInputProps,
+  FileInputFile,
+} from "../components/file-input";
+import FormFileInput, {
+  FormFileInputProps,
+} from "../components/form-file-input";
 
 export {
   Button,
@@ -18,8 +25,19 @@ export {
   FormTextarea,
   ImageInput,
   FormImageInput,
+  FileInput,
+  FormFileInput,
 };
-export type { SelectOption, SelectProps, FormSelectProps };
+export type {
+  SelectOption,
+  SelectProps,
+  FormSelectProps,
+  FormFileInputProps,
+  FileInputProps,
+  FileInputFile,
+};
 export * from "../components/input";
 export * from "../components/form-input";
 export * from "../components/button";
+export * from "../components/file-input";
+export * from "../components/form-file-input";
