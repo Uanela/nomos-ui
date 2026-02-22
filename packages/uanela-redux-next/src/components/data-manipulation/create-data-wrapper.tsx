@@ -1,109 +1,143 @@
-import { pascalCase } from "change-case-all";
-import React, { useCallback, useEffect } from "react";
+import { useProvider } from "@nomos-ui/core";
+import { extractMutation } from "@nomos-ui/core/utils";
+import React, { useCallback } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
-import { useApi } from "../api-provider";
 
 /**
- * Props for the CreateDataWrapper
+ * Props for the CreateDataWrapper component
+ *
+ * @template Input - The shape of the form values / data being submitted
+ * @template Response - The shape of the API response returned after successful creation
+ * @template FormProps - Additional props accepted by the Form component
  */
-type CreateDataWrapperProps = {
-  /** Optional ID for the component */
-  id?: string;
-  /** Name identifier used to generate the API mutation name if not provided */
-  name: string;
-  /** Form component to render for data creation */
-  Form: (props: any) => React.JSX.Element;
+type CreateDataWrapperProps<
+  Input,
+  Response,
+  FormProps extends Record<string, any> = Record<string, any>,
+> = {
   /**
-   * Redux API mutation name (e.g., 'useCreateProductMutation')
-   * If not provided, will be generated as `useCreate${pascalCase(name)}Mutation`
+   * The form component to render.
+   * Receives all mutation state from the library (e.g. isLoading, isPending, error),
+   * formProps, and the onSubmit handler.
    */
-  createMutation?: string;
-  /** Flag to show alert after successful creation */
-  showAlertAfterSuccessCreate?: boolean;
-  /** Callback function executed after successful data creation */
+  Form: (
+    props: FormProps & { onSubmit: any } & Record<string, any>
+  ) => React.JSX.Element;
+  /**
+   * The mutation hook to call for data creation.
+   * Pass the hook itself (e.g. useCreateProductMutation), not its result.
+   * The component will call it internally following React's rules of hooks.
+   *
+   * @example
+   * useMutation={useCreateProductMutation}
+   */
+  useMutation: () => any;
+  /**
+   * Callback executed after a successful creation.
+   * Receives the API response, the cleaned submitted data, and the form instance.
+   *
+   * @param x.response - The raw API response
+   * @param x.data - The cleaned data that was submitted
+   * @param x.form - The react-hook-form instance typed to Input
+   */
   doAfterSuccessCreate?: (x: {
-    response: any;
-    data: any;
-    form: UseFormReturn;
+    response: Response;
+    data: Input;
+    form: UseFormReturn<Input extends Record<string, any> ? Input : any>;
   }) => Promise<any> | void;
-  /** Function to transform form data before submission */
-  cleanDataBeforeCreate?: (data: any) => void;
-  /** CSS class name for the component */
-  className?: string;
-  /** Buttons to be displayed in the top-right corner */
-  topButtons?: React.ReactNode;
-  /** Props specific to the form component */
-  formProps: {
+  /**
+   * Optional function to transform or clean the form data before submission.
+   * Defaults to an identity function (returns data as-is).
+   *
+   * @param data - Raw form data
+   * @returns Cleaned data to be submitted
+   */
+  cleanDataBeforeCreate?: (data: Input) => Promise<Input>;
+  /**
+   * Props passed directly to the Form component.
+   */
+  formProps: FormProps & {
     /** Label for the form's submit button */
     buttonLabel: string;
     /** Optional CSS class name for the form */
     className?: string;
-    /** Flag to maintain loading state after submission */
+    /** If true, keeps the loading state active after submission */
     keepIsLoading?: boolean;
-    /** Additional data to be passed to the form */
+    /** Additional data required by the form (e.g. select options, related records) */
     requiredData?: Record<string, any>;
-    /** Zod schema for form validation */
+    /** Zod schema used for form validation */
     schema: z.ZodObject<any>;
   };
 };
 
 /**
- * A generic component that handles data creation logic using Redux API mutations
- * Manages form submission, data transformation, and post-creation callbacks
- * Also supports template-based default values from Redux state
+ * A generic wrapper that handles data creation logic independently of the query library.
+ * Supports both RTK Query and TanStack Query via the provider config.
  *
- * @param props Component props
- * @returns A form component with data creation capabilities
+ * Responsibilities:
+ * - Calls the provided mutation hook
+ * - Extracts and normalizes the trigger function based on the query library
+ * - Passes all raw mutation state directly to the Form (no normalization)
+ * - Handles submit orchestration: cleaning data, triggering mutation, running callbacks, resetting form
+ *
+ * The Form component receives everything the mutation hook provides plus `onSubmit`.
+ *
+ * @template Input - The shape of the form values / data being submitted
+ * @template Response - The shape of the API response returned after successful creation
+ * @template FormProps - Additional props accepted by the Form component
  *
  * @example
  * ```tsx
- * <CreateDataWrapper
- *   name="product"
+ * <CreateDataWrapper<CreateProductInput, Product, ProductFormProps>
  *   Form={ProductForm}
+ *   useMutation={useCreateProductMutation}
+ *   doAfterSuccessCreate={({ response }) => router.push(`/products/${response.id}`)}
  *   formProps={{
  *     buttonLabel: "Create Product",
- *     schema: productSchema
+ *     schema: productSchema,
  *   }}
  * />
  * ```
  */
-export default function CreateDataWrapper({
-  name,
+export default function CreateDataWrapper<
+  Input,
+  Response,
+  FormProps extends Record<string, any> = Record<string, any>,
+>({
   Form,
-  createMutation,
+  useMutation,
   doAfterSuccessCreate,
-  cleanDataBeforeCreate = (data) => data,
+  cleanDataBeforeCreate = async (data) => data,
   formProps,
-}: CreateDataWrapperProps) {
-  const api = useApi();
-  const [createData, state] = (api as any)[
-    createMutation || `useCreate${pascalCase(name)}Mutation`
-  ]();
-  const pathname = usePathname();
+}: CreateDataWrapperProps<Input, Response, FormProps>) {
+  const { config } = useProvider();
+  const mutationResult = useMutation();
+
+  const { trigger, state } = extractMutation<Input, Response>(
+    mutationResult,
+    config.queryLibrary
+  );
 
   /**
-   * Handles form submission and data creation
-   * @param data The form data to be submitted
-   * @param form The react-hook-form form instance
-   * @returns The API response or error
+   * Handles form submission.
+   * Cleans the data, triggers the mutation, runs the success callback, and resets the form.
+   * Calls onError if provided and the mutation fails.
+   *
+   * @param data - The validated form data
+   * @param form - The react-hook-form instance typed to Input
+   * @param onError - Optional callback invoked with the original data and error on failure
    */
   const handleCreateData = useCallback(
-    async function handleCreateData(
-      data: z.infer<typeof formProps.schema>,
-      form: UseFormReturn,
-      onError?: (data: z.infer<typeof formProps.schema>, error: any) => void
+    async function (
+      data: Input,
+      form: UseFormReturn<Input extends Record<string, any> ? Input : any>,
+      onError?: (data: Input, error: any) => void
     ) {
-      const cleanedData = cleanDataBeforeCreate(data);
-
+      const cleanedData = await cleanDataBeforeCreate(data);
       try {
-        const response = await createData(data).unwrap();
-
-        doAfterSuccessCreate &&
-          (await doAfterSuccessCreate({ response, data: cleanedData, form }));
-
+        const response = await trigger(cleanedData);
+        await doAfterSuccessCreate?.({ response, data: cleanedData, form });
         form.reset();
         return response;
       } catch (err) {
@@ -111,26 +145,8 @@ export default function CreateDataWrapper({
         return err;
       }
     },
-    [name, Form]
+    [trigger]
   );
 
-  useEffect(() => {
-    const listHref = pathname.split("/");
-    listHref.pop();
-  }, [pathname]);
-
-  // Get template data from Redux store if available
-  const template = useSelector((state: any) => state.app.template);
-
-  return (
-    <Form
-      {...state}
-      {...formProps}
-      {...(template &&
-        template.name === name && {
-          defaultValues: template.data,
-        })}
-      onSubmit={handleCreateData}
-    />
-  );
+  return <Form {...state} {...formProps} onSubmit={handleCreateData} />;
 }

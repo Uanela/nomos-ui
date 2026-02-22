@@ -11,6 +11,9 @@ importers:
       '@nomos-ui/common':
         specifier: ^0.2.5
         version: 0.2.5(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@types/react@19.2.8)(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
+      '@nomos-ui/core':
+        specifier: ^0.0.8
+        version: 0.0.8(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
       '@nomos-ui/form':
         specifier: ^0.0.10
         version: 0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
@@ -478,6 +481,20 @@ packages:
       react-dom: ^18.0.0 || ^19.0.0
       react-hook-form: ^7.0.0
       tailwind-merge: ^3.3.1
+
+  '@nomos-ui/core@0.0.8':
+    resolution: {integrity: sha512-p2uzXeUUGW5w9ufQ5HGkS5CevLVssTOadXpVI/gCHDhhlsfD+aj5oiVJ94kc0Xb6C2X0d6YHk6WqViwu3xbpMQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      '@tailwindcss/postcss': ^4.1.16
+      '@tailwindcss/vite': ^4.1.16
+      class-variance-authority: ^0.7.1
+      clsx: ^2.1.1
+      lucide-react: ^0.548.0
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+      react-hook-form: ^7.0.0
+      tailwind-merge: ^3.5.0
 
   '@nomos-ui/form@0.0.10':
     resolution: {integrity: sha512-MRsHEGZHH7a3kHtuBI6wS1IKe1OpplDegBFsSTb2flm7D3isJnPYKmIq73eIrpXsaUhSORou3W6jzCsEujxSIQ==}
@@ -1983,6 +2000,18 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
       - '@types/react-dom'
+
+  '@nomos-ui/core@0.0.8(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)':
+    dependencies:
+      '@tailwindcss/postcss': 4.1.18
+      '@tailwindcss/vite': 4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
+      class-variance-authority: 0.7.1
+      clsx: 2.1.1
+      lucide-react: 0.562.0(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+      react-hook-form: 7.70.0(react@19.2.3)
+      tailwind-merge: 3.4.0
 
   '@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))':
     dependencies:
