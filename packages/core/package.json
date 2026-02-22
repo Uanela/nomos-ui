@@ -10,21 +10,11 @@
       "types": "./dist/exports/index.d.ts",
       "import": "./dist/exports/index.js",
       "require": "./dist/exports/index.js"
-    },
-    "./types": {
-      "types": "./dist/exports/types/index.d.ts",
-      "import": "./dist/exports/types/index.js",
-      "require": "./dist/exports/types/index.js"
     }
   },
   "typesVersions": {
     "*": {
-      "dashboard": [
-        "./dist/exports/dashboard/index.d.ts"
-      ],
-      "types": [
-        "./dist/types/index.d.ts"
-      ]
+      "types": ["./dist/exports/index.d.ts"]
     }
   },
   "scripts": {
@@ -67,11 +57,7 @@
     "url": "https://github.com/uanela/nomos-ui/issues"
   },
   "homepage": "https://github.com/uanela/nomos-ui",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist", "README.md", "LICENSE"],
   "sideEffects": false,
   "packageManager": "pnpm@10.13.1",
   "dependencies": {},
