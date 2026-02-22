@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/core",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "The Shadcn library for building robust React layouts",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
@@ -10,11 +10,17 @@
       "types": "./dist/exports/index.d.ts",
       "import": "./dist/exports/index.js",
       "require": "./dist/exports/index.js"
+    },
+    ".utils": {
+      "types": "./dist/exports/utils/index.d.ts",
+      "import": "./dist/exports/utils/index.js",
+      "require": "./dist/exports/utils/index.js"
     }
   },
   "typesVersions": {
     "*": {
-      "types": ["./dist/exports/index.d.ts"]
+      "types": ["./dist/exports/index.d.ts"],
+      "utils": ["./dist/exports/utils/index.d.ts"]
     }
   },
   "scripts": {

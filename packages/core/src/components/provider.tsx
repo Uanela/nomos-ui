@@ -23,27 +23,43 @@ export type LinkConfig = {
   hrefKey?: string;
 };
 
-export type ProviderContext = {
-  children: React.ReactNode;
+/**
+ * The shape of the provider configuration — what consumers read via useProvider
+ */
+export type ProviderConfig = {
+  queryLibrary: "rtk-query" | "tanstack-query";
   components?: {
     Link?: React.ElementType | LinkConfig;
   };
 };
 
-export const ProviderContext = createContext<Omit<ProviderContext, "children">>(
-  {}
-);
+/**
+ * Props for the Provider component
+ */
+export type ProviderProps = ProviderConfig & {
+  children: ReactNode;
+};
+
+export const NomosContext = createContext<Partial<ProviderConfig>>({});
 
 /**
  * Provider component that supplies context for customizable UI components.
  *
  * @param children - Child components that will have access to the provider context
+ * @param queryLibrary - The query library in use ("rtk-query" | "tanstack-query")
  * @param components.Link - Optional custom Link component configuration
+ *
+ * @example
+ * ```tsx
+ * <Provider queryLibrary="rtk-query" components={{ Link: NextLink }}>
+ *   <App />
+ * </Provider>
+ * ```
  */
-export default function Provider({ children, ...props }: ProviderContext) {
+export default function Provider({ children, ...props }: ProviderProps) {
   return (
-    <ProviderContext.Provider value={{ ...props }}>
+    <NomosContext.Provider value={{ ...props }}>
       {children}
-    </ProviderContext.Provider>
+    </NomosContext.Provider>
   );
 }
