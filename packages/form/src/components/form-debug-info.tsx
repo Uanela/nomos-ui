@@ -3,14 +3,15 @@ import { UseFormReturn } from "react-hook-form";
 
 export default function FormDebugInfo({
   form,
+  environment,
 }: {
   form: UseFormReturn<any>;
+  environment?: string;
 }): ReactElement {
-  ///@ts-ignore
-  return (process as any)?.env?.NODE_ENV === "development" ||
-    ///@ts-ignore
-    (import.meta as any)?.env?.NODE_ENV === "development" ? (
-    <details className="">
+  if (environment !== "development") return <></>;
+
+  return (
+    <details>
       <summary className="cursor-pointer text-sm text-gray-500">
         Debug Info
       </summary>
@@ -22,7 +23,5 @@ export default function FormDebugInfo({
         {JSON.stringify(form.watch(), null, 2)}
       </pre>
     </details>
-  ) : (
-    <></>
   );
 }
