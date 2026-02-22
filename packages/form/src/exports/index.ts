@@ -7,10 +7,7 @@ import Textarea from "../components/textarea";
 import FormTextarea from "../components/form-textarea";
 import FormImageInput from "../components/form-image-input";
 import ImageInput from "../components/image-input";
-import FileInput, {
-  FileInputProps,
-  FileInputFile,
-} from "../components/file-input";
+import FileInput, { FileInputProps } from "../components/file-input";
 import FormFileInput, {
   FormFileInputProps,
 } from "../components/form-file-input";
@@ -36,7 +33,6 @@ export type {
   FormSelectProps,
   FormFileInputProps,
   FileInputProps,
-  FileInputFile,
 };
 export * from "../components/input";
 export * from "../components/form-input";
