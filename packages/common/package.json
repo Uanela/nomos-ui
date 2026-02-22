@@ -11,34 +11,16 @@
       "import": "./dist/exports/index.js",
       "require": "./dist/exports/index.js"
     },
-    "./hooks": {
-      "types": "./dist/hooks/index.d.ts",
-      "import": "./dist/hooks/index.js",
-      "require": "./dist/hooks/index.js"
-    },
     "./modals": {
       "types": "./dist/exports/modals.d.ts",
       "import": "./dist/exports/modals.js",
       "require": "./dist/exports/modals.js"
-    },
-    "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js",
-      "require": "./dist/utils/index.js"
-    },
-    "./types": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/types/index.js",
-      "require": "./dist/types/index.js"
     }
   },
   "typesVersions": {
     "*": {
-      "components": ["./dist/components/index.d.ts"],
-      "hooks": ["./dist/hooks/index.d.ts"],
       "modals": ["./dist/exports/modals.d.ts"],
-      "utils": ["./dist/utils/index.d.ts"],
-      "types": ["./dist/types/index.d.ts"]
+      "types": ["./dist/exports/index.d.ts"]
     }
   },
   "scripts": {
