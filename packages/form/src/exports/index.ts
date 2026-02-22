@@ -14,9 +14,11 @@ import FileInput, {
 import FormFileInput, {
   FormFileInputProps,
 } from "../components/form-file-input";
+import FormDebugInfo from "../components/form-debug-info";
 
 export {
   Button,
+  FormDebugInfo,
   FormInput,
   Input,
   Select,
