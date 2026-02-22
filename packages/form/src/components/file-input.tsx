@@ -18,7 +18,7 @@ export type FileInputFile = {
   id: string;
 };
 
-export type FileInputProps = {
+type FileInputPropsBase = {
   /** Additional class name for the root container. */
   className?: string;
   /** Additional class name applied to the dashed dropzone area. */
@@ -59,10 +59,38 @@ export type FileInputProps = {
    */
   maxSize?: number;
   /**
-   * Allow the user to pick or drop more than one file at a time.
-   * When `false` (default) a new selection replaces the existing file.
+   * Fired when a file is rejected before being added to the list.
+   * Common reasons: file exceeds `maxSize`.
+   *
+   * @param message - A human-readable description of why the file was rejected.
    */
-  multiple?: boolean;
+  onError?: (message: string) => void;
+  /** Disables the dropzone click / drag and all per-file remove buttons. */
+  disabled?: boolean;
+};
+
+type FileInputPropsSingle = FileInputPropsBase & {
+  /**
+   * Allow the user to pick or drop more than one file at a time.
+   * When `false` (default) `onChange` receives a single `FileInputFile | null`.
+   */
+  multiple?: false;
+  /** The currently selected file, or `null` when empty. */
+  value?: FileInputFile | null;
+  /**
+   * Fired whenever the selected file changes or is removed.
+   *
+   * @param file - The selected file, or `null` when cleared.
+   */
+  onChange?: (file: FileInputFile | null) => void;
+};
+
+type FileInputPropsMultiple = FileInputPropsBase & {
+  /**
+   * Allow the user to pick or drop more than one file at a time.
+   * When `true` `onChange` receives the full updated `FileInputFile[]`.
+   */
+  multiple: true;
   /**
    * Controlled list of currently accepted files.
    * Pass an empty array (`[]`) to represent an empty / reset state.
@@ -74,28 +102,7 @@ export type FileInputProps = {
    * @param files - The complete updated file list.
    */
   onChange?: (files: FileInputFile[]) => void;
-  /**
-   * Fired when a file is rejected before being added to the list.
-   * Common reasons: file exceeds `maxSize`.
-   *
-   * @param message - A human-readable description of why the file was rejected.
-   */
-  onError?: (message: string) => void;
-  /** Disables the dropzone click / drag and all per-file remove buttons. */
-  disabled?: boolean;
 };
-
-/** Converts a raw byte count into a human-readable string (B / KB / MB). */
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-/** Generates a short random alphanumeric ID used as a stable React key. */
-function generateId(): string {
-  return Math.random().toString(36).slice(2, 9);
-}
 
 /**
  * A file-upload input that follows the shadcn component ideology.
@@ -105,26 +112,48 @@ function generateId(): string {
  * - Label + required sign + tip + error pattern identical to `Input` / `Textarea`
  * - Drag-and-drop with a clear visual drag state
  * - Per-file rows listing name, size, and a remove button
- * - Single or multiple file support
+ * - Single or multiple file support — `onChange` type is narrowed automatically
  *
- * @example
+ * @example Single file
+ * ```tsx
+ * const [file, setFile] = React.useState<FileInputFile | null>(null);
+ *
+ * <FileInput
+ *   label="Resume"
+ *   accept=".pdf"
+ *   acceptLabel="PDF"
+ *   maxSize={50 * 1024 * 1024}
+ *   value={file}
+ *   onChange={setFile}
+ * />
+ * ```
+ *
+ * @example Multiple files
  * ```tsx
  * const [files, setFiles] = React.useState<FileInputFile[]>([]);
  *
  * <FileInput
- *   label="Resume"
- *   required
- *   showRequiredSign
- *   accept=".pdf,.doc,.docx"
- *   acceptLabel="PDF, DOC, DOCX"
- *   maxSize={50 * 1024 * 1024}
- *   tip="Max 50 MB per file."
+ *   label="Attachments"
+ *   multiple
+ *   accept=".pdf,.docx"
+ *   acceptLabel="PDF, DOCX"
  *   value={files}
  *   onChange={setFiles}
- *   onError={(msg) => toast.error(msg)}
  * />
  * ```
  */
+export type FileInputProps = FileInputPropsSingle | FileInputPropsMultiple;
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function generateId(): string {
+  return Math.random().toString(36).slice(2, 9);
+}
+
 export default function FileInput({
   className,
   dropzoneClassName,
@@ -138,13 +167,19 @@ export default function FileInput({
   acceptLabel,
   maxSize,
   multiple = false,
-  value = [],
+  value,
   onChange,
   onError,
   disabled = false,
 }: FileInputProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = React.useState(false);
+
+  const fileList: FileInputFile[] = multiple
+    ? ((value as FileInputFile[]) ?? [])
+    : value
+      ? [value as FileInputFile]
+      : [];
 
   function processFiles(rawFiles: FileList | null) {
     if (!rawFiles || disabled) return;
@@ -163,12 +198,24 @@ export default function FileInput({
 
     if (!incoming.length) return;
 
-    const next = multiple ? [...value, ...incoming] : [incoming[0]!];
-    onChange?.(next);
+    if (multiple) {
+      (onChange as (files: FileInputFile[]) => void)?.([
+        ...fileList,
+        ...incoming,
+      ]);
+    } else {
+      (onChange as (file: FileInputFile | null) => void)?.(incoming[0] ?? null);
+    }
   }
 
   function removeFile(id: string) {
-    onChange?.(value.filter((f) => f.id !== id));
+    if (multiple) {
+      (onChange as (files: FileInputFile[]) => void)?.(
+        fileList.filter((f) => f.id !== id)
+      );
+    } else {
+      (onChange as (file: FileInputFile | null) => void)?.(null);
+    }
     if (inputRef.current) inputRef.current.value = "";
   }
 
@@ -188,7 +235,7 @@ export default function FileInput({
     processFiles(e.dataTransfer.files);
   }
 
-  const hasFiles = value.length > 0;
+  const hasFiles = fileList.length > 0;
 
   return (
     <div className={cn("w-full space-y-1.5", className)}>
@@ -253,7 +300,7 @@ export default function FileInput({
 
       {hasFiles && (
         <ul className="space-y-2">
-          {value.map(({ file, id }) => (
+          {fileList.map(({ file, id }) => (
             <li
               key={id}
               className="flex items-center gap-3 rounded-lg border border-input bg-background px-3 py-2.5 shadow-xs"

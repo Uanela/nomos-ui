@@ -61,7 +61,7 @@ export default function FormFileInput<TFieldValues extends FieldValues>({
       render={({ field: { onChange, value }, formState: { errors } }) => (
         <FileInput
           {...props}
-          value={value ?? []}
+          value={value}
           onChange={onChange}
           onError={(errorMessage: string) => {
             control.setError(name, {
