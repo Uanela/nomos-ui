@@ -45,13 +45,13 @@ export type UpdateDataModalProps<DataType, FormProps = any> = {
   /** Custom class applied to the modal container */
   className?: string;
   /** Zod schema for form validation */
-  schema: z.ZodObject<any>
+  schema: z.ZodObject<any>;
   /** Buttons displayed next to the modal title */
   topButtons?: React.ReactNode;
   /** Additional props forwarded to the form */
   formProps?: FormProps;
   /** Props that apply to Radix Dialog content wrapper */
-  contentProps?: ModalProps;
+  contentProps?: Omit<ModalProps, "children">;
 };
 
 /**

@@ -45,9 +45,9 @@ export type CreateDataModalProps<T, FormProps = any> = {
   /** CSS class name for the modal */
   className?: string;
   /** Props for the modal dialog content */
-  contentProps?: ModalProps;
+  contentProps?: Omit<ModalProps, "children">;
   /** Zod schema for form validation */
-  schema: z.ZodObject<any>
+  schema: z.ZodObject<any>;
   /** Buttons to be displayed in the top-right corner of the modal, next to the title */
   topButtons?: React.ReactNode;
   /** Props specific to the form component */
