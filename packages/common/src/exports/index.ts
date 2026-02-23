@@ -6,8 +6,9 @@ import Accordion, {
   AccordionItemContentProps,
   AccordionProps,
 } from "../components/accordion";
+import Toaster from "../components/toaster";
 
-export { HoverCard, Button, Accordion };
+export { HoverCard, Button, Accordion, Toaster };
 export type {
   HoverCardProps,
   AccordionProps,
