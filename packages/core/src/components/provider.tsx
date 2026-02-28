@@ -1,4 +1,5 @@
 import { createContext, ReactNode } from "react";
+import { RouterAdapter } from "../types";
 
 /**
  * Configuration for custom Link components to support different routing systems
@@ -31,6 +32,7 @@ export type ProviderConfig = {
   components?: {
     Link?: React.ElementType | LinkConfig;
   };
+  adapter: RouterAdapter;
 };
 
 /**
