@@ -1,111 +1,132 @@
-import { camelCase, pascalCase } from "change-case-all";
-import React, { useEffect, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import React, { useCallback, useEffect, useState } from "react";
+import { FieldValues, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { useApi } from "../api-provider";
+import { useProvider } from "@nomos-ui/core";
+import { extractMutation } from "@nomos-ui/core/utils";
 import QueryBoundary from "../query-boundary";
 
 /**
- * Props for the form component rendered by UpdateDataWrapper
+ * Props for the UpdateDataWrapper component
+ *
+ * @template Input - The shape of the form values / data being submitted
+ * @template Response - The shape of the API response returned after successful update
+ * @template FormProps - Additional props accepted by the Form component
  */
-type FormComponentProps = {
-  /** Initial values for the form fields */
-  defaultValues?: any;
-  /** Form submission handler */
-  onSubmit: (data: any, form: UseFormReturn) => void;
-  /** Label for the submit button */
-  buttonLabel: string;
-  /** Optional CSS class name */
-  className?: string;
-  /** Loading state for the form */
-  isLoading?: boolean;
-  /** Zod schema for form validation */
-  schema: z.ZodObject<any>
-};
-
-/**
- * Props for the UpdateDataWrapper
- */
-type UpdateDataWrapperProps = {
+type UpdateDataWrapperProps<
+  Input extends FieldValues,
+  Response,
+  FormProps extends Record<string, any> = Record<string, any>,
+> = {
   /** ID of the record to update */
   id?: string | number;
-  /** Name identifier used to generate API mutation name if not provided */
-  name: string;
   /** Form component to render for data updating */
-  Form: (props: FormComponentProps) => React.JSX.Element;
+  Form: (props: any) => React.JSX.Element;
   /**
-   * Redux API mutation name (e.g., 'useUpdateProductMutation')
-   * If not provided, will be generated as `useUpdate${pascalCase(name)}Mutation`
+   * The mutation hook to call for data update.
+   * Pass the hook itself (e.g. useUpdateProductMutation), not its result.
+   * The component will call it internally following React's rules of hooks.
+   *
+   * @example
+   * useMutation={useUpdateProductMutation}
    */
-  updateMutation?: string;
-  /** Flag to show alert after successful update */
-  showAlertAfterSuccessUpdate?: boolean;
-  /** Callback function executed after successful data update */
+  useMutation: () => any;
+  /**
+   * The query hook to fetch the existing record.
+   * Pass the hook itself (e.g. useGetProductQuery), not its result.
+   *
+   * @example
+   * useQuery={useGetProductQuery}
+   */
+  useQuery: (params: any) => any;
+  /**
+   * Callback executed after successful data update.
+   * Receives the API response, the cleaned submitted data, and the form instance.
+   *
+   * @param x.response - The raw API response
+   * @param x.data - The cleaned data that was submitted
+   * @param x.form - The react-hook-form instance typed to Input
+   */
   doAfterSuccessUpdate?: (x: {
-    response: any;
-    data: any;
-    form: UseFormReturn;
+    response: Response;
+    data: Input;
+    form: UseFormReturn<Input>;
   }) => Promise<any> | void;
-  /** Function to transform form data before submission */
-  cleanDataBeforeUpdate?: (data: any) => void;
-  /** CSS class name for the component */
-  className?: string;
-  /** Buttons to be displayed in the top-right corner */
-  topButtons?: React.ReactNode;
-  /** Props specific to the form component */
-  formProps: {
+  /**
+   * Optional function to transform or clean the form data before submission.
+   * Defaults to an identity function (returns data as-is).
+   *
+   * @param data - Raw form data
+   * @returns Cleaned data to be submitted
+   */
+  cleanDataBeforeUpdate?: (data: Input) => Input;
+  /** Additional parameters passed to the query hook for data fetching */
+  params?: Record<string, any>;
+  /** Props passed directly to the Form component */
+  formProps: FormProps & {
     /** Label for the form's submit button */
     buttonLabel: string;
     /** Optional CSS class name for the form */
     className?: string;
-    /** Flag to maintain loading state after submission */
+    /** If true, keeps the loading state active after submission */
     keepIsLoading?: boolean;
-    /** Additional data to be passed to the form */
+    /** Additional data required by the form (e.g. select options, related records) */
     requiredData?: Record<string, any>;
-    /** Zod schema for form validation */
-    schema: z.ZodObject<any>
+    /** Zod schema used for form validation */
+    schema: z.ZodObject<any>;
   };
-  /** Additional parameters passed to QueryBaseComponent for data fetching */
-  params?: Record<string, any>;
 };
 
 /**
- * A generic component for updating data with form validation and optimized API updates
+ * A generic wrapper that handles data update logic independently of the query library.
+ * Supports both RTK Query and TanStack Query via the provider config.
  *
- * Features:
- * - Integrates with QueryBaseComponent for initial data fetching
- * - Only sends changed form values to the API
- * - Supports custom mutation names and callbacks
- * - Handles form validation with Zod
- * - Ignores timestamp fields (createdAt, updatedAt, deletedAt) in change detection
+ * Responsibilities:
+ * - Fetches existing record via useQuery and populates form default values
+ * - Calls the provided mutation hook
+ * - Extracts and normalizes the trigger function based on the query library
+ * - Passes all raw mutation state directly to the Form (no normalization)
+ * - Handles submit orchestration: cleaning data, triggering mutation, running callbacks, resetting form
+ *
+ * @template Input - The shape of the form values / data being submitted
+ * @template Response - The shape of the API response returned after successful update
+ * @template FormProps - Additional props accepted by the Form component
  *
  * @example
  * ```tsx
- * <UpdateDataWrapper
- *   id="648339adsf043c8ed"
- *   name="product"
+ * <UpdateDataWrapper<UpdateProductInput, Product, ProductFormProps>
+ *   id={productId}
  *   Form={ProductForm}
+ *   useMutation={useUpdateProductMutation}
+ *   useQuery={useGetProductQuery}
+ *   doAfterSuccessUpdate={({ response }) => router.push(`/products`)}
  *   formProps={{
  *     buttonLabel: "Update Product",
- *     schema: productSchema
+ *     schema: productSchema,
  *   }}
  * />
  * ```
  */
-export default function UpdateDataWrapper({
+export default function UpdateDataWrapper<
+  Input extends FieldValues,
+  Response,
+  FormProps extends Record<string, any> = Record<string, any>,
+>({
   id,
-  name,
   Form,
-  updateMutation,
+  useMutation,
+  useQuery,
   doAfterSuccessUpdate,
   cleanDataBeforeUpdate = (data) => data,
   formProps,
   params,
-}: UpdateDataWrapperProps) {
-  const api = useApi();
-  const [updateData, state] = (api as any)[
-    updateMutation || `useUpdate${pascalCase(name)}Mutation`
-  ]();
+}: UpdateDataWrapperProps<Input, Response, FormProps>) {
+  const { config } = useProvider();
+  const mutationResult = useMutation();
+  const { trigger, state } = extractMutation<Input, Response>(
+    mutationResult,
+    config.queryLibrary
+  );
+
   const [fetchedData, setFetchedData] = useState<Record<string, any>>();
   const [dataForm, setDataForm] = useState<UseFormReturn>();
 
@@ -114,49 +135,44 @@ export default function UpdateDataWrapper({
   }, [fetchedData]);
 
   /**
-   * Handles form submission and data update
-   * Only sends changed fields to the API by comparing with initial values
+   * Handles form submission and data update.
+   * Cleans the data, triggers the mutation with id + body, runs the success callback, and resets the form.
    *
-   * @param data Current form data
-   * @param form React Hook Form instance
+   * @param data - The validated form data
+   * @param form - The react-hook-form instance
+   * @param onError - Optional callback invoked with the original data and error on failure
    */
-  function handleUpdateData(
-    data: z.infer<typeof formProps.schema>,
-    form: UseFormReturn
-  ) {
-    const cleanedData = cleanDataBeforeUpdate(
-      data
-      // getFormChangedValues(
-      //   formProps.schema.optional().safeParse(form?.formState?.defaultValues)
-      //     .data,
-      //   data
-      // )
-    );
-
-    // Submit update with ID in path and changed data in body
-    updateData({ id, body: cleanedData })
-      .unwrap()
-      .then(async (response: any) => {
-        doAfterSuccessUpdate &&
-          (await doAfterSuccessUpdate({ response, data: cleanedData, form }));
-
+  const handleUpdateData = useCallback(
+    async function (
+      data: Input,
+      form: UseFormReturn<Input>,
+      onError?: (data: Input, error: any) => void
+    ) {
+      const cleanedData = cleanDataBeforeUpdate(data);
+      try {
+        const response = await trigger({ id, body: cleanedData } as any);
+        await doAfterSuccessUpdate?.({ response, data: cleanedData, form });
         form.reset({ ...data, ...fetchedData });
-        setDataForm(form);
-      })
-      .catch(() => {});
-  }
+        setDataForm(form as any);
+        return response;
+      } catch (err) {
+        onError?.(data, err);
+        return err;
+      }
+    },
+    [trigger, id, fetchedData]
+  );
 
   return (
     <QueryBoundary
-      name={camelCase(name)}
+      useQuery={useQuery}
       successComponentProps={{
         formProps: { ...state, ...formProps, onSubmit: handleUpdateData },
-        Form: Form,
+        Form,
         fetchedData,
         setFetchedData,
       }}
       SuccessComponent={SuccessComponent}
-      query={"useGetOne"}
       params={{ id, ...params }}
       showReloadAgainButton={false}
     />
@@ -164,7 +180,8 @@ export default function UpdateDataWrapper({
 }
 
 /**
- * Renders the form with fetched data
+ * Internal component that renders the form with fetched data.
+ * Sets the fetched data on mount so the form can populate default values.
  */
 function SuccessComponent({
   data,
@@ -173,10 +190,12 @@ function SuccessComponent({
   setFetchedData,
 }: {
   data: any;
-  Form: (props: FormComponentProps) => React.JSX.Element;
+  Form: (props: any) => React.JSX.Element;
   formProps: any;
   fetchedData: any;
-  setFetchedData: React.SetStateAction<React.Dispatch<Record<string, any>>>;
+  setFetchedData: React.Dispatch<
+    React.SetStateAction<Record<string, any> | undefined>
+  >;
 }) {
   useEffect(() => {
     setFetchedData(data.data);
