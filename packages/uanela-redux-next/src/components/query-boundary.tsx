@@ -1,5 +1,3 @@
-"use client";
-
 import { ElementType, useEffect, useState } from "react";
 import {
   FrownIcon,
@@ -10,14 +8,15 @@ import {
   Loader,
 } from "lucide-react";
 import { twMerge } from "tailwind-merge";
-import { TypedUseQueryHookResult } from "@reduxjs/toolkit/query/react";
 import equal from "deep-equal";
 import { Button } from "@nomos-ui/form";
-import { useApi } from "./api-provider";
+import { useProvider } from "@nomos-ui/core";
+import { extractQuery } from "@nomos-ui/core/utils";
 
 /**
  * Standard response format for API data
- * @template T The type of data being returned
+ *
+ * @template T - The type of data being returned
  */
 export interface ApiDataResponse<T> {
   /** The actual data returned from the API */
@@ -30,8 +29,9 @@ export interface ApiDataResponse<T> {
 
 /**
  * Props passed to the success component
- * @template DataType The type of data being displayed
- * @template AdditionalProps Additional props specific to the success component
+ *
+ * @template DataType - The type of data being displayed
+ * @template AdditionalProps - Additional props specific to the success component
  */
 export type SuccessComponentProps<
   DataType,
@@ -60,13 +60,23 @@ interface ErrorDisplayConfig {
 }
 
 /**
- * Props for the QueryBoundary
- * @template DataType The type of data being queried
- * @template PassedSuccessComponentProps Additional props for the success component
+ * Props for the QueryBoundary component
+ *
+ * @template DataType - The type of data being queried
+ * @template PassedSuccessComponentProps - Additional props for the success component
  */
 interface QueryBoundaryProps<DataType, PassedSuccessComponentProps> {
-  /** Name of the resource to be fetched in camelCase and singular */
-  name: string;
+  /**
+   * The query hook to call for data fetching.
+   * Pass the hook itself, not its result.
+   * Must follow the contract:
+   * - RTK Query: `useQuery(params, { skip: boolean })`
+   * - TanStack Query: `useQuery(params, { enabled: boolean })`
+   *
+   * @example
+   * useQuery={useGetProductsQuery}
+   */
+  useQuery: (params: any, options?: any) => any;
   /** Error message to display when data fetch fails */
   errorMessage?: string;
   /** Message to display when no resources exist */
@@ -77,9 +87,7 @@ interface QueryBoundaryProps<DataType, PassedSuccessComponentProps> {
   SuccessComponent: ElementType;
   /** Component to render during loading state */
   LoadingComponent?: ElementType;
-  /** The query key/name from the RTK Query API */
-  query: "useGetOne" | "useGetMany";
-  /** Parameters to pass to the query */
+  /** Parameters to pass to the query hook */
   params?: Record<string, any> | string | number;
   /** Whether to show the reload button */
   showReloadAgainButton?: boolean;
@@ -96,24 +104,23 @@ interface QueryBoundaryProps<DataType, PassedSuccessComponentProps> {
 }
 
 /**
- * A component that handles data fetching, loading states, pagination, and error handling
+ * A component that handles data fetching, loading states, pagination, and error handling.
+ * Supports both RTK Query and TanStack Query via the provider config.
  *
- * @template DataType The type of data being queried
- * @template PassedSuccessComponentProps Additional props for the success component
+ * @template DataType - The type of data being queried
+ * @template PassedSuccessComponentProps - Additional props for the success component
  *
  * @example
  * ```tsx
- * // Basic usage with a UserList component
  * <QueryBoundary
- *   query="useGetUsersQuery"
- *   SuccessComponent={UserList}
- *   errorMessage="Erro ao carregar usuários"
+ *   useQuery={useGetProductsQuery}
+ *   SuccessComponent={ProductList}
+ *   errorMessage="Error loading products"
  * />
- *
  * ```
  */
 export default function QueryBoundary<DataType, PassedSuccessComponentProps>({
-  name,
+  useQuery,
   errorMessage = "Ocorreu um erro carregando o dado!",
   noResourcesMessage = "Ainda não existe nenhum dado!",
   notFoundMessage = "Não foi encontrado nenhum dado!",
@@ -123,7 +130,6 @@ export default function QueryBoundary<DataType, PassedSuccessComponentProps>({
       <Loader className="animate-spin" />
     </div>
   ),
-  query,
   params = {},
   showReloadAgainButton = true,
   successComponentWrapperClassName,
@@ -132,35 +138,48 @@ export default function QueryBoundary<DataType, PassedSuccessComponentProps>({
   loadingComponentClassName,
   reloadAgainAfter = 0,
 }: QueryBoundaryProps<DataType, PassedSuccessComponentProps>) {
-  // State management
-  const api = useApi();
+  const { config } = useProvider();
   const [page, setPage] = useState(1);
   const [queryParams, setQueryParams] = useState<any>();
   const [isRefetch, setIsRefetch] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  // Normalize params to include pagination
   const normalizedParams =
     typeof params === "object" ? { page, ...params } : params;
 
-  // RTK Query hook
-  const {
-    data,
-    isLoading,
-    isError,
-    isSuccess,
-    error,
-    refetch,
-    isFetching,
-  }: TypedUseQueryHookResult<ApiDataResponse<DataType>, any, any> = (
-    api as any
-  )[name][query](queryParams, {
-    skip: !equal(normalizedParams, queryParams) && !isRefetch,
-  });
+  const skip = !equal(normalizedParams, queryParams) && !isRefetch;
 
-  /**
-   * Handles loading more data when reaching the end of the content
-   */
+  const { refetch, state } = extractQuery<ApiDataResponse<DataType>>(
+    useQuery,
+    queryParams,
+    skip,
+    config.queryLibrary
+  );
+
+  const isLoading = state.isLoading ?? state.isPending;
+  const { isError, isSuccess, isFetching, error, data } = state;
+
+  useEffect(() => {
+    if (!isFetching && !isLoading && (isSuccess || isError)) {
+      setIsRefetch(false);
+      setIsLoadingMore(false);
+    }
+  }, [isFetching, isLoading, isSuccess, isError]);
+
+  useEffect(() => {
+    if (reloadAgainAfter > 0) {
+      const interval = setInterval(refetch, reloadAgainAfter);
+      return () => clearInterval(interval);
+    }
+  }, [reloadAgainAfter, refetch]);
+
+  useEffect(() => {
+    if (!equal(normalizedParams, queryParams)) {
+      setQueryParams(normalizedParams);
+      setIsRefetch(true);
+    }
+  }, [normalizedParams]);
+
   const handleEndReached = () => {
     const limit = (normalizedParams as Record<string, any>).limit || 30;
     const canLoadMore =
@@ -172,38 +191,12 @@ export default function QueryBoundary<DataType, PassedSuccessComponentProps>({
     }
   };
 
-  // Reset loading states after fetch completion
-  useEffect(() => {
-    if (!isFetching && !isLoading && (isSuccess || isError)) {
-      setIsRefetch(false);
-      setIsLoadingMore(false);
-    }
-  }, [isFetching, isLoading, isSuccess, isError]);
-
-  // Setup automatic reload interval
-  useEffect(() => {
-    if (reloadAgainAfter > 0) {
-      const interval = setInterval(refetch, reloadAgainAfter);
-      return () => clearInterval(interval);
-    }
-  }, [reloadAgainAfter, refetch]);
-
-  // Update query params when normalized params change
-  useEffect(() => {
-    if (!equal(normalizedParams, queryParams)) {
-      setQueryParams(normalizedParams);
-      setIsRefetch(true);
-    }
-  }, [normalizedParams]);
-
-  // Handle loading states
   if (isLoading || (isRefetch && isFetching)) {
     return (
       <LoadingComponent className={twMerge("", loadingComponentClassName)} />
     );
   }
 
-  // Handle error states
   if (isError) {
     const errorStates: Record<string, ErrorDisplayConfig> = {
       FETCH_ERROR: {
@@ -228,7 +221,6 @@ export default function QueryBoundary<DataType, PassedSuccessComponentProps>({
     return <ErrorComponent {...errorConfig} triggerRefetch={refetch} />;
   }
 
-  // Handle success state
   if (isSuccess && data?.data) {
     const hasData = Array.isArray(data.data) ? data.data.length > 0 : true;
 
@@ -254,7 +246,6 @@ export default function QueryBoundary<DataType, PassedSuccessComponentProps>({
           </div>
           {isLoadingMore && (
             <div className="block w-full items-center">
-              {/* <LoadingSpinner /> */}
               <span className="mt-4">Carregando mais...</span>
             </div>
           )}
@@ -262,7 +253,6 @@ export default function QueryBoundary<DataType, PassedSuccessComponentProps>({
       );
     }
 
-    // No data state
     return (
       <ErrorComponent
         Icon={ScanSearchIcon}
@@ -278,7 +268,13 @@ export default function QueryBoundary<DataType, PassedSuccessComponentProps>({
 }
 
 /**
- * Component to display error states with an icon and retry button
+ * Displays error states with an icon, message, and retry button.
+ *
+ * @param Icon - Icon component to display
+ * @param message - Error message to show
+ * @param triggerRefetch - Function to retry the failed request
+ * @param buttonLabel - Label for the retry button
+ * @param error - The error object received from the API
  */
 function ErrorComponent({
   Icon,
@@ -294,7 +290,6 @@ function ErrorComponent({
           {Icon && (
             <Icon strokeWidth={1.5} className="md:size-24 size-16 text-white" />
           )}
-
           <p className="text-center text-[0.95rem]">{message}</p>
         </div>
         <div className="rounded-b-md border-2 border-t-0 w-full md:p-6 p-4 flex items-center justify-center flex-col gap-4">
