@@ -1,3 +1,6 @@
-import { extractMutation } from "../../utils/query-library-extractors";
+import {
+  extractMutation,
+  extractQuery,
+} from "../../utils/query-library-extractors";
 
-export { extractMutation };
+export { extractMutation, extractQuery };
