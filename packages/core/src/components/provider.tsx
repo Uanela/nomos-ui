@@ -33,7 +33,7 @@ export type ProviderConfig = {
     Link?: React.ElementType | LinkConfig;
   };
   adapters: {
-    router: RouterAdapter;
+    core: RouterAdapter;
   };
 };
 

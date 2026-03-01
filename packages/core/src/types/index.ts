@@ -5,7 +5,7 @@ export type RouterAdapter = {
   useUpdateSearchParams: () => (
     params: { name: string; value: string }[]
   ) => void;
-  useParams: () => { get: (key: string) => string | null };
+  useParams: () => { get: (key: string) => string | string[] | null };
   components: {
     Link: LinkConfig;
   };
