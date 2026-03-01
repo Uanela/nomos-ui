@@ -120,9 +120,10 @@ export default function Table<T extends BaseData>({
         setIsOpen={setConfirmDeleteModalOpen}
         onChoose={(choice) => {
           if (choice)
-            deleteData(selectedItemToOpen).then((res: any) =>
-              onDeleteSuccess?.(selectedItemToOpen as T, res)
-            );
+            deleteData(selectedItemToOpen?.id).then((res: any) => {
+              closeActionHoverCard(selectedItemToOpen);
+              onDeleteSuccess?.(selectedItemToOpen as T, res);
+            });
         }}
       />
       <div className="flex relative border rounded-lg overflow-hidden">
@@ -383,7 +384,6 @@ export default function Table<T extends BaseData>({
                             Icon={Trash2Icon}
                             {...defaultActionButtons?.delete}
                             onClick={(item, e: any) => {
-                              closeActionHoverCard(item);
                               if (defaultActionButtons?.delete?.onClick) {
                                 defaultActionButtons.delete.onClick(
                                   item as T,
