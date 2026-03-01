@@ -67,3 +67,20 @@ export function usePathname() {
   const { adapters } = useProvider();
   return adapters.core.usePathname();
 }
+
+/**
+ * Returns a navigate function to programmatically navigate to a path.
+ * Reads from the core router adapter configured in the Provider.
+ *
+ * @returns A function that accepts a path string to navigate to
+ *
+ * @example
+ * ```ts
+ * const navigate = useNavigate();
+ * navigate("/products/123");
+ * ```
+ */
+export function useNavigate() {
+  const { adapters } = useProvider();
+  return adapters.core.useNavigate();
+}

@@ -21,6 +21,8 @@ export type RouterAdapter = {
   useParams: () => { get: (key: string) => string | string[] | null };
   /** Hook that returns the current pathname */
   usePathname: () => string;
+  /** Hook that returns a navigate function */
+  useNavigate: () => (path: string) => void;
   /** Framework-specific components */
   components: {
     Link: LinkConfig;
