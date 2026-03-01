@@ -44,7 +44,7 @@ export type ProviderProps = ProviderConfig & {
   children: ReactNode;
 };
 
-export const NomosContext = createContext<Partial<ProviderConfig>>({});
+export const NomosContext = createContext<ProviderConfig>({} as any);
 
 /**
  * Provider component that supplies context for customizable UI components.

@@ -4,6 +4,7 @@ import {
   NomosContext,
   ProviderConfig,
 } from "../components/provider";
+import { RouterAdapter } from "../types";
 
 /**
  * Normalized return shape of useProvider
@@ -17,6 +18,9 @@ type UseProviderReturn = {
       component: React.ElementType;
       hrefKey: string;
     };
+  };
+  adapters: {
+    core: RouterAdapter;
   };
 };
 
@@ -71,6 +75,7 @@ export function useProvider(): UseProviderReturn {
   }
 
   return {
+    ...context,
     config: {
       queryLibrary: context.queryLibrary,
     },
