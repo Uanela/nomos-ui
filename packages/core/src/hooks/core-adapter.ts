@@ -50,3 +50,20 @@ export function useParams() {
   const { adapters } = useProvider();
   return adapters.core.useParams();
 }
+
+/**
+ * Returns the current pathname.
+ * Reads from the core router adapter configured in the Provider.
+ *
+ * @returns The current pathname string
+ *
+ * @example
+ * ```ts
+ * const pathname = usePathname();
+ * // "/products/123"
+ * ```
+ */
+export function usePathname() {
+  const { adapters } = useProvider();
+  return adapters.core.usePathname();
+}
