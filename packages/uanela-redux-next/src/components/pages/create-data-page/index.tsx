@@ -1,9 +1,9 @@
 import React from "react";
 import { z } from "zod";
 import { UseFormReturn } from "react-hook-form";
-import { usePathname } from "next/navigation";
 import CreateDataWrapper from "../../data-manipulation/create-data-wrapper";
 import PageTitleAndDescription from "../components/page-title-and-description";
+import { usePathname } from "@nomos-ui/core/hooks";
 
 /**
  * Props for the CreateDataPage component

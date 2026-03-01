@@ -1,65 +1,111 @@
-"use client";
-
 import { useEffect, useMemo, useRef, useState } from "react";
-import { camelCase } from "change-case-all";
-import {
-  TypedMutationTrigger,
-  TypedUseMutationResult,
-} from "@reduxjs/toolkit/query/react";
-import { useSearchParams } from "next/navigation";
 import { ListPageProps } from "./list-page";
-import { singular } from "pluralize";
 import { TableField } from "./table/types";
 import QueryBoundary from "../../query-boundary";
 import Table, { BaseData, TableActionTypes, TableProps } from "./table/table";
 import { Input, Select } from "@nomos-ui/form";
 import { Button } from "@nomos-ui/common";
-import { useApi } from "../../api-provider";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import HeaderActionButtons from "./header-action-buttons";
-import useUpdateSearchParams from "../../../hooks/use-update-search-params";
 import { twMerge } from "tailwind-merge";
+import { useProvider } from "@nomos-ui/core";
+import { extractMutation } from "@nomos-ui/core/utils";
+import { useSearchParams, useUpdateSearchParams } from "@nomos-ui/core/hooks";
 
+/**
+ * Props for the ListPageTemplate component
+ *
+ * @template T - The type of data being listed
+ */
 export type ListPageTemplateProps<T extends BaseData> = {
+  /** Optional title for the page */
   title?: string;
-  name: string;
+  /** Optional description for the page */
   description?: string;
-  getQuery?: "useGetOne" | "useGetMany";
+  /**
+   * The query hook to fetch the list data.
+   * Pass the hook itself, not its result.
+   *
+   * @example
+   * useQuery={useGetProductsQuery}
+   */
+  useQuery: (params: any, options?: any) => any;
+  /**
+   * The delete mutation hook.
+   * Pass the hook itself, not its result.
+   *
+   * @example
+   * useDeleteMutation={useDeleteProductMutation}
+   */
+  useDeleteMutation: () => any;
+  /** Additional query parameters */
   params?: Record<string, any>;
+  /** Custom loading component */
   LoadingComponent?: React.ComponentType;
+  /** Custom list item render component */
   ListRenderItem?: React.ComponentType;
+  /** Custom list item content render component */
   ListRenderItemContent?: React.ComponentType;
+  /** Custom list component — defaults to Table */
   ListComponent?: React.ComponentType<any>;
+  /** Additional props passed to the list component */
   listComponentProps?: Record<string, any>;
+  /** Additional props passed to the query component */
   queryComponentProps?: Record<string, any>;
+  /** Icon displayed next to each item */
   itemIcon?: React.ReactNode;
+  /** Screen to navigate to for creating a new item */
   createScreen?: string;
+  /** Whether to hide items */
   hideItem?: boolean;
+  /** Callback when the update button is clicked */
   onClickUpdate?: (
     e:
       | React.MouseEvent<HTMLButtonElement>
       | React.MouseEvent<HTMLAnchorElement>,
     item: T
   ) => void;
+  /** Callback when the create button is clicked */
   onClickCreate?: (
     e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLAnchorElement>
   ) => void;
+  /** Config for item options */
   itemOptionsConfig?: Record<string, any>;
+  /** Buttons displayed in the top-right corner */
   topButtons?: React.ReactNode[];
+  /** Table field definitions */
   fields?: TableField<T>[];
+  /** Callback after successful delete */
   onDeleteSuccess?: (deleteItem: T, res?: any) => void;
+  /** Function to transform data for template use */
   cleanDataForTemplate?: (data: T) => Promise<Partial<T>>;
+  /** Props for the table container div */
   tableContainerProps?: React.ComponentProps<"div">;
+  /** Modal component for creating data */
   CreateDataModal?: React.ElementType;
+  /** Modal component for updating data */
   UpdateDataModal?: React.ElementType;
 } & React.ComponentProps<"div"> &
   TableActionTypes<T>;
 
+/**
+ * A generic list page template that handles data fetching, filtering, pagination,
+ * and CRUD operations via modals.
+ *
+ * @template T - The type of data being listed
+ *
+ * @example
+ * ```tsx
+ * <ListPageTemplate<Product>
+ *   useQuery={useGetProductsQuery}
+ *   useDeleteMutation={useDeleteProductMutation}
+ *   fields={productFields}
+ * />
+ * ```
+ */
 export default function ListPageTemplate<T extends BaseData>({
-  name,
   LoadingComponent,
   params = {},
-  getQuery,
   onClickUpdate,
   ListComponent,
   listComponentProps = {},
@@ -67,7 +113,7 @@ export default function ListPageTemplate<T extends BaseData>({
   topButtons,
   onClickCreate,
   fields = [],
-  onDeleteSuccess = (item) => { },
+  onDeleteSuccess = () => {},
   cleanDataForTemplate = async (data) => data,
   className,
   tableContainerProps,
@@ -75,7 +121,13 @@ export default function ListPageTemplate<T extends BaseData>({
   UpdateDataModal,
   actionButtons,
   defaultActionButtons,
+  useQuery,
+  useDeleteMutation,
 }: ListPageTemplateProps<T> & Partial<ListPageProps<T>>) {
+  const { config } = useProvider();
+  const searchParams = useSearchParams();
+  const updateSearchParams = useUpdateSearchParams();
+
   const isFirstRender = useRef(false);
 
   useEffect(() => {
@@ -85,29 +137,26 @@ export default function ListPageTemplate<T extends BaseData>({
   const [queryParams, setQueryParams] = useState<
     Record<string, any> | undefined
   >({});
-
   const [selectedItem, setSelectedItem] = useState<BaseData | null>({});
-  const api = useApi();
 
-  const [deleteData, deleteMutationResult]: [
-    TypedMutationTrigger<{ id: string }, any, any>,
-    TypedUseMutationResult<any, any, any>,
-  ] = api[camelCase(singular(name))].useDeleteOne();
+  const deleteMutationResult = useDeleteMutation();
+  const { trigger: deleteData, state: deleteMutationState } = extractMutation(
+    deleteMutationResult,
+    config.queryLibrary
+  );
 
   const [selectedOptions, setSelectedOptions] = useState<any[]>(
     fields.map((field) => field.name)
   );
 
-  const searchParams = useSearchParams();
   const [responseData, setResponseData] = useState<{
     total: number;
     data: Record<string, any>[];
     results: number;
   }>();
+
   let total = 1;
   if (responseData) ({ total } = responseData);
-
-  const updateSearchParams = useUpdateSearchParams();
 
   const [page, setPage] = useState(Number(searchParams.get("page") || 1));
   const [filterName, setFilterName] = useState(
@@ -152,9 +201,7 @@ export default function ListPageTemplate<T extends BaseData>({
       case "NUMBER":
         if (type === "NUMBER")
           formatSearchQuery = (value: string | number) => {
-            setSearchQuery({
-              [field.name]: Number(value),
-            });
+            setSearchQuery({ [field.name]: Number(value) });
           };
       case "DATE":
         if (type === "DATE")
@@ -241,9 +288,7 @@ export default function ListPageTemplate<T extends BaseData>({
           <div className="flex gap-2 items-center small-sm:mb-2">
             <Select
               placeholder="Filtrar Por"
-              triggerProps={{
-                className: "w-[150px]",
-              }}
+              triggerProps={{ className: "w-[150px]" }}
               value={filterName || "max-h-8"}
               onChange={(value) => setFilterName(value as string)}
               options={fields.map(({ label }) => ({
@@ -251,11 +296,9 @@ export default function ListPageTemplate<T extends BaseData>({
                 label: label?.toString() || "",
               }))}
             />
-            {/* <FilterIcon className="text-zinc-400" size={18} /> */}
             {filterField.input}
           </div>
-
-          <div className="flex items-start gap-2 justify-center ">
+          <div className="flex items-start gap-2 justify-center">
             <HeaderActionButtons
               topButtons={topButtons}
               onClickCreate={modalOnClickCreate}
@@ -268,16 +311,15 @@ export default function ListPageTemplate<T extends BaseData>({
           className={twMerge("", tableContainerProps?.className)}
         >
           <QueryBoundary<T[], TableProps<T> & Partial<ListPageTemplateProps<T>>>
-            name={camelCase(name)}
+            useQuery={useQuery}
             {...queryComponentProps}
             successComponentProps={{
               ...listComponentProps,
-              name,
               onClickUpdate: modalOnUpdate,
               selectedItem,
               setSelectedItem,
               fields,
-              deleteMutationResult,
+              deleteMutationResult: deleteMutationState,
               selectedOptions,
               setResponseData,
               onClickCreate: modalOnClickCreate,
@@ -288,14 +330,11 @@ export default function ListPageTemplate<T extends BaseData>({
               actionButtons,
             }}
             SuccessComponent={ListComponent || Table<T & BaseData>}
-            notFoundMessage={`Não foi encontrando nenhuma lista!`}
-            noResourcesMessage={`Não foi encontrando nenhum dado`}
+            notFoundMessage="Não foi encontrando nenhuma lista!"
+            noResourcesMessage="Não foi encontrando nenhum dado"
             errorMessage="Ocorreu um erro carregando a lista!"
             showReloadAgainButton={false}
-            LoadingComponent={
-              LoadingComponent || TableShimmer // || PageLoadingSpinner
-            }
-            query={getQuery || "useGetMany"}
+            LoadingComponent={LoadingComponent || TableShimmer}
             params={{
               limit,
               page,
@@ -312,7 +351,7 @@ export default function ListPageTemplate<T extends BaseData>({
         <div className="pt-1 flex w-full justify-end mb-1 mt-auto">
           {responseData && (
             <div className="flex items-center small:justify-end justify-between gap-2 mr-4">
-              <p className="small-sm:block hidden">Linhas por página</p>{" "}
+              <p className="small-sm:block hidden">Linhas por página</p>
               <Select
                 value={String(limit)}
                 onChange={setLimit as any}
@@ -372,12 +411,11 @@ export default function ListPageTemplate<T extends BaseData>({
 const TableShimmer = () => {
   return (
     <div className="w-full animate-pulse mt-2 border rounded-md overflow-hidden">
-      {/* Header with proper column widths */}
       <div className="flex items-center border-b border-gray-200 py-3 border-t px-3">
-        <div className="w-10 h-5 flex-shrink-0 ">
+        <div className="w-10 h-5 flex-shrink-0">
           <div className="w-4 h-4 bg-gray-200 rounded"></div>
         </div>
-        <div className=" h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
+        <div className="h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
         <div className="h-5 bg-gray-200 rounded flex-shrink-0 mr-4 w-[440px]"></div>
         <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
         <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
@@ -388,8 +426,6 @@ const TableShimmer = () => {
         <div className="w-28 h-5 bg-gray-200 rounded flex-shrink-0 mr-4"></div>
         <div className="w-32 h-5 bg-gray-200 rounded flex-shrink-0"></div>
       </div>
-
-      {/* Rows */}
       {[...Array(10)].map((_, rowIndex) => (
         <div
           key={`row-${rowIndex}`}
@@ -412,5 +448,3 @@ const TableShimmer = () => {
     </div>
   );
 };
-
-// export default TableShimmer

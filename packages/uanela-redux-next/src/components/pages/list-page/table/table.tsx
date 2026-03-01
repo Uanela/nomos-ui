@@ -1,8 +1,8 @@
 import {
-  TypedMutationTrigger,
-  TypedUseMutationResult,
-} from "@reduxjs/toolkit/query/react";
-import { usePathname, useSearchParams } from "next/navigation";
+  usePathname,
+  useSearchParams,
+  useNavigate,
+} from "@nomos-ui/core/hooks";
 import { HoverCard } from "@nomos-ui/common";
 import {
   EllipsisVerticalIcon,
@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import uuid4 from "uuid4";
-import { useRouter } from "next/navigation";
 import TableData from "./table-data";
 import ActionButton, { ActionButtonProps } from "./action-button";
 import ConfirmDeleteModal from "./confirm-delete.modal";
@@ -31,9 +30,7 @@ export type TableDefaultActionOption<T extends BaseData> =
   TableActionOption<T> & { hidden?: boolean };
 
 export type TableActionTypes<T extends BaseData> = {
-  /**
-   * Adds more item actions
-   */
+  /** Adds more item actions */
   actionButtons?: TableActionOption<T>[];
   defaultActionButtons?: {
     edit?: TableDefaultActionOption<T>;
@@ -48,22 +45,22 @@ export type TableProps<T extends BaseData> = {
   selectedItem: BaseData | null;
   setSelectedItem: React.Dispatch<React.SetStateAction<BaseData | null>>;
   isDeleting: boolean;
-  deleteMutationResult: TypedUseMutationResult<T, any, any>;
+  deleteMutationResult: any;
   selectedOptions: any[];
   setResponseData: React.Dispatch<
     React.SetStateAction<
       | {
-        total: number;
-        data: Record<string, any>[];
-        results: number;
-      }
+          total: number;
+          data: Record<string, any>[];
+          results: number;
+        }
       | undefined
     >
   >;
   setTriggerReloadAgain?: React.Dispatch<
     React.SetStateAction<(() => void) | undefined>
   >;
-  deleteData: TypedMutationTrigger<{ id: string }, any, any>;
+  deleteData: (data: any) => Promise<any>;
 } & Partial<ListPageTemplateProps<T>> &
   TableActionTypes<T>;
 
@@ -87,8 +84,8 @@ export default function Table<T extends BaseData>({
   defaultActionButtons,
 }: SuccessComponentProps<T[], TableProps<T>>) {
   const pathname = usePathname();
+  const navigate = useNavigate();
   const { data, total } = responseData;
-  const router = useRouter();
 
   useEffect(() => {
     setResponseData(
@@ -123,9 +120,9 @@ export default function Table<T extends BaseData>({
         setIsOpen={setConfirmDeleteModalOpen}
         onChoose={(choice) => {
           if (choice)
-            deleteData(selectedItemToOpen)
-              .unwrap()
-              .then((res) => onDeleteSuccess?.(selectedItemToOpen as T, res));
+            deleteData(selectedItemToOpen).then((res: any) =>
+              onDeleteSuccess?.(selectedItemToOpen as T, res)
+            );
         }}
       />
       <div className="flex relative border rounded-lg overflow-hidden">
@@ -137,20 +134,25 @@ export default function Table<T extends BaseData>({
                 type="checkbox"
                 name=""
                 id=""
-                className="size-4  cursor-pointer"
+                className="size-4 cursor-pointer"
               />
             </div>
             <div className={`text-left w-9 pl-3.5 font-semibold p-2 opacity-0`}>
               N°
             </div>
             {fields?.map((field, i: number) => {
-              const { transform, ...fieldPropsWithoutTransform } = field?.props || {}
-              const { transform: ts, ...headPropsWithoutTransform } = field?.headProps || {}
+              const { transform, ...fieldPropsWithoutTransform } =
+                field?.props || {};
+              const { transform: ts, ...headPropsWithoutTransform } =
+                field?.headProps || {};
               if (i === 0)
                 return (
                   <div
                     key={field.name}
-                    {...{ ...fieldPropsWithoutTransform, ...headPropsWithoutTransform }}
+                    {...{
+                      ...fieldPropsWithoutTransform,
+                      ...headPropsWithoutTransform,
+                    }}
                     onClick={(e) => field.headProps?.onClick?.(data, field, e)}
                     onMouseEnter={(e) =>
                       field.headProps?.onMouseEnter?.(data, field, e)
@@ -180,12 +182,12 @@ export default function Table<T extends BaseData>({
               onMouseEnter={() => setHoveredRow(item)}
               onMouseLeave={() => setHoveredRow(null)}
               data-is-last={i === data.length - 1}
-              className=" text-zinc-700 font-base  overflow-hidden flex items-center gap- border-t  pl-4 data-[is-last=true]:rounded-bl-md  hover:bg-sky-100  bg-white  data-[selected=true]:bg-sky-100"
+              className="text-zinc-700 font-base overflow-hidden flex items-center gap- border-t pl-4 data-[is-last=true]:rounded-bl-md hover:bg-sky-100 bg-white data-[selected=true]:bg-sky-100"
             >
               <>
                 <div className="flex items-center justify-center py-2">
                   {deleteMutationResult.isLoading &&
-                    deleteMutationResult.originalArgs === item.id ? (
+                  deleteMutationResult.originalArgs === item.id ? (
                     <div>
                       <LoaderCircleIcon className="animate-spin" />
                     </div>
@@ -203,7 +205,7 @@ export default function Table<T extends BaseData>({
                     />
                   )}
                 </div>
-                <div className="text-center w-9 p-2 ">
+                <div className="text-center w-9 p-2">
                   {i + 1 + (page * limit - limit)}
                 </div>
               </>
@@ -229,36 +231,39 @@ export default function Table<T extends BaseData>({
           ))}
         </div>
         <div className="overflow-x-auto flex-1 min-w-[600px] mr-[0px]">
-          <div className="bg-zinc-50 text-zinc-500 rounded-b-none overflow-hidden flex  min-w-fit ">
-            {fields?.map(
-              (field, i) => {
-                const { transform, ...fieldPropsWithoutTransform } = field?.props || {}
-                const { transform: ts, ...headPropsWithoutTransform } = field?.headProps || {}
-
-                if (i > 0 && selectedOptions?.includes(field.name))
-                  return (
-                    <div
-                      key={field.name}
-                      {...{ ...fieldPropsWithoutTransform, ...headPropsWithoutTransform }}
-                      onClick={(e) => field.headProps?.onClick?.(data, field, e)}
-                      onMouseEnter={(e) =>
-                        field.headProps?.onMouseEnter?.(data, field, e)
-                      }
-                      onMouseLeave={(e) =>
-                        field.headProps?.onMouseLeave?.(data, field, e)
-                      }
-                      className={twMerge(
-                        "truncate text-left font-semibold flex items-center p-2  w-40 flex-shrink-0",
-                        field.props?.className,
-                        field.headProps?.className
-                      )}
-                    >
-                      {field.headProps?.transform
-                        ? field.headProps?.transform(data, field)
-                        : field.label}
-                    </div>
-                  )
-              })}
+          <div className="bg-zinc-50 text-zinc-500 rounded-b-none overflow-hidden flex min-w-fit">
+            {fields?.map((field, i) => {
+              const { transform, ...fieldPropsWithoutTransform } =
+                field?.props || {};
+              const { transform: ts, ...headPropsWithoutTransform } =
+                field?.headProps || {};
+              if (i > 0 && selectedOptions?.includes(field.name))
+                return (
+                  <div
+                    key={field.name}
+                    {...{
+                      ...fieldPropsWithoutTransform,
+                      ...headPropsWithoutTransform,
+                    }}
+                    onClick={(e) => field.headProps?.onClick?.(data, field, e)}
+                    onMouseEnter={(e) =>
+                      field.headProps?.onMouseEnter?.(data, field, e)
+                    }
+                    onMouseLeave={(e) =>
+                      field.headProps?.onMouseLeave?.(data, field, e)
+                    }
+                    className={twMerge(
+                      "truncate text-left font-semibold flex items-center p-2 w-40 flex-shrink-0",
+                      field.props?.className,
+                      field.headProps?.className
+                    )}
+                  >
+                    {field.headProps?.transform
+                      ? field.headProps?.transform(data, field)
+                      : field.label}
+                  </div>
+                );
+            })}
           </div>
           {data.map((item, i) => (
             <div
@@ -268,8 +273,9 @@ export default function Table<T extends BaseData>({
               }
               onMouseEnter={() => setHoveredRow(item)}
               onMouseLeave={() => setHoveredRow(null)}
-              className={` text-zinc-700  overflow-hidden flex items-center gap- ${selectedOptions?.length > 0 && " border-t"
-                } border-l-0 data-[is-last=true]:rounded-br-md min-w-fit  hover:bg-sky-100  even:bg-white data-[selected=true]:bg-sky-100`}
+              className={`text-zinc-700 overflow-hidden flex items-center gap- ${
+                selectedOptions?.length > 0 && "border-t"
+              } border-l-0 data-[is-last=true]:rounded-br-md min-w-fit hover:bg-sky-100 even:bg-white data-[selected=true]:bg-sky-100`}
             >
               {fields?.map(
                 (field, i: number) =>
@@ -293,7 +299,7 @@ export default function Table<T extends BaseData>({
         </div>
 
         <div className="sticky right-[0px] bg-background">
-          <div className="bg-zinc-50 text-zinc-500    rounded-tr-lg rounded-b-none overflow-hidden flex items-center gap-   ">
+          <div className="bg-zinc-50 text-zinc-500 rounded-tr-lg rounded-b-none overflow-hidden flex items-center gap-">
             <div className="truncate text-left font-semibold flex items-center p-2 py-[9.5px] px-4">
               <SquareMousePointerIcon size={18} />
             </div>
@@ -307,7 +313,7 @@ export default function Table<T extends BaseData>({
               onMouseLeave={() => setHoveredRow(null)}
               key={uuid4()}
               data-is-last={i === data.length - 1}
-              className=" text-zinc-700 font-  overflow-hidden flex px-2 items-center gap- border-t data-[is-last=true]:rounded-br-md hover:bg-sky-100 py-[0.5px]  data-[selected=true]:bg-sky-100"
+              className="text-zinc-700 font- overflow-hidden flex px-2 items-center gap- border-t data-[is-last=true]:rounded-br-md hover:bg-sky-100 py-[0.5px] data-[selected=true]:bg-sky-100"
             >
               {fields?.map((_, j: number) => {
                 if (j === 0)
@@ -343,13 +349,12 @@ export default function Table<T extends BaseData>({
                             {...defaultActionButtons?.edit}
                             onClick={(item, e: any) => {
                               closeActionHoverCard(item);
-
                               if (defaultActionButtons?.edit?.onClick) {
                                 defaultActionButtons.edit.onClick(item as T, e);
                               } else if (onClickUpdate) {
                                 onClickUpdate(e, item as T);
                               } else {
-                                router.push(`${pathname}/${item?.id}/update`);
+                                navigate(`${pathname}/${item?.id}/update`);
                               }
                             }}
                             item={item}
@@ -379,7 +384,6 @@ export default function Table<T extends BaseData>({
                             {...defaultActionButtons?.delete}
                             onClick={(item, e: any) => {
                               closeActionHoverCard(item);
-
                               if (defaultActionButtons?.delete?.onClick) {
                                 defaultActionButtons.delete.onClick(
                                   item as T,
@@ -402,7 +406,6 @@ export default function Table<T extends BaseData>({
                             {...defaultActionButtons?.cancel}
                             onClick={(item, e: any) => {
                               setSelectedItemToOpen(null);
-
                               if (defaultActionButtons?.cancel?.onClick) {
                                 defaultActionButtons.cancel.onClick(
                                   item as T,
