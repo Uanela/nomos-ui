@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@nomos-ui/core':
-        specifier: ^0.2.5
-        version: 0.2.5(@tailwindcss/postcss@4.2.1)(@tailwindcss/vite@4.2.1(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.548.0(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-hook-form@7.71.2(react@19.2.4))(react@19.2.4)(tailwind-merge@3.5.0)
+        specifier: ^0.3.0
+        version: 0.3.0(@tailwindcss/postcss@4.2.1)(@tailwindcss/vite@4.2.1(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.548.0(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-hook-form@7.71.2(react@19.2.4))(react@19.2.4)(tailwind-merge@3.5.0)
       react:
         specifier: ^18.0.0 || ^19.0.0
         version: 19.2.4
@@ -279,8 +279,8 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@nomos-ui/core@0.2.5':
-    resolution: {integrity: sha512-UKLjfc8MWEGxvfQnapuMMWHjleX8HyKrII8qquqpIGLk+jWnSBNMbv6qepf7ly3T85ejHWoRIv7wYuXfRrrXnw==}
+  '@nomos-ui/core@0.3.0':
+    resolution: {integrity: sha512-KDnpvobkXCz93NfzZi53ULfNQteiYmkCzyv5vNPEze0J9frlk4iLg6/+u9rs1BvMBBScuAsuBNlRRsSf6+LI5Q==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@tailwindcss/postcss': ^4.1.16
@@ -2137,7 +2137,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@nomos-ui/core@0.2.5(@tailwindcss/postcss@4.2.1)(@tailwindcss/vite@4.2.1(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.548.0(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-hook-form@7.71.2(react@19.2.4))(react@19.2.4)(tailwind-merge@3.5.0)':
+  '@nomos-ui/core@0.3.0(@tailwindcss/postcss@4.2.1)(@tailwindcss/vite@4.2.1(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.548.0(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-hook-form@7.71.2(react@19.2.4))(react@19.2.4)(tailwind-merge@3.5.0)':
     dependencies:
       '@tailwindcss/postcss': 4.2.1
       '@tailwindcss/vite': 4.2.1(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0))

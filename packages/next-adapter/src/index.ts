@@ -3,6 +3,7 @@ import {
   useSearchParams as useNextSearchParams,
   useParams as useNextParams,
   usePathname as useNextPathname,
+  useRouter,
 } from "next/navigation";
 import useNextUpdateSearchParams from "./hooks/use-update-search-params";
 import { RouterAdapter } from "@nomos-ui/core";
@@ -45,24 +46,47 @@ function useParams() {
   };
 }
 
+/**
+ * Returns the current pathname.
+ * Wraps Next.js `usePathname` to match the `RouterAdapter` contract.
+ *
+ * @returns The current pathname string
+ *
+ * @example
+ * ```ts
+ * const pathname = usePathname();
+ * // "/products/123"
+ * ```
+ */
 function usePathname(): string {
   return useNextPathname();
+}
+
+/**
+ * Returns a navigate function.
+ * Wraps Next.js `useRouter().push` to match the `RouterAdapter` contract.
+ *
+ * @returns A function that accepts a path string to navigate to
+ *
+ * @example
+ * ```ts
+ * const navigate = useNavigate();
+ * navigate("/products/123");
+ * ```
+ */
+function useNavigate() {
+  const router = useRouter();
+  return (path: string) => router.push(path);
 }
 
 /**
  * Next.js router adapter for `@nomos-ui/core` Provider.
  * Implements the `RouterAdapter` contract using Next.js navigation hooks and components.
  *
- * Pass this to the `adapter` prop of the Provider to enable routing support
- * in all `@nomos-ui` components when using Next.js.
- *
  * @example
  * ```tsx
  * import { NextAdapter } from "@nomos-ui/next-adapter";
- *
- * <Provider queryLibrary="rtk-query" adapters={{ core: NextAdapter }}>
- *   <App />
- * </Provider>
+ * <Provider queryLibrary="rtk-query" adapter={NextAdapter} />
  * ```
  */
 export const NextAdapter: RouterAdapter = {
@@ -70,6 +94,7 @@ export const NextAdapter: RouterAdapter = {
   useUpdateSearchParams: useNextUpdateSearchParams,
   useParams,
   usePathname,
+  useNavigate,
   components: {
     Link: { component: Link, hrefKey: "href" },
   },
