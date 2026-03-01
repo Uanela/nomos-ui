@@ -1,6 +1,7 @@
 import {
   Link,
   useParams as useTanstackParams,
+  useNavigate as useTanstackNavigate,
   useLocation,
   useSearch,
 } from "@tanstack/react-router";
@@ -45,8 +46,37 @@ function useParams() {
   };
 }
 
+/**
+ * Returns the current pathname.
+ * Wraps TanStack Router's `useLocation` to match the `RouterAdapter` contract.
+ *
+ * @returns The current pathname string
+ *
+ * @example
+ * ```ts
+ * const pathname = usePathname();
+ * // "/products/123"
+ * ```
+ */
 function usePathname(): string {
   return useLocation().pathname;
+}
+
+/**
+ * Returns a navigate function.
+ * Wraps TanStack Router's `useNavigate` to match the `RouterAdapter` contract.
+ *
+ * @returns A function that accepts a path string to navigate to
+ *
+ * @example
+ * ```ts
+ * const navigate = useNavigate();
+ * navigate("/products/123");
+ * ```
+ */
+function useNavigate() {
+  const navigate = useTanstackNavigate();
+  return (path: string) => navigate({ to: path });
 }
 
 /**
@@ -70,6 +100,7 @@ export const TanstackRouterAdapter: RouterAdapter = {
   useUpdateSearchParams,
   useParams,
   usePathname,
+  useNavigate,
   components: {
     Link: { component: Link, hrefKey: "to" },
   },
