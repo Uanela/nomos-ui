@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   useSearchParams as useNextSearchParams,
   useParams as useNextParams,
+  usePathname as useNextPathname,
 } from "next/navigation";
 import useNextUpdateSearchParams from "./hooks/use-update-search-params";
 import { RouterAdapter } from "@nomos-ui/core";
@@ -44,6 +45,10 @@ function useParams() {
   };
 }
 
+function usePathname(): string {
+  return useNextPathname();
+}
+
 /**
  * Next.js router adapter for `@nomos-ui/core` Provider.
  * Implements the `RouterAdapter` contract using Next.js navigation hooks and components.
@@ -64,6 +69,7 @@ export const NextAdapter: RouterAdapter = {
   useSearchParams,
   useUpdateSearchParams: useNextUpdateSearchParams,
   useParams,
+  usePathname,
   components: {
     Link: { component: Link, hrefKey: "href" },
   },
