@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/tanstack-router-adapter",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "The Shadcn library for building robust React layouts",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
@@ -67,7 +67,7 @@
   "sideEffects": false,
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
-    "@nomos-ui/core": "^0.2.0",
+    "@nomos-ui/core": "^0.2.5",
     "@tanstack/react-router": "^1.163.3"
   },
   "devDependencies": {

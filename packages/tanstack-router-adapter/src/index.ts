@@ -1,6 +1,7 @@
 import {
   Link,
   useParams as useTanstackParams,
+  useLocation,
   useSearch,
 } from "@tanstack/react-router";
 import { RouterAdapter } from "@nomos-ui/core";
@@ -44,6 +45,10 @@ function useParams() {
   };
 }
 
+function usePathname(): string {
+  return useLocation().pathname;
+}
+
 /**
  * TanStack Router adapter for `@nomos-ui/core` Provider.
  * Implements the `RouterAdapter` contract using TanStack Router hooks and components.
@@ -64,6 +69,7 @@ export const TanstackRouterAdapter: RouterAdapter = {
   useSearchParams,
   useUpdateSearchParams,
   useParams,
+  usePathname,
   components: {
     Link: { component: Link, hrefKey: "to" },
   },
