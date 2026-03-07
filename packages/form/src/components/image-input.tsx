@@ -13,18 +13,19 @@ export type ImageInputProps = {
   accept?: string;
   maxSize?: number;
   error?: string;
-  name: string;
   label?: string;
+  labelProps?: React.ComponentProps<"label">;
   required?: boolean;
   showRequiredSign?: boolean;
   tip?: string;
   renderEmpty?: () => React.ReactNode;
   renderPreview?: (url: string, onRemove: () => void) => React.ReactNode;
-};
+} & React.ComponentProps<"input">;
 
 export default function ImageInput({
   value,
   onChange,
+  labelProps,
   onError,
   className,
   dropzoneClassName,
@@ -33,13 +34,13 @@ export default function ImageInput({
   accept = "image/*",
   maxSize,
   error,
-  name,
   label,
   required = false,
   showRequiredSign = false,
   tip,
   renderEmpty,
   renderPreview,
+  ...props
 }: ImageInputProps) {
   const [isDragging, setIsDragging] = React.useState(false);
 
@@ -71,7 +72,9 @@ export default function ImageInput({
       {label && (
         <div className="flex items-center gap-1.5">
           <label
-            htmlFor={`input-${name}`}
+            {...((labelProps?.htmlFor || props?.id) && {
+              htmlFor: labelProps?.htmlFor || props?.id,
+            })}
             className="text-sm font-bold text-foreground"
           >
             {label}
@@ -93,8 +96,6 @@ export default function ImageInput({
       <div className="relative h-48 w-full">
         <input
           type="file"
-          id={`input-${name}`}
-          name={`input-${name}`}
           accept={accept}
           disabled={disabled}
           onChange={(e) => handleFile(e.target.files?.[0] || null)}
@@ -114,6 +115,7 @@ export default function ImageInput({
               handleFile(e.dataTransfer.files[0]);
             }
           }}
+          {...props}
         />
 
         <div
@@ -122,8 +124,8 @@ export default function ImageInput({
             disabled && "opacity-50 cursor-not-allowed",
             isDragging && "border-primary bg-primary/5",
             !isDragging &&
-            !previewUrl &&
-            "border-input hover:border-primary/50",
+              !previewUrl &&
+              "border-input hover:border-primary/50",
             dropzoneClassName
           )}
         >

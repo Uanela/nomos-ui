@@ -15,8 +15,8 @@ export type InputProps<TValue> = {
   placeholder?: string;
   /** Label text for the input */
   label?: string;
-  /** Additional class name for the label */
-  labelClassName?: string;
+  /** Additional label name for the label */
+  labelProps?: React.ComponentProps<"label">;
   /** Additional class name for the input container/wrapper */
   inputContainerClassName?: string;
   /** Input type (e.g., text, number, password) */
@@ -77,7 +77,7 @@ export default function Input<
   className,
   placeholder,
   label,
-  labelClassName,
+  labelProps,
   type = "text",
   disabled = false,
   trim = false,
@@ -120,8 +120,13 @@ export default function Input<
       {label && (
         <div className="flex flex-row items-center gap-1">
           <label
-            htmlFor={props.id}
-            className={cn("text-sm font-bold text-foreground", labelClassName)}
+            {...((labelProps?.htmlFor || props?.id) && {
+              htmlFor: labelProps?.htmlFor || props?.id,
+            })}
+            className={cn(
+              "text-sm font-bold text-foreground",
+              labelProps?.className
+            )}
           >
             {label}
           </label>

@@ -9,6 +9,13 @@ import {
 import { twMerge } from "tailwind-merge";
 import { AsteriskIcon, X } from "lucide-react";
 import React from "react";
+import {
+  SelectContentProps,
+  SelectGroupProps,
+  SelectItemProps,
+  SelectTriggerProps,
+  SelectValueProps,
+} from "@radix-ui/react-select";
 
 export type SelectOption<T = string> = {
   value: T;
@@ -25,24 +32,12 @@ export type SelectProps<T = string> = {
   onChange?: (value: T | T[]) => void;
   placeholder?: string;
   multiple?: boolean;
-  labelProps?: {
-    className?: string;
-  };
-  triggerProps?: {
-    className?: string;
-  };
-  contentProps?: {
-    className?: string;
-  };
-  valueProps?: {
-    className?: string;
-  };
-  groupProps?: {
-    className?: string;
-  };
-  itemProps?: {
-    className?: string;
-  };
+  labelProps?: React.ComponentProps<"label">;
+  triggerProps?: SelectTriggerProps;
+  contentProps?: SelectContentProps;
+  valueProps?: SelectValueProps;
+  groupProps?: SelectGroupProps;
+  itemProps?: SelectItemProps;
   error?: string;
   tip?: string;
 };
@@ -113,7 +108,13 @@ export default function Select<T extends string = string>({
       <div className={twMerge("gap-1 grid w-full", className)}>
         {label && (
           <div className="flex flex-row items-center gap-1">
-            <label className={twMerge("font-bold", labelProps?.className)}>
+            <label
+              {...labelProps}
+              {...((labelProps?.htmlFor || triggerProps?.id) && {
+                htmlFor: labelProps?.htmlFor || triggerProps?.id,
+              })}
+              className={twMerge("font-bold", labelProps?.className)}
+            >
               {label}
             </label>
             {required && showRequiredSign && (
@@ -122,7 +123,10 @@ export default function Select<T extends string = string>({
           </div>
         )}
         <ShadcnSelect value="" onValueChange={handleValueChange}>
-          <SelectTrigger className={twMerge("w-full", triggerProps?.className)}>
+          <SelectTrigger
+            {...triggerProps}
+            className={twMerge("w-full", triggerProps?.className)}
+          >
             <div className="flex flex-wrap gap-2 flex-1">
               {selectedLabels && selectedLabels.length > 0 ? (
                 selectedLabels.map((item) => (
@@ -144,6 +148,7 @@ export default function Select<T extends string = string>({
                 ))
               ) : (
                 <span
+                  {...valueProps}
                   className={twMerge(
                     "text-muted-foreground",
                     valueProps?.className
@@ -154,14 +159,15 @@ export default function Select<T extends string = string>({
               )}
             </div>
           </SelectTrigger>
-          <SelectContent className={contentProps?.className}>
-            <SelectGroup className={groupProps?.className}>
+          <SelectContent {...contentProps} className={contentProps?.className}>
+            <SelectGroup {...groupProps} className={groupProps?.className}>
               {options.map((option) => {
                 const isSelected =
                   Array.isArray(value) && value.includes(option.value);
                 return (
                   <SelectItem
-                    key={String(option.value)}
+                    {...itemProps}
+                    key={itemProps?.key || String(option.value)}
                     value={option.value}
                     className={twMerge(
                       isSelected && "bg-blue-50",
@@ -190,7 +196,10 @@ export default function Select<T extends string = string>({
     <div className={twMerge("gap-1 grid w-full", className)}>
       {label && (
         <div className="flex flex-row items-center gap-1">
-          <label className={twMerge("font-bold", labelProps?.className)}>
+          <label
+            {...labelProps}
+            className={twMerge("font-bold", labelProps?.className)}
+          >
             {label}
           </label>
           {required && showRequiredSign && (
@@ -202,19 +211,24 @@ export default function Select<T extends string = string>({
         value={value as T}
         onValueChange={onChange as (value: T) => void}
       >
-        <SelectTrigger className={twMerge("w-full", triggerProps?.className)}>
+        <SelectTrigger
+          {...triggerProps}
+          className={twMerge("w-full", triggerProps?.className)}
+        >
           <SelectValue
+            {...valueProps}
             placeholder={
               placeholder !== undefined ? placeholder : `${label}...`
             }
             className={valueProps?.className}
           />
         </SelectTrigger>
-        <SelectContent className={contentProps?.className}>
-          <SelectGroup className={groupProps?.className}>
+        <SelectContent {...contentProps} className={contentProps?.className}>
+          <SelectGroup {...groupProps} className={groupProps?.className}>
             {options.map((option) => (
               <SelectItem
-                key={String(option.value)}
+                {...itemProps}
+                key={itemProps?.key || String(option.value)}
                 value={option.value}
                 className={itemProps?.className}
               >

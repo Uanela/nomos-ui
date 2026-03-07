@@ -1,6 +1,7 @@
 import * as React from "react";
 import { AsteriskIcon, CloudUploadIcon, FileIcon, XIcon } from "lucide-react";
 import { cn } from "../utils/shadcn-ui/utils";
+import { twMerge } from "tailwind-merge";
 
 type FileInputPropsBase = {
   /** Additional class name for the root container. */
@@ -10,7 +11,7 @@ type FileInputPropsBase = {
   /** Label text rendered above the dropzone. */
   label?: string;
   /** Props forwarded to the label wrapper div. */
-  labelProps?: React.HTMLAttributes<HTMLDivElement>;
+  labelProps?: React.ComponentProps<"label">;
   /** Marks the field as required for native form validation. */
   required?: boolean;
   /**
@@ -51,7 +52,7 @@ type FileInputPropsBase = {
   onError?: (message: string) => void;
   /** Disables the dropzone click / drag and all per-file remove buttons. */
   disabled?: boolean;
-};
+} & React.ComponentProps<"input">;
 
 type FileInputPropsSingle = FileInputPropsBase & {
   /**
@@ -84,7 +85,7 @@ type FileInputPropsMultiple = FileInputPropsBase & {
    * @param files - The complete updated file list.
    */
   onChange?: (files: File[]) => void;
-};
+} & React.ComponentProps<"input">;
 
 /**
  * A file-upload input that follows the shadcn component ideology.
@@ -151,6 +152,7 @@ export default function FileInput({
   onChange,
   onError,
   disabled = false,
+  ...props
 }: FileInputProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = React.useState(false);
@@ -222,18 +224,25 @@ export default function FileInput({
 
   const { className: dropzoneClassName, ...restDropzoneProps } =
     dropzoneProps ?? {};
-  const { className: labelClassName, ...restLabelProps } = labelProps ?? {};
 
   const hasFiles = fileList.length > 0;
 
   return (
     <div className={cn("w-full space-y-1.5", className)}>
       {label && (
-        <div
-          {...restLabelProps}
-          className={cn("flex items-center gap-1", labelClassName)}
-        >
-          <label className="text-sm font-bold text-foreground">{label}</label>
+        <div className={cn("flex items-center gap-1")}>
+          <label
+            {...labelProps}
+            {...((labelProps?.htmlFor || props?.id) && {
+              htmlFor: labelProps?.htmlFor || props?.id,
+            })}
+            className={twMerge(
+              "text-sm font-bold text-foreground",
+              labelProps?.className
+            )}
+          >
+            {label}
+          </label>
           {required && showRequiredSign && (
             <AsteriskIcon className="h-3 w-3 text-destructive" />
           )}
@@ -256,6 +265,7 @@ export default function FileInput({
         )}
       >
         <input
+          {...props}
           ref={inputRef}
           type="file"
           accept={accept}

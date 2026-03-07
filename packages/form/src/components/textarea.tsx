@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useMemo } from "react";
 import { AsteriskIcon } from "lucide-react";
 import { cn } from "../utils/shadcn-ui/utils";
+import { twMerge } from "tailwind-merge";
 
 /**
  * Props for the enhanced Textarea component
@@ -15,8 +16,8 @@ export type TextareaProps<TValue extends string | null | undefined> = {
   placeholder?: string;
   /** Label text for the textarea */
   label?: string;
-  /** Additional class name for the label */
-  labelClassName?: string;
+  /** Additional props name for the label */
+  labelProps?: React.ComponentProps<"label">;
   /** Additional class name for the textarea container/wrapper */
   textareaContainerClassName?: string;
   /** Whether the textarea is disabled */
@@ -78,7 +79,7 @@ export default function Textarea<TValue extends string | null | undefined>({
   className,
   placeholder,
   label,
-  labelClassName,
+  labelProps,
   disabled = false,
   trim = false,
   value,
@@ -112,8 +113,16 @@ export default function Textarea<TValue extends string | null | undefined>({
   return (
     <div className={cn("w-full space-y-1.5", className)} ref={ref}>
       {label && (
-        <div className={cn("flex items-center gap-1", labelClassName)}>
-          <label className="text-sm font-medium leading-none text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+        <div className={cn("flex items-center gap-1")}>
+          <label
+            {...((labelProps?.htmlFor || props?.id) && {
+              htmlFor: labelProps?.htmlFor || props?.id,
+            })}
+            className={twMerge(
+              "text-sm font-medium leading-none text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+              labelProps?.className
+            )}
+          >
             {label}
           </label>
           {required && showRequiredSign && (

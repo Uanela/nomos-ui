@@ -88,6 +88,7 @@ export default function FormSelect<
         rules={{ required: required ? "Required" : false }}
         render={({ field: { onChange, value }, formState: { errors } }) => (
           <Select
+            triggerProps={{ id: `form-select-${name}` }}
             value={value ?? (multiple ? [] : "")}
             onChange={onChange}
             required={required}

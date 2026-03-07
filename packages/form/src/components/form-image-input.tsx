@@ -24,11 +24,11 @@ export default function FormImageInput<TFieldValues extends FieldValues>({
       }}
       render={({ field: { onChange, value }, formState: { errors } }) => (
         <ImageInput
+          id={`form-input-${name}`}
           {...props}
-          name={name}
           value={value}
           onChange={onChange}
-          onError={(errorMessage: string) => {
+          onError={(errorMessage: any) => {
             control.setError(name, {
               type: "manual",
               message: errorMessage,
