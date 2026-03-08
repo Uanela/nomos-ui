@@ -33,7 +33,7 @@ export default function ConfirmDeleteModal({
           }}
           variant="destructive"
         >
-          Confimar
+          Confirmar
         </Button>
       </div>
     </Modal>
