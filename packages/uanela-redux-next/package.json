@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/uanela-redux-next",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Uanela Como Redux & Next ToolKit",
   "module": "dist/exports/index.js",
   "types": "dist/exports/index.d.ts",
@@ -13,9 +13,7 @@
   },
   "typesVersions": {
     "*": {
-      "types": [
-        "./dist/exports/index.d.ts"
-      ]
+      "types": ["./dist/exports/index.d.ts"]
     }
   },
   "scripts": {
@@ -32,11 +30,7 @@
   },
   "keywords": [],
   "author": "Uanela Como",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist", "README.md", "LICENSE"],
   "license": "MIT",
   "packageManager": "pnpm@10.13.1",
   "devDependencies": {

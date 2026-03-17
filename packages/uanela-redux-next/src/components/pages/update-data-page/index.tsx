@@ -141,7 +141,7 @@ export default function UpdateDataPage<
         {/*   )} */}
         {/* </div> */}
       </div>
-      <div className="bg-background rounded-lg lg:h-[calc(100vh-154px)] h-[calc(100vh-140px)] md:p-4 p-2 border-input border">
+      <div className="bg-background rounded-lg lg:h-[calc(100vh-154px)] h-[calc(100vh-140px)] md:p-4 p-2 border-input border overflow-auto">
         <div className="main-container-content">
           <UpdateDataWrapper<Input, Response, FormProps>
             id={id as string}
