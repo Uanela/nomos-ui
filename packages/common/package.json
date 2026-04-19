@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/common",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "The Shadcn library for robust React applications",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
@@ -19,12 +19,8 @@
   },
   "typesVersions": {
     "*": {
-      "modals": [
-        "./dist/exports/modals.d.ts"
-      ],
-      "types": [
-        "./dist/exports/index.d.ts"
-      ]
+      "modals": ["./dist/exports/modals.d.ts"],
+      "types": ["./dist/exports/index.d.ts"]
     }
   },
   "scripts": {
@@ -67,11 +63,7 @@
     "url": "https://github.com/uanela/nomos-ui/issues"
   },
   "homepage": "https://github.com/uanela/nomos-ui/tree/main/packages/react#readme",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist", "README.md", "LICENSE"],
   "sideEffects": false,
   "packageManager": "pnpm@10.13.1",
   "devDependencies": {

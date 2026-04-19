@@ -1,4 +1,3 @@
-import Button from "../components/button";
 import FormInput from "../components/form-input";
 import Input from "../components/input";
 import Select, { SelectOption, SelectProps } from "../components/select";
@@ -14,7 +13,6 @@ import FormFileInput, {
 import FormDebugInfo from "../components/form-debug-info";
 
 export {
-  Button,
   FormDebugInfo,
   FormInput,
   Input,
@@ -36,6 +34,5 @@ export type {
 };
 export * from "../components/input";
 export * from "../components/form-input";
-export * from "../components/button";
 export * from "../components/file-input";
 export * from "../components/form-file-input";
