@@ -348,14 +348,18 @@ export default function Table<T extends BaseData>({
                           <ActionButton
                             Icon={PencilIcon}
                             {...defaultActionButtons?.edit}
+                            href={
+                              !defaultActionButtons?.edit?.onClick &&
+                              !onClickUpdate
+                                ? `${pathname}/${item?.id}/update`
+                                : undefined
+                            }
                             onClick={(item, e: any) => {
                               closeActionHoverCard(item);
                               if (defaultActionButtons?.edit?.onClick) {
                                 defaultActionButtons.edit.onClick(item as T, e);
                               } else if (onClickUpdate) {
                                 onClickUpdate(e, item as T);
-                              } else {
-                                navigate(`${pathname}/${item?.id}/update`);
                               }
                             }}
                             item={item}
