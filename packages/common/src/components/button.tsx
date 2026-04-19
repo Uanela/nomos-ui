@@ -95,6 +95,14 @@ export default function Button({
     );
   }
 
+  if (href) {
+    return (
+      <Link href={href} {...commonProps} {...props}>
+        {content}
+      </Link>
+    );
+  }
+
   return (
     <button
       type={type}
