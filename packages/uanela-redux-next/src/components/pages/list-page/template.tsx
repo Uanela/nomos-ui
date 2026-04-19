@@ -315,14 +315,14 @@ export default function ListPageTemplate<T extends BaseData>({
             {...queryComponentProps}
             successComponentProps={{
               ...listComponentProps,
-              onClickUpdate: modalOnUpdate,
+              ...(CreateDataModal && { onClickCreate: modalOnClickCreate }),
+              ...(UpdateDataModal && { onClickUpdate: modalOnUpdate }),
               selectedItem,
               setSelectedItem,
               fields,
               deleteMutationResult: deleteMutationState,
               selectedOptions,
               setResponseData,
-              onClickCreate: modalOnClickCreate,
               onDeleteSuccess,
               cleanDataForTemplate,
               deleteData,
