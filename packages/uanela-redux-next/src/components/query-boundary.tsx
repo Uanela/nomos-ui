@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import equal from "deep-equal";
-import { Button } from "@nomos-ui/form";
+import { Button } from "@nomos-ui/common";
 import { useProvider } from "@nomos-ui/core";
 import { extractQuery } from "@nomos-ui/core/utils";
 

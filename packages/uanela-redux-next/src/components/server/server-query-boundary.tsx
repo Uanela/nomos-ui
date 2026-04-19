@@ -1,6 +1,6 @@
 import { ElementType } from "react";
 import { FrownIcon, MehIcon, ScanSearchIcon, CloudOffIcon } from "lucide-react";
-import { Button } from "@nomos-ui/form";
+import { Button } from "@nomos-ui/common";
 import { twMerge } from "tailwind-merge";
 
 interface ApiDataResponse<T> {
