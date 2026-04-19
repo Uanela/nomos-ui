@@ -301,7 +301,7 @@ export default function ListPageTemplate<T extends BaseData>({
           <div className="flex items-start gap-2 justify-center">
             <HeaderActionButtons
               topButtons={topButtons}
-              onClickCreate={modalOnClickCreate}
+              {...(CreateDataModal && { onClickCreate: modalOnClickCreate })}
             />
           </div>
         </div>

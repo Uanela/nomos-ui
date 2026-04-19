@@ -26,16 +26,13 @@ export default function HeaderActionButtons<T extends BaseData>({
   onClickCreate,
 }: HeaderActionButtonsProps<T> & Partial<ListPageProps<T>>) {
   const pathname = usePathname();
-  const navigate = useNavigate();
 
   return (
     <div className="flex items-center justify-between small-sm:mb-2 overflow-auto">
       <div className="flex items-center gap-2">
         <Button
-          onClick={(e) => {
-            if (!onClickCreate) navigate(`${pathname}/create`);
-            else onClickCreate(e);
-          }}
+          onClick={!onClickCreate ? undefined : onClickCreate}
+          href={!onClickCreate ? `${pathname}/create` : undefined}
         >
           <PlusIcon size={16} />
           <span className="hidden sm:inline">Adicionar</span>
