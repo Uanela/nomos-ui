@@ -72,6 +72,7 @@ export default function ListPage<T extends { id: string }>({
         UpdateDataModal={UpdateDataModal}
         params={params}
         {...templateProps}
+        {...props}
         className={twMerge(
           "h-[calc(100%-68px)] bg-background border border-input p-2 sm:p-4 rounded-lg overflow-auto",
           templateProps?.className
