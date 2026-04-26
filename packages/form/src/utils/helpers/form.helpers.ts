@@ -16,7 +16,7 @@ export function getNestedErrorMessage(
 /**
  * Converts a JSON object to FormData with support for nested objects, arrays, and files.
  *
- * @param {Record<string, any>} json - The JSON object to convert
+ * @param {Record<string, any>} obj - The JSON object to convert
  * @param {FormData} [formData=new FormData()] - Optional existing FormData to append to
  * @param {string} [parentKey=''] - Internal parameter for tracking nested keys
  * @returns {FormData} The populated FormData object
@@ -59,20 +59,30 @@ export function objectToFormData(
       if (value.length === 0) {
         formData.append(`${formKey}[]`, "");
       } else {
-        value.forEach((item, index) => {
-          const arrayKey = `${formKey}[${index}]`;
+        const isFileArray = value.every(
+          (item) => item instanceof File || item instanceof Blob
+        );
 
-          if (
-            typeof item === "object" &&
-            item !== null &&
-            !(item instanceof File) &&
-            !(item instanceof Blob)
-          ) {
-            objectToFormData({ [index]: item }, formData, formKey);
-          } else {
-            formData.append(arrayKey, item);
-          }
-        });
+        if (isFileArray) {
+          value.forEach((file) => {
+            formData.append(formKey, file);
+          });
+        } else {
+          value.forEach((item, index) => {
+            const arrayKey = `${formKey}[${index}]`;
+
+            if (
+              typeof item === "object" &&
+              item !== null &&
+              !(item instanceof File) &&
+              !(item instanceof Blob)
+            ) {
+              objectToFormData(item, formData, arrayKey);
+            } else {
+              formData.append(arrayKey, item);
+            }
+          });
+        }
       }
     } else if (typeof value === "object" && value !== null) {
       objectToFormData(value, formData, formKey);
