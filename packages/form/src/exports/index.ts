@@ -11,6 +11,8 @@ import FormFileInput, {
   FormFileInputProps,
 } from "../components/form-file-input";
 import FormDebugInfo from "../components/form-debug-info";
+import Switch, { SwitchProps } from "../components/switch";
+import FormSwitch, { FormSwitchProps } from "../components/form-switch";
 
 export {
   FormDebugInfo,
@@ -24,6 +26,8 @@ export {
   FormImageInput,
   FileInput,
   FormFileInput,
+  Switch,
+  FormSwitch,
 };
 export type {
   SelectOption,
@@ -31,8 +35,12 @@ export type {
   FormSelectProps,
   FormFileInputProps,
   FileInputProps,
+  SwitchProps,
+  FormSwitchProps,
 };
 export * from "../components/input";
+export * from "../components/switch";
+export * from "../components/form-switch";
 export * from "../components/form-input";
 export * from "../components/file-input";
 export * from "../components/form-file-input";
