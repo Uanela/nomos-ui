@@ -368,7 +368,7 @@ export default function ListPageTemplate<T extends BaseData>({
                 {limit * page - limit + 1} -{" "}
                 {limit * page >= total ? total : limit * page} de {total}
               </div>
-              <div className="flex gap-1 items-center -z-10">
+              <div className="flex gap-1 items-center">
                 <Button
                   disabled={page === 1}
                   onClick={() => setPage(page - 1)}
