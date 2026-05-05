@@ -198,6 +198,9 @@ export default function Select<T extends string = string>({
         <div className="flex flex-row items-center gap-1">
           <label
             {...labelProps}
+            {...((labelProps?.htmlFor || triggerProps?.id) && {
+              htmlFor: labelProps?.htmlFor || triggerProps?.id,
+            })}
             className={twMerge("font-bold", labelProps?.className)}
           >
             {label}
