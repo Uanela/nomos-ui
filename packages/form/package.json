@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/form",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "The Shadcn library for building robust React forms",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
@@ -72,6 +72,7 @@
     "@nomos-ui/uanela-redux-next": "^0.3.1",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-switch": "^1.2.6",
     "@tailwindcss/postcss": "^4.1.16",
     "@tailwindcss/vite": "^4.1.16",
     "class-variance-authority": "^0.7.1",
