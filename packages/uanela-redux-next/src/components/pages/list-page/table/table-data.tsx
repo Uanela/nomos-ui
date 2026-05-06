@@ -22,8 +22,9 @@ export default function TableData<T extends BaseData>({
   index: number;
 } & React.HTMLAttributes<HTMLDivElement>) {
   let value = getNestedValue(item, field.name);
-  const { transform, ...fieldPropsWithoutTransform } = field?.props || {}
-  const { transform: ts, ...headPropsWithoutTransform } = field?.headProps || {}
+  const { transform, ...fieldPropsWithoutTransform } = field?.props || {};
+  const { transform: ts, ...headPropsWithoutTransform } =
+    field?.headProps || {};
 
   if (field.type === "DATE" && value) value = new Date(value).toUTCString();
 
@@ -61,8 +62,8 @@ export default function TableData<T extends BaseData>({
         {field.props?.transform
           ? renderItem(field?.props?.transform(item))
           : renderItem(
-            value !== null && value !== undefined ? String(value) : "-"
-          )}
+              value !== null && value !== undefined ? String(value) : "-"
+            )}
       </div>
     );
 }
