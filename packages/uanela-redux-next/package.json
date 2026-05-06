@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/uanela-redux-next",
-  "version": "0.4.5",
+  "version": "0.5.0",
   "description": "Uanela Como Redux & Next ToolKit",
   "module": "dist/exports/index.js",
   "types": "dist/exports/index.d.ts",
