@@ -32,6 +32,7 @@ export type TableField<T> = {
   type: FilterType;
   inputType: TableFieldInputType;
   options?: { value: string; label: string }[] | string[];
+  visible?: boolean;
   /**
    * Defines shared props between data and header
    *
