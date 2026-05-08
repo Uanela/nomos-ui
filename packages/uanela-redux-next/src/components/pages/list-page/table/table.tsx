@@ -31,7 +31,9 @@ export type TableDefaultActionOption<T extends BaseData> =
 
 export type TableActionTypes<T extends BaseData> = {
   /** Adds more item actions */
-  actionButtons?: TableActionOption<T>[];
+  actionButtons?:
+    | TableActionOption<T>[]
+    | ((item: T) => TableActionOption<T>[]);
   defaultActionButtons?: {
     edit?: TableDefaultActionOption<T>;
     delete?: TableDefaultActionOption<T>;
@@ -368,7 +370,10 @@ export default function Table<T extends BaseData>({
                     </ActionButton>
                   )}
 
-                  {actionButtons?.map((btn) => (
+                  {(Array.isArray(actionButtons)
+                    ? actionButtons
+                    : actionButtons?.(item)
+                  )?.map((btn) => (
                     <ActionButton
                       item={item}
                       {...btn}
