@@ -32,7 +32,7 @@ export default function ActionButton<T extends BaseData>({
   );
 
   const commonClassName = twMerge(
-    "bg-transparent hover:bg-zinc-100/80 text-zinc-700 justify-start flex items-center p-1.5 px-4 gap-4 w-[200px]",
+    "bg-transparent hover:bg-zinc-100/80 text-zinc-700 justify-start flex items-center p-1.5 px-4 gap-4 w-[200px] disabled:bg-zinc-100",
     className
   );
 
