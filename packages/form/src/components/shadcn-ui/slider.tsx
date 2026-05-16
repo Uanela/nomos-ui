@@ -2,7 +2,10 @@ import * as React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "../../utils/shadcn-ui/utils";
 
-export type TipProps = React.HTMLAttributes<HTMLSpanElement> & {
+export type TipProps = Omit<
+  React.HTMLAttributes<HTMLSpanElement>,
+  "children"
+> & {
   children?: React.ReactNode | ((value: number) => React.ReactNode);
 };
 

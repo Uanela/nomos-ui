@@ -23,6 +23,7 @@ export type SliderProps = {
   error?: string;
   tip?: string;
   disabled?: boolean;
+  rate?: number;
 };
 
 export default function Slider({
@@ -39,7 +40,22 @@ export default function Slider({
   error,
   tip,
   disabled,
+  rate = 1,
 }: SliderProps) {
+  const max = sliderProps?.max ?? 100;
+  const min = sliderProps?.min ?? 0;
+  const range = max - min;
+
+  const toPos = (v: number) =>
+    rate === 1
+      ? v
+      : Math.round(min + range * Math.pow((v - min) / range, 1 / rate));
+
+  const toValue = (pos: number) =>
+    rate === 1
+      ? pos
+      : Math.round(min + range * Math.pow((pos - min) / range, rate));
+
   const sliderId =
     sliderProps?.id ??
     (label ? `slider-${label.toLowerCase().replace(/\s+/g, "-")}` : undefined);
@@ -48,9 +64,9 @@ export default function Slider({
     <ShadcnSlider
       {...sliderProps}
       id={sliderId}
-      value={value}
-      defaultValue={defaultValue}
-      onValueChange={onValueChange}
+      value={value?.map(toPos)}
+      defaultValue={defaultValue?.map(toPos)}
+      onValueChange={(pos) => onValueChange?.(pos.map(toValue))}
       disabled={disabled}
       aria-invalid={!!error}
     />
@@ -69,7 +85,6 @@ export default function Slider({
       >
         {label}
       </label>
-
       {required && showRequiredSign && <AsteriskIcon size={12} color="red" />}
     </div>
   ) : null;
@@ -77,15 +92,11 @@ export default function Slider({
   return (
     <div className={twMerge("grid gap-1 w-full", className)}>
       {labelPosition === "start" && labelEl}
-
       {sliderEl}
-
       {labelPosition === "end" && labelEl}
-
       {tip && !error && (
         <p className="text-xs text-muted-foreground tip-message">{tip}</p>
       )}
-
       {error && (
         <p className="text-xs text-destructive error-message">*{error}</p>
       )}
