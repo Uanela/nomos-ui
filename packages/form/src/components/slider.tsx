@@ -44,17 +44,37 @@ export default function Slider({
 }: SliderProps) {
   const max = sliderProps?.max ?? 100;
   const min = sliderProps?.min ?? 0;
+  const step = sliderProps?.step ?? 1;
   const range = max - min;
 
   const toPos = (v: number) =>
-    rate === 1
-      ? v
-      : Math.round(min + range * Math.pow((v - min) / range, 1 / rate));
+    rate === 1 ? v : min + range * Math.pow((v - min) / range, 1 / rate);
 
   const toValue = (pos: number) =>
-    rate === 1
-      ? pos
-      : Math.round(min + range * Math.pow((pos - min) / range, rate));
+    rate === 1 ? pos : min + range * Math.pow((pos - min) / range, rate);
+
+  const snapToStep = (v: number) => Math.round((v - min) / step) * step + min;
+
+  const { thumbProps, ...restSliderProps } = sliderProps ?? {};
+  const { tipProps, ...restThumbProps } = thumbProps ?? {};
+  const { children: tipChildren, ...restTipProps } = tipProps ?? {};
+
+  const patchedTipChildren =
+    typeof tipChildren === "function"
+      ? (pos: number) => tipChildren(snapToStep(Math.round(toValue(pos))))
+      : tipChildren;
+
+  const patchedThumbProps = {
+    ...restThumbProps,
+    ...(tipProps !== undefined
+      ? {
+          tipProps: {
+            ...restTipProps,
+            children: patchedTipChildren,
+          },
+        }
+      : {}),
+  };
 
   const sliderId =
     sliderProps?.id ??
@@ -62,11 +82,15 @@ export default function Slider({
 
   const sliderEl = (
     <ShadcnSlider
-      {...sliderProps}
+      {...restSliderProps}
+      step={undefined}
       id={sliderId}
       value={value?.map(toPos)}
       defaultValue={defaultValue?.map(toPos)}
-      onValueChange={(pos) => onValueChange?.(pos.map(toValue))}
+      onValueChange={(pos) =>
+        onValueChange?.(pos.map((p) => snapToStep(Math.round(toValue(p)))))
+      }
+      thumbProps={patchedThumbProps}
       disabled={disabled}
       aria-invalid={!!error}
     />

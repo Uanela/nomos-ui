@@ -5,7 +5,6 @@ import {
   Path,
   PathValue,
 } from "react-hook-form";
-
 import Slider, { SliderProps } from "./slider";
 import { getNestedErrorMessage } from "../utils/helpers/form.helpers";
 
