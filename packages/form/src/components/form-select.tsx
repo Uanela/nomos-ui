@@ -80,25 +80,23 @@ export default function FormSelect<
   ...props
 }: FormSelectProps<TFieldValues, T>) {
   return (
-    <div className="w-full">
-      <Controller
-        control={control}
-        name={name}
-        defaultValue={defaultValue}
-        rules={{ required: required ? "Required" : false }}
-        render={({ field: { onChange, value }, formState: { errors } }) => (
-          <Select
-            triggerProps={{ id: `form-select-${name}` }}
-            value={value ?? (multiple ? [] : "")}
-            onChange={onChange}
-            required={required}
-            multiple={multiple}
-            options={options}
-            error={getNestedErrorMessage(errors || {}, name) as string}
-            {...props}
-          />
-        )}
-      />
-    </div>
+    <Controller
+      control={control}
+      name={name}
+      defaultValue={defaultValue}
+      rules={{ required: required ? "Required" : false }}
+      render={({ field: { onChange, value }, formState: { errors } }) => (
+        <Select
+          triggerProps={{ id: `form-select-${name}` }}
+          value={value ?? (multiple ? [] : "")}
+          onChange={onChange}
+          required={required}
+          multiple={multiple}
+          options={options}
+          error={getNestedErrorMessage(errors || {}, name) as string}
+          {...props}
+        />
+      )}
+    />
   );
 }
