@@ -96,7 +96,6 @@ export default function Table<T extends BaseData>({
 
   const [selectedItemToOpen, setSelectedItemToOpen] = useState<any>();
   const [hoveredRow, setHoveredRow] = useState<any>();
-  const optionsMenuTrigger = useRef<any>(null);
 
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page") || 1);
@@ -331,7 +330,7 @@ export default function Table<T extends BaseData>({
                   contentProps={{
                     side: "left",
                     align: "start",
-                    sideOffset: -12,
+                    sideOffset: -24,
                     alignOffset: 12,
                     className: "px-0 w-fit",
                   }}

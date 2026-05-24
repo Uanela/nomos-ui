@@ -227,7 +227,7 @@ export default function ListPageTemplate<T extends BaseData>({
           };
         input = (
           <Input
-            className="block w-full flex-1 max-w-80"
+            className="block w-full flex-1 md:max-w-80"
             inputClassName="h-8 w-full w-96"
             type={inputType}
             value={searchTerm}
@@ -290,11 +290,11 @@ export default function ListPageTemplate<T extends BaseData>({
   return (
     <>
       <div className={twMerge("overflow-auto", className)}>
-        <div className="flex small-sm:items-center items-end justify-between gap-2 small-sm:gap-4 small-sm:mb-0 mb-2">
-          <div className="flex gap-2 items-center small-sm:mb-2">
+        <div className="flex small-sm:items-center items-end justify-between gap-2 small-sm:gap-4 small-sm:mb-0 mb-2 md:w-full">
+          <div className="flex md:flex-row flex-col gap-2 items-center small-sm:mb-2 w-[calc(100%-48px)]">
             <Select
               placeholder="Filtrar Por"
-              triggerProps={{ className: "w-[150px]" }}
+              triggerProps={{ className: "md:w-[150px] w-full" }}
               value={filterName || "max-h-8"}
               onChange={(value) => setFilterName(value as string)}
               options={fields.map(({ label }) => ({
