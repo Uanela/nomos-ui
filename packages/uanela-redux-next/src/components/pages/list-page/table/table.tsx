@@ -306,30 +306,6 @@ export default function Table<T extends BaseData>({
 
               {/* Sticky right: actions */}
               <div className="sticky right-0  bg-inherit flex items-center px-2 data-[is-last=true]:rounded-br-md">
-                {/* {fields?.map((_, j: number) => { */}
-                {/*   if (j !== 0) return null; */}
-                {/*   return ( */}
-                {/*     <div key={uuid4()} className=""> */}
-                {/*       <button */}
-                {/*         id={item.id} */}
-                {/*         ref={optionsMenuTrigger} */}
-                {/*         data-selected={ */}
-                {/*           selectedItemToOpen?.id === item.id || */}
-                {/*           hoveredRow?.id === item.id */}
-                {/*         } */}
-                {/*         onClick={() => { */}
-                {/*           selectedItemToOpen?.id === item.id */}
-                {/*             ? setSelectedItemToOpen(null) */}
-                {/*             : setSelectedItemToOpen(item); */}
-                {/*         }} */}
-                {/*         className="px-2 py-[9px] text-zinc-700 active:opacity-50 h-auto rounded-full data-[selected=true]:bg-zinc-10 option-menu-trigger" */}
-                {/*       > */}
-                {/*         <EllipsisVerticalIcon size={18} /> */}
-                {/*       </button> */}
-                {/*     </div> */}
-                {/*   ); */}
-                {/* })} */}
-
                 <Popover
                   open={selectedItemToOpen?.id === item.id}
                   onOpenChange={(val: boolean) =>
@@ -355,7 +331,8 @@ export default function Table<T extends BaseData>({
                   contentProps={{
                     side: "left",
                     align: "start",
-                    sideOffset: 8,
+                    sideOffset: -12,
+                    alignOffset: 12,
                     className: "px-0 w-fit",
                   }}
                 >
