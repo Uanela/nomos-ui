@@ -9,13 +9,14 @@ import Accordion, {
 import Toaster from "../components/toaster";
 import { toast } from "sonner";
 import { Skeleton } from "../components/skeleton";
+import Popover, { PopoverProps } from "../components/popover";
 
-// export * from "sonner";
-export { HoverCard, Button, Accordion, Toaster, toast, Skeleton };
+export { HoverCard, Button, Accordion, Toaster, toast, Skeleton, Popover };
 export type {
   HoverCardProps,
   AccordionProps,
   AccordionItemProps,
   AccordionItemTriggerProps,
   AccordionItemContentProps,
+  PopoverProps,
 };
