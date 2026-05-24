@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/common",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "The Shadcn library for robust React applications",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
@@ -120,6 +120,7 @@
     "@nomos-ui/common": "^0.3.1",
     "@nomos-ui/core": "^0.4.0",
     "@nomos-ui/layout": "^0.0.6",
-    "@nomos-ui/uanela-redux-next": "^0.3.1"
+    "@nomos-ui/uanela-redux-next": "^0.3.1",
+    "@radix-ui/react-popover": "^1.1.15"
   }
 }

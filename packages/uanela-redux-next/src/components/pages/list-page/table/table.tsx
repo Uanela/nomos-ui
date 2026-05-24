@@ -1,8 +1,4 @@
-import {
-  usePathname,
-  useSearchParams,
-  useNavigate,
-} from "@nomos-ui/core/hooks";
+import { usePathname, useSearchParams } from "@nomos-ui/core/hooks";
 import { HoverCard } from "@nomos-ui/common";
 import {
   EllipsisVerticalIcon,
