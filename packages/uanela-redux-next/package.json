@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/uanela-redux-next",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "Uanela Como Redux & Next ToolKit",
   "module": "dist/exports/index.js",
   "types": "dist/exports/index.d.ts",
@@ -67,7 +67,7 @@
     "zod": "^4.3.5"
   },
   "dependencies": {
-    "@nomos-ui/common": "^0.2.5",
+    "@nomos-ui/common": "^0.5.1",
     "@nomos-ui/core": "^0.5.2",
     "@nomos-ui/layout": "^0.0.6",
     "@nomos-ui/uanela-redux-next": "^0.3.1",

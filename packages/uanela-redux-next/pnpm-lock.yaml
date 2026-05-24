@@ -9,20 +9,20 @@ importers:
   .:
     dependencies:
       '@nomos-ui/common':
-        specifier: ^0.2.5
-        version: 0.2.5(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@types/react@19.2.8)(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
+        specifier: ^0.5.1
+        version: 0.5.1(691a852b08664d464220f5e6ffd87bb3)
       '@nomos-ui/core':
         specifier: ^0.5.2
-        version: 0.5.2(a17134345e8a3506ee010b91371a0023)
+        version: 0.5.2(9f93f0832ff8612959a2bb71e8a35006)
       '@nomos-ui/form':
-        specifier: ^0.0.10
-        version: 0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
+        specifier: ^0.2.0
+        version: 0.1.2(@radix-ui/react-accordion@1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@reduxjs/toolkit@2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3))(@types/react@19.2.8)(change-case-all@2.1.0)(deep-equal@2.2.3)(pluralize@8.0.0)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)(sonner@2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))(zod@4.3.5)
       '@nomos-ui/layout':
         specifier: ^0.0.6
-        version: 0.0.6(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
+        version: 0.0.6(4de1aeaeb0d9a72ff9985fcb2f2e2ef5)
       '@nomos-ui/uanela-redux-next':
         specifier: ^0.3.1
-        version: 0.3.2(90acbdbbbcfaafde4f653438f167c742)
+        version: 0.3.2(a1f167f68573f308cb4a6b5f9b5fed02)
       uuid4:
         specifier: ^2.0.3
         version: 2.0.3
@@ -276,11 +276,13 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@nomos-ui/common@0.2.5':
-    resolution: {integrity: sha512-6ZyI1kHTtBIM++LK5/fXED/4i87MIplMiuKkooJVyfJ1do2wLHuTzAdd67+ifymTVRCz6tpgXN20WJYMA33hQg==}
+  '@nomos-ui/common@0.3.2':
+    resolution: {integrity: sha512-c+tGHgafI9dVMBKLZAdIexosiAWMzkG9jdN9N2BCxdOdv2HMfTctS1bosbqLXkseP/D33QktR2E2U8Nr1JFWvg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
+      '@nomos-ui/core': ^0.4.0
       '@nomos-ui/form': ^0.0.1
+      '@radix-ui/react-accordion': ^1.2.12
       '@radix-ui/react-dialog': ^1.1.15
       '@radix-ui/react-hover-card': ^1.1.15
       '@radix-ui/react-slot': ^1.2.3
@@ -292,14 +294,15 @@ packages:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
       react-hook-form: ^7.0.0
+      sonner: ^2.0.7
       tailwind-merge: ^3.3.1
 
-  '@nomos-ui/common@0.3.2':
-    resolution: {integrity: sha512-c+tGHgafI9dVMBKLZAdIexosiAWMzkG9jdN9N2BCxdOdv2HMfTctS1bosbqLXkseP/D33QktR2E2U8Nr1JFWvg==}
+  '@nomos-ui/common@0.5.1':
+    resolution: {integrity: sha512-6HYTBto34O+AwjOi9II3P2J/WoLyU/mK9i+n/TI2hZb5K2W8me1zJdODepyrA8RbTM3/M8kZFKMOOs95SdVSeQ==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@nomos-ui/core': ^0.4.0
-      '@nomos-ui/form': ^0.0.1
+      '@nomos-ui/form': ^0.2.0
       '@radix-ui/react-accordion': ^1.2.12
       '@radix-ui/react-dialog': ^1.1.15
       '@radix-ui/react-hover-card': ^1.1.15
@@ -342,14 +345,6 @@ packages:
       react-dom: ^18.0.0 || ^19.0.0
       react-hook-form: ^7.0.0
       tailwind-merge: ^3.5.0
-
-  '@nomos-ui/form@0.0.10':
-    resolution: {integrity: sha512-MRsHEGZHH7a3kHtuBI6wS1IKe1OpplDegBFsSTb2flm7D3isJnPYKmIq73eIrpXsaUhSORou3W6jzCsEujxSIQ==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      react: ^18.0.0 || ^19.0.0
-      react-dom: ^18.0.0 || ^19.0.0
-      react-hook-form: ^7.0.0
 
   '@nomos-ui/form@0.1.2':
     resolution: {integrity: sha512-FojeXlrLEup1oXBeHsHoXewGxIlOFVbt6qXjHvLKcx9F2PcwU5QrRi7i58RfrS4zYRL2K/9gpOvF1RQausiGiQ==}
@@ -544,6 +539,19 @@ packages:
       react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     peerDependenciesMeta:
       '@types/react':
+        optional: true
+
+  '@radix-ui/react-popover@1.1.15':
+    resolution: {integrity: sha512-kr0X2+6Yy/vJzLYJUPCZEc8SfQcf+1COFoAqauJm74umQhta9M7lNJHP7QQS3vkvcGLQUbWpMzwrXYwrYztHKA==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
         optional: true
 
   '@radix-ui/react-popper@1.2.8':
@@ -1690,26 +1698,6 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@nomos-ui/common@0.2.5(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@types/react@19.2.8)(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)':
-    dependencies:
-      '@nomos-ui/form': 0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
-      '@radix-ui/react-accordion': 1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@radix-ui/react-dialog': 1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@radix-ui/react-hover-card': 1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@radix-ui/react-slot': 1.2.3(@types/react@19.2.8)(react@19.2.3)
-      '@tailwindcss/postcss': 4.1.18
-      '@tailwindcss/vite': 4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
-      class-variance-authority: 0.7.1
-      clsx: 2.1.1
-      lucide-react: 0.562.0(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      react-hook-form: 7.70.0(react@19.2.3)
-      tailwind-merge: 3.4.0
-    transitivePeerDependencies:
-      - '@types/react'
-      - '@types/react-dom'
-
   '@nomos-ui/common@0.3.2(691a852b08664d464220f5e6ffd87bb3)':
     dependencies:
       '@nomos-ui/core': 0.5.2(9f93f0832ff8612959a2bb71e8a35006)
@@ -1741,12 +1729,12 @@ snapshots:
       - vite
       - zod
 
-  '@nomos-ui/common@0.3.2(e6471be8ed3b3b66f39168d57e4060b1)':
+  '@nomos-ui/common@0.3.2(95dc14a0b6ef757f4e123aab9491d3fc)':
     dependencies:
       '@nomos-ui/core': 0.5.2(9f93f0832ff8612959a2bb71e8a35006)
       '@nomos-ui/form': 0.1.2(@radix-ui/react-accordion@1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@reduxjs/toolkit@2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3))(@types/react@19.2.8)(change-case-all@2.1.0)(deep-equal@2.2.3)(pluralize@8.0.0)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)(sonner@2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))(zod@4.3.5)
       '@nomos-ui/layout': 0.0.6(ddf5e4d097a8bbb5a9ac4026bdeee2ba)
-      '@nomos-ui/uanela-redux-next': 0.3.2(28c71fb7ec1af4a104234131d29f2ee6)
+      '@nomos-ui/uanela-redux-next': 0.3.2(d42258a230a09327da01a864cf1fb65e)
       '@radix-ui/react-accordion': 1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@radix-ui/react-dialog': 1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@radix-ui/react-hover-card': 1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -1761,12 +1749,38 @@ snapshots:
       react-hook-form: 7.70.0(react@19.2.3)
       sonner: 2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       tailwind-merge: 3.4.0
+
+  '@nomos-ui/common@0.5.1(691a852b08664d464220f5e6ffd87bb3)':
+    dependencies:
+      '@nomos-ui/common': 0.3.2(691a852b08664d464220f5e6ffd87bb3)
+      '@nomos-ui/core': 0.5.2(9f93f0832ff8612959a2bb71e8a35006)
+      '@nomos-ui/form': 0.1.2(@radix-ui/react-accordion@1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@reduxjs/toolkit@2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3))(@types/react@19.2.8)(change-case-all@2.1.0)(deep-equal@2.2.3)(pluralize@8.0.0)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)(sonner@2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))(zod@4.3.5)
+      '@nomos-ui/layout': 0.0.6(4de1aeaeb0d9a72ff9985fcb2f2e2ef5)
+      '@nomos-ui/uanela-redux-next': 0.3.2(d42258a230a09327da01a864cf1fb65e)
+      '@radix-ui/react-accordion': 1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/react-dialog': 1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/react-hover-card': 1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/react-popover': 1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/react-slot': 1.2.3(@types/react@19.2.8)(react@19.2.3)
+      '@tailwindcss/postcss': 4.1.18
+      '@tailwindcss/vite': 4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
+      class-variance-authority: 0.7.1
+      clsx: 2.1.1
+      lucide-react: 0.562.0(react@19.2.3)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+      react-hook-form: 7.70.0(react@19.2.3)
+      sonner: 2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      tailwind-merge: 3.4.0
     transitivePeerDependencies:
       - '@reduxjs/toolkit'
+      - '@types/react'
+      - '@types/react-dom'
       - change-case-all
       - deep-equal
       - pluralize
       - react-redux
+      - vite
       - zod
 
   '@nomos-ui/core@0.0.5(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.548.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)':
@@ -1824,38 +1838,6 @@ snapshots:
       - vite
       - zod
 
-  '@nomos-ui/core@0.5.2(a17134345e8a3506ee010b91371a0023)':
-    dependencies:
-      '@nomos-ui/common': 0.3.2(691a852b08664d464220f5e6ffd87bb3)
-      '@nomos-ui/form': 0.1.2(@radix-ui/react-accordion@1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@reduxjs/toolkit@2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3))(@types/react@19.2.8)(change-case-all@2.1.0)(deep-equal@2.2.3)(pluralize@8.0.0)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)(sonner@2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))(zod@4.3.5)
-      '@nomos-ui/layout': 0.0.6(4de1aeaeb0d9a72ff9985fcb2f2e2ef5)
-      '@nomos-ui/uanela-redux-next': 0.3.2(d42258a230a09327da01a864cf1fb65e)
-      '@tailwindcss/postcss': 4.1.18
-      '@tailwindcss/vite': 4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
-      class-variance-authority: 0.7.1
-      clsx: 2.1.1
-      lucide-react: 0.562.0(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      react-hook-form: 7.70.0(react@19.2.3)
-      tailwind-merge: 3.4.0
-    transitivePeerDependencies:
-      - '@nomos-ui/common'
-      - '@radix-ui/react-accordion'
-      - '@radix-ui/react-dialog'
-      - '@radix-ui/react-hover-card'
-      - '@radix-ui/react-slot'
-      - '@reduxjs/toolkit'
-      - '@types/react'
-      - '@types/react-dom'
-      - change-case-all
-      - deep-equal
-      - pluralize
-      - react-redux
-      - sonner
-      - vite
-      - zod
-
   '@nomos-ui/core@0.5.2(ddf5e4d097a8bbb5a9ac4026bdeee2ba)':
     dependencies:
       '@nomos-ui/common': 0.3.2(691a852b08664d464220f5e6ffd87bb3)
@@ -1875,27 +1857,9 @@ snapshots:
       - '@nomos-ui/form'
       - '@radix-ui/react-slot'
 
-  '@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))':
-    dependencies:
-      '@radix-ui/react-select': 2.2.6(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@radix-ui/react-slot': 1.2.3(@types/react@19.2.8)(react@19.2.3)
-      '@tailwindcss/postcss': 4.1.18
-      '@tailwindcss/vite': 4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
-      class-variance-authority: 0.7.1
-      clsx: 2.1.1
-      lucide-react: 0.548.0(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      react-hook-form: 7.70.0(react@19.2.3)
-      tailwind-merge: 3.4.0
-    transitivePeerDependencies:
-      - '@types/react'
-      - '@types/react-dom'
-      - vite
-
   '@nomos-ui/form@0.1.2(@radix-ui/react-accordion@1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@reduxjs/toolkit@2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3))(@types/react@19.2.8)(change-case-all@2.1.0)(deep-equal@2.2.3)(pluralize@8.0.0)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)(sonner@2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))(zod@4.3.5)':
     dependencies:
-      '@nomos-ui/common': 0.3.2(e6471be8ed3b3b66f39168d57e4060b1)
+      '@nomos-ui/common': 0.3.2(95dc14a0b6ef757f4e123aab9491d3fc)
       '@nomos-ui/core': 0.5.2(ddf5e4d097a8bbb5a9ac4026bdeee2ba)
       '@nomos-ui/layout': 0.0.6(ddf5e4d097a8bbb5a9ac4026bdeee2ba)
       '@nomos-ui/uanela-redux-next': 0.3.2(28c71fb7ec1af4a104234131d29f2ee6)
@@ -1940,21 +1904,6 @@ snapshots:
       react-hook-form: 7.70.0(react@19.2.3)
       tailwind-merge: 3.4.0
 
-  '@nomos-ui/layout@0.0.6(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)':
-    dependencies:
-      '@nomos-ui/core': 0.0.5(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
-      '@nomos-ui/form': 0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
-      '@radix-ui/react-slot': 1.2.3(@types/react@19.2.8)(react@19.2.3)
-      '@tailwindcss/postcss': 4.1.18
-      '@tailwindcss/vite': 4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
-      class-variance-authority: 0.7.1
-      clsx: 2.1.1
-      lucide-react: 0.562.0(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      react-hook-form: 7.70.0(react@19.2.3)
-      tailwind-merge: 3.4.0
-
   '@nomos-ui/layout@0.0.6(ddf5e4d097a8bbb5a9ac4026bdeee2ba)':
     dependencies:
       '@nomos-ui/core': 0.0.5(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.548.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
@@ -1973,7 +1922,7 @@ snapshots:
   '@nomos-ui/uanela-redux-next@0.3.2(28c71fb7ec1af4a104234131d29f2ee6)':
     dependencies:
       '@nomos-ui/common': 0.3.2(691a852b08664d464220f5e6ffd87bb3)
-      '@nomos-ui/core': 0.5.2(ddf5e4d097a8bbb5a9ac4026bdeee2ba)
+      '@nomos-ui/core': 0.5.2(9f93f0832ff8612959a2bb71e8a35006)
       '@nomos-ui/form': 0.1.2(@radix-ui/react-accordion@1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@reduxjs/toolkit@2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3))(@types/react@19.2.8)(change-case-all@2.1.0)(deep-equal@2.2.3)(pluralize@8.0.0)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)(sonner@2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))(zod@4.3.5)
       '@nomos-ui/layout': 0.0.6(ddf5e4d097a8bbb5a9ac4026bdeee2ba)
       '@reduxjs/toolkit': 2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)
@@ -1995,12 +1944,12 @@ snapshots:
       - clsx
       - react-dom
 
-  '@nomos-ui/uanela-redux-next@0.3.2(90acbdbbbcfaafde4f653438f167c742)':
+  '@nomos-ui/uanela-redux-next@0.3.2(a1f167f68573f308cb4a6b5f9b5fed02)':
     dependencies:
-      '@nomos-ui/common': 0.2.5(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@types/react@19.2.8)(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
+      '@nomos-ui/common': 0.5.1(691a852b08664d464220f5e6ffd87bb3)
       '@nomos-ui/core': 0.5.2(9f93f0832ff8612959a2bb71e8a35006)
-      '@nomos-ui/form': 0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))
-      '@nomos-ui/layout': 0.0.6(@nomos-ui/form@0.0.10(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(@radix-ui/react-slot@1.2.3(@types/react@19.2.8)(react@19.2.3))(@tailwindcss/postcss@4.1.18)(@tailwindcss/vite@4.1.18(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2)))(class-variance-authority@0.7.1)(clsx@2.1.1)(lucide-react@0.562.0(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
+      '@nomos-ui/form': 0.1.2(@radix-ui/react-accordion@1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@reduxjs/toolkit@2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3))(@types/react@19.2.8)(change-case-all@2.1.0)(deep-equal@2.2.3)(pluralize@8.0.0)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)(sonner@2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))(zod@4.3.5)
+      '@nomos-ui/layout': 0.0.6(4de1aeaeb0d9a72ff9985fcb2f2e2ef5)
       '@reduxjs/toolkit': 2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)
       change-case-all: 2.1.0
       deep-equal: 2.2.3
@@ -2030,7 +1979,7 @@ snapshots:
   '@nomos-ui/uanela-redux-next@0.3.2(d42258a230a09327da01a864cf1fb65e)':
     dependencies:
       '@nomos-ui/common': 0.3.2(691a852b08664d464220f5e6ffd87bb3)
-      '@nomos-ui/core': 0.5.2(a17134345e8a3506ee010b91371a0023)
+      '@nomos-ui/core': 0.5.2(9f93f0832ff8612959a2bb71e8a35006)
       '@nomos-ui/form': 0.1.2(@radix-ui/react-accordion@1.2.12(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-dialog@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@radix-ui/react-hover-card@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@reduxjs/toolkit@2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3))(@types/react@19.2.8)(change-case-all@2.1.0)(deep-equal@2.2.3)(pluralize@8.0.0)(react-dom@19.2.3(react@19.2.3))(react-hook-form@7.70.0(react@19.2.3))(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)(sonner@2.0.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@25.0.6)(jiti@2.6.1)(lightningcss@1.30.2))(zod@4.3.5)
       '@nomos-ui/layout': 0.0.6(4de1aeaeb0d9a72ff9985fcb2f2e2ef5)
       '@reduxjs/toolkit': 2.11.2(react-redux@9.2.0(@types/react@19.2.8)(react@19.2.3)(redux@5.0.1))(react@19.2.3)
@@ -2200,6 +2149,28 @@ snapshots:
     dependencies:
       '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@19.2.8)(react@19.2.3)
       react: 19.2.3
+    optionalDependencies:
+      '@types/react': 19.2.8
+
+  '@radix-ui/react-popover@1.1.15(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      '@radix-ui/primitive': 1.1.3
+      '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.2.8)(react@19.2.3)
+      '@radix-ui/react-context': 1.1.2(@types/react@19.2.8)(react@19.2.3)
+      '@radix-ui/react-dismissable-layer': 1.1.11(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/react-focus-guards': 1.1.3(@types/react@19.2.8)(react@19.2.3)
+      '@radix-ui/react-focus-scope': 1.1.7(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/react-id': 1.1.1(@types/react@19.2.8)(react@19.2.3)
+      '@radix-ui/react-popper': 1.2.8(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/react-portal': 1.1.9(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/react-presence': 1.1.5(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/react-primitive': 2.1.3(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/react-slot': 1.2.3(@types/react@19.2.8)(react@19.2.3)
+      '@radix-ui/react-use-controllable-state': 1.2.2(@types/react@19.2.8)(react@19.2.3)
+      aria-hidden: 1.2.6
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+      react-remove-scroll: 2.7.2(@types/react@19.2.8)(react@19.2.3)
     optionalDependencies:
       '@types/react': 19.2.8
 
