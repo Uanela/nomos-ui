@@ -86,7 +86,6 @@ export default function Table<T extends BaseData>({
   defaultActionButtons,
 }: SuccessComponentProps<T[], TableProps<T>>) {
   const pathname = usePathname();
-  const navigate = useNavigate();
   const { data, total } = responseData;
 
   useEffect(() => {
@@ -167,7 +166,7 @@ export default function Table<T extends BaseData>({
               if (i === 0) {
                 return (
                   <div
-                    key={field.name}
+                    key={uuid4()}
                     {...{
                       ...fieldPropsWithoutTransform,
                       ...headPropsWithoutTransform,
@@ -234,7 +233,7 @@ export default function Table<T extends BaseData>({
           {/* Data rows */}
           {data.map((item, i) => (
             <div
-              key={i}
+              key={item.id || uuid4()}
               data-selected={
                 selectedItemToOpen?.id === item.id || hoveredRow?.id === item.id
               }
@@ -278,7 +277,7 @@ export default function Table<T extends BaseData>({
                   return (
                     <TableData
                       index={j}
-                      key={j}
+                      key={item.id}
                       field={field}
                       selectedOptions={selectedOptions}
                       availableFields={fields!}
@@ -314,119 +313,120 @@ export default function Table<T extends BaseData>({
                 {fields?.map((_, j: number) => {
                   if (j !== 0) return null;
                   return (
-                    <>
-                      <div key={uuid4()} className="">
-                        <button
-                          id={item.id}
-                          ref={optionsMenuTrigger}
-                          data-selected={
-                            selectedItemToOpen?.id === item.id ||
-                            hoveredRow?.id === item.id
-                          }
-                          onClick={() => {
-                            selectedItemToOpen?.id === item.id
-                              ? setSelectedItemToOpen(null)
-                              : setSelectedItemToOpen(item);
-                          }}
-                          className="px-2 py-[9px] text-zinc-700 active:opacity-50 h-auto rounded-full data-[selected=true]:bg-zinc-10 option-menu-trigger"
-                        >
-                          <EllipsisVerticalIcon size={18} />
-                        </button>
-                      </div>
-                    </>
+                    <div key={uuid4()} className="">
+                      <button
+                        id={item.id}
+                        ref={optionsMenuTrigger}
+                        data-selected={
+                          selectedItemToOpen?.id === item.id ||
+                          hoveredRow?.id === item.id
+                        }
+                        onClick={() => {
+                          selectedItemToOpen?.id === item.id
+                            ? setSelectedItemToOpen(null)
+                            : setSelectedItemToOpen(item);
+                        }}
+                        className="px-2 py-[9px] text-zinc-700 active:opacity-50 h-auto rounded-full data-[selected=true]:bg-zinc-10 option-menu-trigger"
+                      >
+                        <EllipsisVerticalIcon size={18} />
+                      </button>
+                    </div>
                   );
                 })}
-
-                <HoverCard
-                  open={selectedItemToOpen?.id === item.id}
-                  onOpenChange={(val) => !val && setSelectedItem(null)}
-                  showArrow={false}
-                  contentProps={{
-                    className: "mr-8 -mt-2 px-0 rounded-lg w-fit z-10",
-                  }}
-                >
-                  {defaultActionButtons?.edit?.hidden !== false && (
-                    <ActionButton
-                      Icon={PencilIcon}
-                      {...defaultActionButtons?.edit}
-                      href={
-                        !defaultActionButtons?.edit?.onClick && !onClickUpdate
-                          ? `${pathname}/${item?.id}/update`
-                          : undefined
-                      }
-                      onClick={(item, e: any) => {
-                        closeActionHoverCard(item);
-                        if (defaultActionButtons?.edit?.onClick) {
-                          defaultActionButtons.edit.onClick(item as T, e);
-                        } else if (onClickUpdate) {
-                          onClickUpdate(e, item as T);
-                        }
-                      }}
-                      item={item}
-                    >
-                      {defaultActionButtons?.edit?.children
-                        ? defaultActionButtons?.edit?.children
-                        : "Editar"}
-                    </ActionButton>
-                  )}
-
-                  {(Array.isArray(actionButtons)
-                    ? actionButtons
-                    : actionButtons?.(item)
-                  )?.map((btn) => (
-                    <ActionButton
-                      item={item}
-                      {...btn}
-                      onClick={(item, e: any) => {
-                        closeActionHoverCard(item);
-                        btn?.onClick?.(item, e);
-                      }}
-                    >
-                      {btn.children}
-                    </ActionButton>
-                  ))}
-
-                  {defaultActionButtons?.delete?.hidden !== false && (
-                    <ActionButton
-                      Icon={Trash2Icon}
-                      {...defaultActionButtons?.delete}
-                      onClick={(item, e: any) => {
-                        if (defaultActionButtons?.delete?.onClick) {
-                          defaultActionButtons.delete.onClick(item as T, e);
-                        } else {
-                          setConfirmDeleteModalOpen(true);
-                        }
-                      }}
-                      item={item}
-                    >
-                      {defaultActionButtons?.delete?.children
-                        ? defaultActionButtons?.delete?.children
-                        : "Deletar"}
-                    </ActionButton>
-                  )}
-                  {defaultActionButtons?.cancel?.hidden !== false && (
-                    <ActionButton
-                      Icon={XIcon}
-                      {...defaultActionButtons?.cancel}
-                      onClick={(item, e: any) => {
-                        setSelectedItemToOpen(null);
-                        if (defaultActionButtons?.cancel?.onClick) {
-                          defaultActionButtons.cancel.onClick(item as T, e);
-                        }
-                      }}
-                      item={item}
-                    >
-                      {defaultActionButtons?.cancel?.children
-                        ? defaultActionButtons?.cancel?.children
-                        : "Cancelar"}
-                    </ActionButton>
-                  )}
-                </HoverCard>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {selectedItemToOpen && (
+        <HoverCard
+          open={selectedItemToOpen?.id === selectedItemToOpen.id}
+          onOpenChange={(val) => !val && setSelectedItem(null)}
+          showArrow={false}
+          contentProps={{
+            className: "mr-8 -mt-2 px-0 rounded-lg w-fit z-10",
+          }}
+        >
+          {defaultActionButtons?.edit?.hidden !== false && (
+            <ActionButton
+              Icon={PencilIcon}
+              {...defaultActionButtons?.edit}
+              href={
+                !defaultActionButtons?.edit?.onClick && !onClickUpdate
+                  ? `${pathname}/${selectedItemToOpen?.id}/update`
+                  : undefined
+              }
+              onClick={(item, e: any) => {
+                closeActionHoverCard(item);
+                if (defaultActionButtons?.edit?.onClick) {
+                  defaultActionButtons.edit.onClick(item as T, e);
+                } else if (onClickUpdate) {
+                  onClickUpdate(e, item as T);
+                }
+              }}
+              item={selectedItemToOpen}
+            >
+              {defaultActionButtons?.edit?.children
+                ? defaultActionButtons?.edit?.children
+                : "Editar"}
+            </ActionButton>
+          )}
+
+          {(Array.isArray(actionButtons)
+            ? actionButtons
+            : actionButtons?.(selectedItemToOpen)
+          )?.map((btn) => (
+            <ActionButton
+              item={selectedItemToOpen}
+              key={uuid4()}
+              {...btn}
+              onClick={(item, e: any) => {
+                closeActionHoverCard(item);
+                btn?.onClick?.(item, e);
+              }}
+            >
+              {btn.children}
+            </ActionButton>
+          ))}
+
+          {defaultActionButtons?.delete?.hidden !== false && (
+            <ActionButton
+              Icon={Trash2Icon}
+              {...defaultActionButtons?.delete}
+              onClick={(item, e: any) => {
+                if (defaultActionButtons?.delete?.onClick) {
+                  defaultActionButtons.delete.onClick(item as T, e);
+                } else {
+                  setConfirmDeleteModalOpen(true);
+                }
+              }}
+              item={selectedItemToOpen}
+            >
+              {defaultActionButtons?.delete?.children
+                ? defaultActionButtons?.delete?.children
+                : "Deletar"}
+            </ActionButton>
+          )}
+          {defaultActionButtons?.cancel?.hidden !== false && (
+            <ActionButton
+              Icon={XIcon}
+              {...defaultActionButtons?.cancel}
+              onClick={(item, e: any) => {
+                setSelectedItemToOpen(null);
+                if (defaultActionButtons?.cancel?.onClick) {
+                  defaultActionButtons.cancel.onClick(item as T, e);
+                }
+              }}
+              item={selectedItemToOpen}
+            >
+              {defaultActionButtons?.cancel?.children
+                ? defaultActionButtons?.cancel?.children
+                : "Cancelar"}
+            </ActionButton>
+          )}
+        </HoverCard>
+      )}
     </>
   );
 }
