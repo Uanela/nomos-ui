@@ -132,7 +132,10 @@ export default function ListPageTemplate<T extends BaseData>({
 
   useEffect(() => {
     isFirstRender.current = true;
-  });
+    return () => {
+      isFirstRender.current = false;
+    };
+  }, []);
 
   const [queryParams, setQueryParams] = useState<
     Record<string, any> | undefined
@@ -169,13 +172,16 @@ export default function ListPageTemplate<T extends BaseData>({
   const [searchQuery, setSearchQuery] = useState<Record<string, any>>({});
 
   useEffect(() => {
-    updateSearchParams([{ name: "page", value: String(page) }]);
+    if (String(page) !== searchParams.get("page")) {
+      updateSearchParams([{ name: "page", value: String(page) }]);
+    }
   }, [page]);
 
   useEffect(() => {
-    updateSearchParams([{ name: "limit", value: String(limit) }]);
+    if (String(limit) !== searchParams.get("limit")) {
+      updateSearchParams([{ name: "limit", value: String(limit) }]);
+    }
   }, [limit]);
-
   useEffect(() => {
     if (isFirstRender.current === false) setPage(1);
   }, [queryParams]);
