@@ -44,28 +44,32 @@ export default function ImageInput({
 }: ImageInputProps) {
   const [isDragging, setIsDragging] = React.useState(false);
 
-  const handleFile = (file: File | null) => {
+  const handleFile = async (file: File | null) => {
     if (file) {
       if (maxSize && file.size > maxSize) {
         onError?.(`Max size: ${Math.round(maxSize / (1024 * 1024))}MB`);
         return;
       }
-      onChange?.(file);
+      const buffer = await file.arrayBuffer();
+      const blob = new Blob([buffer], { type: file.type });
+      const snapshotFile = new File([blob], file.name, { type: file.type });
+      onChange?.(snapshotFile);
     } else {
       onChange?.(null);
     }
   };
 
+
+
   const handleRemove = () => {
     handleFile(null);
   };
 
-  let previewUrl = null;
-  if (value instanceof File) {
-    previewUrl = URL.createObjectURL(value);
-  } else if (typeof value === "string") {
-    previewUrl = value;
-  }
+  const previewUrl = React.useMemo(() => {
+    if (value instanceof File) return URL.createObjectURL(value);
+    if (typeof value === "string") return value;
+    return null;
+  }, [value]);
 
   return (
     <div className={twMerge("space-y-1.5 w-full", className)}>
@@ -124,8 +128,8 @@ export default function ImageInput({
             disabled && "opacity-50 cursor-not-allowed",
             isDragging && "border-primary bg-primary/5",
             !isDragging &&
-              !previewUrl &&
-              "border-input hover:border-primary/50",
+            !previewUrl &&
+            "border-input hover:border-primary/50",
             dropzoneClassName
           )}
         >
