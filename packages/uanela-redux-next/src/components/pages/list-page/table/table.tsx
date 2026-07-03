@@ -8,7 +8,7 @@ import {
   Trash2Icon,
   XIcon,
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import uuid4 from "uuid4";
 import TableData from "./table-data";
 import ActionButton, { ActionButtonProps } from "./action-button";
@@ -28,8 +28,8 @@ export type TableDefaultActionOption<T extends BaseData> =
 export type TableActionTypes<T extends BaseData> = {
   /** Adds more item actions */
   actionButtons?:
-    | TableActionOption<T>[]
-    | ((item: T) => TableActionOption<T>[]);
+  | TableActionOption<T>[]
+  | ((item: T) => TableActionOption<T>[]);
   defaultActionButtons?: {
     edit?: TableDefaultActionOption<T>;
     delete?: TableDefaultActionOption<T>;
@@ -48,10 +48,10 @@ export type TableProps<T extends BaseData> = {
   setResponseData: React.Dispatch<
     React.SetStateAction<
       | {
-          total: number;
-          data: Record<string, any>[];
-          results: number;
-        }
+        total: number;
+        data: Record<string, any>[];
+        results: number;
+      }
       | undefined
     >
   >;
@@ -103,8 +103,8 @@ export default function Table<T extends BaseData>({
 
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
-  function closeActionHoverCard(item?: T) {
-    selectedItemToOpen?.id === item?.id || hoveredRow?.id === item?.id
+  function closeActionHoverCard(item: T | null = null, noCheck: boolean = false) {
+    (selectedItemToOpen?.id === item?.id || hoveredRow?.id === item?.id) && noCheck === false
       ? setSelectedItemToOpen(null)
       : setSelectedItemToOpen(item);
   }
@@ -241,7 +241,7 @@ export default function Table<T extends BaseData>({
               <div className="sticky left-0  bg-inherit flex items-center pl-4">
                 <div className="flex items-center justify-center py-2">
                   {deleteMutationResult.isLoading &&
-                  deleteMutationResult.originalArgs === item.id ? (
+                    deleteMutationResult.originalArgs === item.id ? (
                     <div>
                       <LoaderCircleIcon className="animate-spin" />
                     </div>
@@ -381,11 +381,13 @@ export default function Table<T extends BaseData>({
                       {...defaultActionButtons?.delete}
                       onClick={(actionItem, e: any) => {
                         if (defaultActionButtons?.delete?.onClick) {
+                          closeActionHoverCard(actionItem);
                           defaultActionButtons.delete.onClick(
                             actionItem as T,
                             e
                           );
                         } else {
+                          closeActionHoverCard(actionItem);
                           setConfirmDeleteModalOpen(true);
                         }
                       }}
