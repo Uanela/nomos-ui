@@ -28,8 +28,8 @@ export type TableDefaultActionOption<T extends BaseData> =
 export type TableActionTypes<T extends BaseData> = {
   /** Adds more item actions */
   actionButtons?:
-    | TableActionOption<T>[]
-    | ((item: T) => TableActionOption<T>[]);
+  | TableActionOption<T>[]
+  | ((item: T) => TableActionOption<T>[]);
   defaultActionButtons?: {
     edit?: TableDefaultActionOption<T>;
     delete?: TableDefaultActionOption<T>;
@@ -48,10 +48,10 @@ export type TableProps<T extends BaseData> = {
   setResponseData: React.Dispatch<
     React.SetStateAction<
       | {
-          total: number;
-          data: Record<string, any>[];
-          results: number;
-        }
+        total: number;
+        data: Record<string, any>[];
+        results: number;
+      }
       | undefined
     >
   >;
@@ -105,10 +105,8 @@ export default function Table<T extends BaseData>({
 
   function closeActionHoverCard(
     item: T | null = null,
-    noCheck: boolean = false
   ) {
-    (selectedItemToOpen?.id === item?.id || hoveredRow?.id === item?.id) &&
-    noCheck === false
+    (selectedItemToOpen?.id === item?.id || hoveredRow?.id === item?.id)
       ? setSelectedItemToOpen(null)
       : setSelectedItemToOpen(item);
   }
@@ -245,7 +243,7 @@ export default function Table<T extends BaseData>({
               <div className="sticky left-0  bg-inherit flex items-center pl-4">
                 <div className="flex items-center justify-center py-2">
                   {deleteMutationResult.isLoading &&
-                  deleteMutationResult.originalArgs === item.id ? (
+                    deleteMutationResult.originalArgs === item.id ? (
                     <div>
                       <LoaderCircleIcon className="animate-spin" />
                     </div>
@@ -312,7 +310,7 @@ export default function Table<T extends BaseData>({
                 <Popover
                   open={selectedItemToOpen?.id === item.id}
                   onOpenChange={(val: boolean) =>
-                    !val && setSelectedItemToOpen(null)
+                    !val && selectedItemToOpen?.id !== item.id && setSelectedItemToOpen(null)
                   }
                   trigger={
                     <button
@@ -385,13 +383,13 @@ export default function Table<T extends BaseData>({
                       {...defaultActionButtons?.delete}
                       onClick={(actionItem, e: any) => {
                         if (defaultActionButtons?.delete?.onClick) {
-                          closeActionHoverCard(actionItem, true);
+                          closeActionHoverCard(actionItem);
                           defaultActionButtons.delete.onClick(
                             actionItem as T,
                             e
                           );
                         } else {
-                          closeActionHoverCard(actionItem, true);
+                          closeActionHoverCard(actionItem);
                           setConfirmDeleteModalOpen(true);
                         }
                       }}
