@@ -119,7 +119,7 @@ export default function Textarea<TValue extends string | null | undefined>({
               htmlFor: labelProps?.htmlFor || props?.id,
             })}
             className={twMerge(
-              "text-sm font-medium leading-none text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+              "text-sm font-bold leading-none text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
               labelProps?.className
             )}
           >

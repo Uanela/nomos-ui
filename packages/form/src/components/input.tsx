@@ -194,7 +194,7 @@ export default function Input<
             }
           }}
           value={currentValue || ""}
-          placeholder={placeholder !== undefined ? placeholder : `${label}...`}
+          placeholder={placeholder !== undefined ? placeholder : `${label? label : ""}...`}
           className={cn(
             "h-9 w-full flex-1 bg-transparent px-3 py-1 text-base outline-none",
             "file:inline-flex file:h-7",
