@@ -1,7 +1,7 @@
-import * as React from "react";
-import { useMemo, useState } from "react";
-import { AsteriskIcon, EyeIcon, EyeOffIcon, SearchIcon } from "lucide-react";
-import { cn } from "../utils/shadcn-ui/utils";
+import * as React from 'react';
+import { useMemo, useState } from 'react';
+import { AsteriskIcon, EyeIcon, EyeOffIcon, SearchIcon } from 'lucide-react';
+import { cn } from '../utils/shadcn-ui/utils';
 
 /**
  * Props for the enhanced Input component
@@ -16,7 +16,7 @@ export type InputProps<TValue> = {
   /** Label text for the input */
   label?: string;
   /** Additional label name for the label */
-  labelProps?: React.ComponentProps<"label">;
+  labelProps?: React.ComponentProps<'label'>;
   /** Additional class name for the input container/wrapper */
   inputContainerClassName?: string;
   /** Input type (e.g., text, number, password) */
@@ -78,7 +78,7 @@ export default function Input<
   placeholder,
   label,
   labelProps,
-  type = "text",
+  type = 'text',
   disabled = false,
   trim = false,
   value,
@@ -94,28 +94,28 @@ export default function Input<
   ...props
 }: InputProps<TValue> &
   Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof InputProps<TValue>>) {
-  const isPassword = type.includes("password");
+  const isPassword = type.includes('password');
   const [showPassword, setShowPassword] = useState<boolean>(!isPassword);
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
   function handleOnChange(val: any, e: any) {
     if (disabled || !onChange) return;
-    onChange(type === "number" && val ? Number(val) : val, e);
+    onChange(type === 'number' && val ? Number(val) : val, e);
   }
 
   const currentValue = useMemo(() => {
-    if (type === "datetime-local") {
-      let newValue = value?.toString().split(".");
+    if (type === 'datetime-local') {
+      let newValue = value?.toString().split('.');
       if (newValue?.length === 2) return newValue[0]?.slice?.(0, -3);
       else return value;
     }
-    if (type === "date") return value?.toString().split("T")[0];
+    if (type === 'date') return value?.toString().split('T')[0];
 
     return value;
   }, [value, type]);
 
   return (
-    <div ref={ref} className={cn("gap-1 grid w-full", className)}>
+    <div ref={ref} className={cn('gap-1 grid w-full', className)}>
       {/* Label with required indicator */}
       {label && (
         <div className="flex flex-row items-center gap-1">
@@ -124,8 +124,8 @@ export default function Input<
               htmlFor: labelProps?.htmlFor || props?.id,
             })}
             className={cn(
-              "text-sm font-bold text-foreground",
-              labelProps?.className
+              'text-sm font-bold text-foreground',
+              labelProps?.className,
             )}
           >
             {label}
@@ -140,33 +140,33 @@ export default function Input<
       <div
         data-focus={isFocused}
         className={cn(
-          "flex w-full min-w-0 rounded-md border bg-transparent shadow-xs transition-[color,box-shadow,border-color]",
-          "border-input file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
-          "placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground",
+          'flex w-full min-w-0 rounded-md border bg-transparent shadow-xs transition-[color,box-shadow,border-color]',
+          'border-input file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground',
+          'placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground',
 
           // Focus styles
-          "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
-          "data-[focus=true]:border-ring data-[focus=true]:ring-ring/50 data-[focus=true]:ring-[3px]",
+          'focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]',
+          'data-[focus=true]:border-ring data-[focus=true]:ring-ring/50 data-[focus=true]:ring-[3px]',
 
           // Error/Invalid styles
           error &&
-            "border-destructive ring-destructive/20 dark:ring-destructive/40",
-          "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
+            'border-destructive ring-destructive/20 dark:ring-destructive/40',
+          'aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40',
 
           // Disabled styles
-          "disabled:cursor-not-allowed disabled:opacity-50",
+          'disabled:cursor-not-allowed disabled:opacity-50',
 
           // Dark mode
-          "dark:bg-input/30",
+          'dark:bg-input/30',
 
           // Layout
-          "flex-row items-center",
+          'flex-row items-center',
 
-          inputContainerClassName
+          inputContainerClassName,
         )}
       >
         {/* Search Icon */}
-        {(type === "search" || showSearchIcon) && (
+        {(type === 'search' || showSearchIcon) && (
           <SearchIcon
             size={18}
             className="text-muted-foreground ml-3 flex-shrink-0"
@@ -175,10 +175,10 @@ export default function Input<
 
         {/* Input Element */}
         <input
-          type={isPassword && showPassword ? "text" : type}
+          type={isPassword && showPassword ? 'text' : type}
           disabled={disabled}
           required={required}
-          aria-invalid={error ? "true" : "false"}
+          aria-invalid={error ? 'true' : 'false'}
           onBlur={(e) => {
             props?.onBlur?.(e);
             setIsFocused(false);
@@ -193,14 +193,16 @@ export default function Input<
               handleOnChange(value, e);
             }
           }}
-          value={currentValue || ""}
-          placeholder={placeholder !== undefined ? placeholder : `${label? label : ""}...`}
+          value={currentValue || ''}
+          placeholder={
+            placeholder !== undefined ? placeholder : `${label ? label : ''}...`
+          }
           className={cn(
-            "h-9 w-full flex-1 bg-transparent px-3 py-1 text-base outline-none",
-            "file:inline-flex file:h-7",
-            "disabled:cursor-not-allowed disabled:bg-transparent",
-            "md:text-sm",
-            inputClassName
+            'min-h-9 w-full flex-1 bg-transparent px-3 py-1 text-base outline-none',
+            'file:inline-flex file:h-7',
+            'disabled:cursor-not-allowed disabled:bg-transparent',
+            'md:text-sm',
+            inputClassName,
           )}
           step="any"
           ref={inputRef}
@@ -232,3 +234,4 @@ export default function Input<
     </div>
   );
 }
+

@@ -18,8 +18,7 @@
     "next": "15.5.9",
     "react": "^19.2.3",
     "react-hook-form": "^7.70.0",
-    "react-redux": "^9.2.0",
-    "toolkit": "link:@types/@reduxjs/toolkit"
+    "react-redux": "^9.2.0"
   },
   "peerDependencies": {
     "@reduxjs/toolkit": "^2.11.2",
@@ -27,7 +26,6 @@
     "next": "15.5.9",
     "react": "^19.2.3",
     "react-hook-form": "^7.70.0",
-    "react-redux": "^9.2.0",
-    "toolkit": "link:@types/@reduxjs/toolkit"
+    "react-redux": "^9.2.0"
   }
 }
