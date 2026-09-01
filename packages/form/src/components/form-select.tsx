@@ -4,10 +4,10 @@ import {
   FieldValues,
   Path,
   PathValue,
-} from "react-hook-form";
-import Select, { SelectOption } from "./select";
-import React from "react";
-import { getNestedErrorMessage } from "../utils/helpers/form.helpers";
+} from 'react-hook-form';
+import Select, { SelectOption } from './select';
+import React from 'react';
+import { getNestedErrorMessage } from '../utils/helpers/form.helpers';
 
 /**
  * Props for the `FormSelect` component with type-safe form integration
@@ -28,7 +28,7 @@ export type FormSelectProps<
   multiple?: boolean;
 } & Omit<
   React.ComponentProps<typeof Select>,
-  "value" | "onChange" | "control" | "options"
+  'value' | 'onChange' | 'control' | 'options'
 >;
 
 /**
@@ -84,11 +84,11 @@ export default function FormSelect<
       control={control}
       name={name}
       defaultValue={defaultValue}
-      rules={{ required: required ? "Required" : false }}
+      rules={{ required: required ? 'Required' : false }}
       render={({ field: { onChange, value }, formState: { errors } }) => (
         <Select
           triggerProps={{ id: `form-select-${name}` }}
-          value={value ?? (multiple ? [] : "")}
+          value={value ?? (multiple ? [] : '')}
           onChange={onChange}
           required={required}
           multiple={multiple}
@@ -100,3 +100,4 @@ export default function FormSelect<
     />
   );
 }
+

@@ -1,6 +1,6 @@
 {
   "name": "@nomos-ui/form",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "The Shadcn library for building robust React forms",
   "main": "dist/index.js",
   "module": "dist/exports/index.js",
@@ -66,6 +66,7 @@
   "sideEffects": false,
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
+    "@base-ui/react": "^1.7.0",
     "@nomos-ui/common": "^0.3.1",
     "@nomos-ui/core": "^0.5.1",
     "@nomos-ui/layout": "^0.0.6",
